@@ -1,18 +1,11 @@
-import { Button } from '@/components/ui/button';
-import { signOut } from '@/lib/auth';
-import Form from 'next/form';
+'use client';
 
-export default async function SignOutButton() {
-  return (
-    <Form
-      action={async () => {
-        'use server';
-        await signOut();
-      }}
-    >
-      <Button type="submit" variant="destructive">
-        SignOut
-      </Button>
-    </Form>
-  );
+import { SignOut } from '@/lib/actions';
+import { ReactNode } from 'react';
+
+export default function SignOutWrapper({ children }: { children: ReactNode }) {
+  function onSubmit() {
+    SignOut();
+  }
+  return <span onClick={onSubmit}>{children}</span>;
 }

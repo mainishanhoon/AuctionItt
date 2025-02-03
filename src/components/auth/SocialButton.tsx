@@ -9,7 +9,9 @@ export default async function SocialButton() {
       <Form
         action={async () => {
           'use server';
-          await signIn('google');
+          await signIn('google', {
+            redirectTo: `/auth/onboarding`,
+          });
         }}
       >
         <GoogleAuthButton />
@@ -17,7 +19,9 @@ export default async function SocialButton() {
       <Form
         action={async () => {
           'use server';
-          await signIn('github');
+          await signIn('github', {
+            redirectTo: `/auth/onboarding`,
+          });
         }}
       >
         <GitHubAuthButton />

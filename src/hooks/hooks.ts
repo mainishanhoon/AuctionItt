@@ -5,7 +5,7 @@ export async function fetchUser() {
   const session = await auth();
 
   if (!session?.user) {
-    redirect('/');
+    redirect('/auth/signIn');
   }
 
   return session;

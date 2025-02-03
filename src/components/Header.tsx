@@ -1,5 +1,3 @@
-'use client';
-
 import { HeroNavBar, UserNavBar } from '@/components/NavigationBar';
 import ThemeToggle from '@/components/ThemeSwitcher';
 import Link from 'next/link';
@@ -13,10 +11,13 @@ import UserDropdown from '@/components/auth/UserDetail';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Magnetic } from '@/components/primitives/magnetic';
+import { GlowEffect } from '@/components/primitives/glow-effect';
+import { TextShimmerWave } from '@/components/primitives/text-shimmer-wave';
+import { TextScramble } from './primitives/text-scramble';
 
 export function UserHeader() {
   return (
-    <header className="bg-default-500 sticky top-0 z-50 w-full py-1 shadow-xl">
+    <header className="sticky top-0 z-50 w-full border-b-2 px-3 py-1.5 sm:px-5">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <Link
@@ -31,10 +32,7 @@ export function UserHeader() {
               className="size-10"
             />
 
-            <p className="font-bold tracking-wide">
-              Auction
-              <span className="text-primary">Itt</span>
-            </p>
+            <TextScramble className="font-bold">AuctionItt</TextScramble>
           </Link>
           <Sheet>
             <SheetTrigger asChild>
@@ -82,7 +80,10 @@ export function UserHeader() {
         <nav className="flex">
           <UserNavBar />
         </nav>
-        <ThemeToggle />
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <UserDropdown />
+        </div>
       </div>
     </header>
   );
@@ -105,11 +106,7 @@ export function HeroHeader() {
               height={100}
               className="size-10"
             />
-
-            <p className="font-bold tracking-wide">
-              Auction
-              <span className="text-primary">Itt</span>
-            </p>
+            <TextScramble className="font-bold">AuctionItt</TextScramble>
           </Link>
           <Sheet>
             <SheetTrigger asChild>
@@ -165,10 +162,16 @@ export function HeroHeader() {
             actionArea="global"
             range={200}
           >
-            <Link href={'/signIn'}>
+            <Link href={'/auth/signIn'} className="relative hidden md:block">
+              <GlowEffect
+                colors={['#0894FF', '#C959DD', '#FF2E54', '#FF9004']}
+                mode="colorShift"
+                blur="medium"
+                duration={4}
+              />
               <Button
                 type="button"
-                className="inline-flex items-center rounded-lg border"
+                className="relative inline-flex items-center rounded-lg border"
               >
                 <Magnetic
                   intensity={0.1}
@@ -181,6 +184,20 @@ export function HeroHeader() {
               </Button>
             </Link>
           </Magnetic>
+          <Link href={'/auth/signIn'} className="relative block md:hidden">
+            <GlowEffect
+              colors={['#0894FF', '#C959DD', '#FF2E54', '#FF9004']}
+              mode="colorShift"
+              blur="medium"
+              duration={4}
+            />
+            <Button
+              type="button"
+              className="relative inline-flex items-center rounded-lg border"
+            >
+              <span>Sign In</span>
+            </Button>
+          </Link>
         </div>
       </div>
     </header>

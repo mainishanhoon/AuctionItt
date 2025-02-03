@@ -3,7 +3,7 @@
 import { useTheme } from 'next-themes';
 import { Switch } from '@/components/ui/switch';
 import { useEffect, useState } from 'react';
-import { FaMoon, FaSun } from 'react-icons/fa';
+import { Moon, Sun } from 'lucide-react';
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [isMounted, setIsMounted] = useState(false);
@@ -21,14 +21,14 @@ export default function ThemeToggle() {
       checked={isDark}
       onCheckedChange={() => setTheme(isDark ? 'light' : 'dark')}
       checkedIcon={
-        <FaMoon
+        <Moon
           size={12}
           color="hsl(var(--muted-foreground))"
           className="ml-1 mt-1"
         />
       }
       uncheckedIcon={
-        <FaSun
+        <Sun
           size={12}
           color="hsl(var(--muted-foreground))"
           className="ml-1 mt-1"

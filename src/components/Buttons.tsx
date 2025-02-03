@@ -3,8 +3,7 @@
 import { useFormStatus } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import { Loader } from 'lucide-react';
-import { FcGoogle } from 'react-icons/fc';
-import { GitHubLogoIcon } from '@radix-ui/react-icons';
+import Image from 'next/image';
 
 export function GoogleAuthButton() {
   const { pending } = useFormStatus();
@@ -14,20 +13,20 @@ export function GoogleAuthButton() {
       {pending ? (
         <Button
           disabled
-          variant="outline"
-          size={'lg'}
-          className="space-x-2 border-2 border-dashed border-muted-foreground"
+          className="border-2 border-dashed border-muted-foreground bg-primary/80"
         >
           <Loader className="size-5 animate-spin font-bold [animation-duration:3s]" />
           <p className="font-medium">Signing Into Google</p>
         </Button>
       ) : (
-        <Button
-          size="lg"
-          className="space-x-2 border-2 border-muted-foreground font-bold hover:border-primary hover:bg-primary/10"
-          variant="outline"
-        >
-          <FcGoogle className="size-6" />
+        <Button>
+          <Image
+            alt="GoogleLogo"
+            src="/google.svg"
+            width={25}
+            height={25}
+            className="size-6"
+          />
           <p className="font-medium">Sign In with Google</p>
         </Button>
       )}
@@ -43,20 +42,20 @@ export function GitHubAuthButton() {
       {pending ? (
         <Button
           disabled
-          variant="outline"
-          size={'lg'}
-          className="space-x-2 border-2 border-dashed border-muted-foreground"
+          className="border-2 border-dashed border-muted-foreground bg-primary/80"
         >
           <Loader className="size-5 animate-spin font-bold [animation-duration:3s]" />
           <p className="font-medium">Signing Into GitHub</p>
         </Button>
       ) : (
-        <Button
-          size="lg"
-          className="space-x-2 border-2 border-muted-foreground font-bold hover:border-primary hover:bg-primary/10"
-          variant="outline"
-        >
-          <GitHubLogoIcon className="size-6" />
+        <Button>
+          <Image
+            alt="GitHubLogo"
+            src="/github.svg"
+            width={25}
+            height={25}
+            className="size-6 invert dark:invert-0"
+          />
           <p className="font-medium">Sign In with GitHub</p>
         </Button>
       )}
