@@ -6,7 +6,7 @@ import Hero from '@/sections/Hero';
 import Testimonial from '@/sections/Testimonials';
 import { Fragment } from 'react';
 
-export default function Page() {
+export default function VisitorPage() {
   return (
     <Fragment>
       <HeroHeader />

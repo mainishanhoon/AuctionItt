@@ -7,6 +7,19 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Items {
+  id          String   @id @default(cuid())
+  name        String
+  price       Decimal
+  description String
+  image       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model User {
   id            String          @id @default(cuid())
   firstName     String?
@@ -19,12 +32,13 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  // Optional for WebAuthn support
   Authenticator Authenticator[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  items     Items[]
 }
+
 
 model Account {
   userId            String

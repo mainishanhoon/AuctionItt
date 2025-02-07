@@ -13,7 +13,9 @@ import { Button } from '@/components/ui/button';
 import { Magnetic } from '@/components/primitives/magnetic';
 import { GlowEffect } from '@/components/primitives/glow-effect';
 import { TextShimmerWave } from '@/components/primitives/text-shimmer-wave';
-import { TextScramble } from './primitives/text-scramble';
+import { TextScramble } from '@/components/primitives/text-scramble';
+import { LogIn } from 'lucide-react';
+import { TextEffect } from './primitives/text-effect';
 
 export function UserHeader() {
   return (
@@ -22,7 +24,7 @@ export function UserHeader() {
         <div className="flex items-center">
           <Link
             href="/"
-            className="flex items-center gap-2 text-2xl font-black max-md:hidden"
+            className="flex items-center gap-2 text-2xl font-semibold max-md:hidden"
           >
             <Image
               alt="Logo"
@@ -31,8 +33,9 @@ export function UserHeader() {
               height={100}
               className="size-10"
             />
-
-            <TextScramble className="font-bold">AuctionItt</TextScramble>
+            <TextEffect per="char" preset="fade">
+              AuctionItt
+            </TextEffect>
           </Link>
           <Sheet>
             <SheetTrigger asChild>
@@ -45,10 +48,7 @@ export function UserHeader() {
                   className="size-10"
                 />
 
-                <p className="font-bold tracking-wide">
-                  Auction
-                  <span className="text-primary">Itt</span>
-                </p>
+                <p className="font-bold">AuctionItt</p>
               </div>
             </SheetTrigger>
             <SheetContent side="left" className="w-70 flex flex-col">
@@ -65,10 +65,7 @@ export function UserHeader() {
                     className="size-10"
                   />
 
-                  <p className="font-bold tracking-wide">
-                    Auction
-                    <span className="text-primary">Itt</span>
-                  </p>
+                  <p className="font-semibold">AuctionItt</p>
                 </Link>
               </SheetTitle>
               <nav className="flex flex-col items-center gap-4 md:flex-row md:gap-8">
@@ -119,10 +116,7 @@ export function HeroHeader() {
                   className="size-10"
                 />
 
-                <p className="font-bold tracking-wide">
-                  Auction
-                  <span className="text-primary">Itt</span>
-                </p>
+                <p className="font-semibold">AuctionItt</p>
               </div>
             </SheetTrigger>
             <SheetContent side="left">
@@ -139,10 +133,7 @@ export function HeroHeader() {
                     className="size-10"
                   />
 
-                  <p className="font-bold tracking-wide">
-                    Auction
-                    <span className="text-primary">Itt</span>
-                  </p>
+                  <p className="font-semibold">AuctionItt</p>
                 </Link>
               </SheetTitle>
               <nav className="mt-5 flex flex-col items-center gap-4 md:flex-row">
@@ -179,7 +170,10 @@ export function HeroHeader() {
                   actionArea="global"
                   range={200}
                 >
-                  <span>Sign In</span>
+                  <p className="flex items-center gap-2">
+                    <LogIn strokeWidth={3} />
+                    <span>Sign In</span>
+                  </p>
                 </Magnetic>
               </Button>
             </Link>

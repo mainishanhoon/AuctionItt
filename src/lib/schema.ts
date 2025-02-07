@@ -19,3 +19,10 @@ export const OnboardingUserSchema = z.object({
     .gte(100000, { message: 'Pin Code must be of 6 digits' })
     .lte(999999, { message: 'Pin Code must be of 6 digits' }),
 });
+
+export const ItemsSchema = z.object({
+  name: z.string(),
+  price: z.number().min(0, 'Must be a positive number'),
+  description: z.string(),
+  image: z.string(),
+});

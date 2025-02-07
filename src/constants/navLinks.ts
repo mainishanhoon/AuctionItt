@@ -1,15 +1,15 @@
-import { BadgeInfo, Store } from 'lucide-react';
+import { BadgeInfo, LayoutDashboard, Store } from 'lucide-react';
 
 export const navigationLink = [
   {
-    label: 'Dashboard',
-    href: '/dashboard',
+    label: 'Home',
+    href: '/home',
     icon: Store,
   },
   {
-    label: 'Invoices',
-    href: '/dashboard/invoices',
-    icon: BadgeInfo,
+    label: 'Dashboard',
+    href: '/home/dashboard',
+    icon: LayoutDashboard,
   },
 ];
 
