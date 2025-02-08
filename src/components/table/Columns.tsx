@@ -20,25 +20,21 @@ export const columns: ColumnDef<Items>[] = [
   {
     accessorKey: 'image',
     header: ({ column }) => (
-      <DataTableColumnHeader
-        className="-ml-8 w-full"
-        column={column}
-        title="Image"
-      />
+      <DataTableColumnHeader className="w-full -ml-32" column={column} title="Image" />
     ),
     cell: ({ row }) => {
       const images = row.getValue('image') as string[];
       const imageUrl = images?.[0] as string;
 
       return (
-        <div className="-ml-2 w-full">
+        <div className="w-full">
           <Image
             alt="Product Image"
             src={imageUrl}
             height={100}
             width={100}
             loading="lazy"
-            className="size-20 rounded-md object-cover"
+            className="h-20 w-fit rounded-md object-cover outline-dashed outline-2 outline-muted-foreground"
           />
         </div>
       );
@@ -81,29 +77,20 @@ export const columns: ColumnDef<Items>[] = [
     },
   },
   {
-    accessorKey: 'createdAt',
+    accessorKey: 'price',
     header: ({ column }) => (
       <DataTableColumnHeader
         className="border-r border-dashed text-center"
         column={column}
-        title="Created At"
+        title="Price"
       />
     ),
     cell: ({ row }) => {
       return (
         <div className="border-r border-dotted text-center">
-          <span className="font-medium">
-            {new Intl.DateTimeFormat('en-IN', {
-              dateStyle: 'long',
-            }).format(row.getValue('createdAt'))}
-          </span>
+          <span className="font-medium">{row.getValue('price')}</span>
         </div>
       );
-    },
-    filterFn: (row, id, value) => {
-      const rowDate = new Date(row.getValue(id));
-      const [startDate, endDate] = value;
-      return rowDate >= startDate && rowDate <= endDate;
     },
   },
   {
@@ -112,26 +99,5 @@ export const columns: ColumnDef<Items>[] = [
       <DataTableColumnHeader column={column} title="Actions" />
     ),
     cell: ({ row }) => <DataTableRowActions row={row} />,
-  },
-  {
-    accessorKey: 'createdAt',
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        className="border-r border-dashed text-center"
-        column={column}
-        title="Updated At"
-      />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className="border-r border-dotted text-center">
-          <span className="font-medium">
-            {new Intl.DateTimeFormat('en-IN', {
-              timeStyle: 'medium',
-            }).format(row.getValue('createdAt')).toLocaleUpperCase()}
-          </span>
-        </div>
-      );
-    },
   },
 ];

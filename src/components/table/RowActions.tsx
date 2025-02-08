@@ -80,12 +80,12 @@ export function DataTableRowActions<TData>({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className="w-auto font-jura font-bold tracking-normal"
+          className="w-auto font-medium tracking-normal"
           align="center"
         >
           <DropdownMenuGroup>
             <DropdownMenuItem asChild>
-              <Link href={`/dashboard/invoices/${id}`}>
+              <Link href={`/dashboard/${id}`}>
                 <Pen strokeWidth={3} size={15} />
                 <span>Edit</span>
               </Link>
@@ -94,17 +94,8 @@ export function DataTableRowActions<TData>({
               <Copy strokeWidth={3} size={15} />
               <span>Copy</span>
             </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link target="_blank" href={`/api/invoice/${id}`}>
-                <Download strokeWidth={3} size={15} />
-                <span>Download</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleSendReminder}>
-              <Mail strokeWidth={3} size={15} />
-              <span>Reminder</span>
-            </DropdownMenuItem>
-            {row.getValue('status') === 'PENDING' && (
+            
+            {/* {row.getValue('status') === 'PENDING' && (
               <Dialog>
                 <div className="mt-1 rounded-sm bg-emerald-500 px-3 py-1 text-white hover:bg-emerald-500/70">
                   <DialogTrigger className="flex items-center space-x-2">
@@ -152,7 +143,7 @@ export function DataTableRowActions<TData>({
                   </DialogContent>
                 </div>
               </Dialog>
-            )}
+            )} */}
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <Dialog>

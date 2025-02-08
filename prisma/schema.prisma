@@ -10,7 +10,7 @@ generator client {
 model Items {
   id          String   @id @default(cuid())
   name        String
-  price       Decimal
+  price       Int
   description String
   image       String[]
   createdAt   DateTime @default(now())

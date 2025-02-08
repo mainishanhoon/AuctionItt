@@ -48,7 +48,7 @@ export default async function DashboardPage() {
               <ChevronLeft size={25} strokeWidth={3} />
             </Link>
           </Button>
-          <h1 className="text-2xl font-bold tracking-wider">Products</h1>
+          <h1 className="text-2xl font-medium">Products</h1>
         </div>
         <Button asChild className="flex items-center gap-x-2">
           <Link href="/dashboard/create">
@@ -59,10 +59,8 @@ export default async function DashboardPage() {
       </div>
       <Card>
         <CardHeader>
-          <CardTitle className="text-xl tracking-wider">
-            Product Details
-          </CardTitle>
-          <CardDescription className="font-bold tracking-wider">
+          <CardTitle className="text-xl">Product Details</CardTitle>
+          <CardDescription>
             Manage your products and view their sales performance.
           </CardDescription>
         </CardHeader>
