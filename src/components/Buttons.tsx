@@ -62,3 +62,50 @@ export function GitHubAuthButton() {
     </>
   );
 }
+
+import { cn } from '@/lib/utils';
+interface ButtonProps {
+  text: string;
+  loadingText: string;
+  variant?:
+    | 'default'
+    | 'destructive'
+    | 'outline'
+    | 'secondary'
+    | 'ghost'
+    | 'link'
+    | null
+    | undefined;
+  className?: string;
+}
+
+export function SubmitButton({
+  text,
+  loadingText,
+  variant,
+  className,
+}: ButtonProps) {
+  const { pending } = useFormStatus();
+
+  return (
+    <>
+      {pending ? (
+        <Button
+          disabled
+          variant="outline"
+          className={cn(
+            'w-fit border-2 border-dashed border-muted-foreground',
+            className,
+          )}
+        >
+          <Loader className="size-5 animate-spin [animation-duration:3s]" />
+          {loadingText}
+        </Button>
+      ) : (
+        <Button type="submit" variant={variant}>
+          {text}
+        </Button>
+      )}
+    </>
+  );
+}

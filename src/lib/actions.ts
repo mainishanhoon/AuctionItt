@@ -55,15 +55,19 @@ export async function ItemCreationAction(
 
   const session = await fetchUser();
 
+  const flattenURLs = submission.value.image.flatMap((urlString) =>
+    urlString.split(',').map((url) => url.trim()),
+  );
+
   await prisma.items.create({
     data: {
-      userId: String(session.user?.id),
       name: submission.value.name,
       description: submission.value.description,
       price: submission.value.price,
-      image: submission.value.image,
+      image: flattenURLs,
+      userId: session.user?.id!,
     },
   });
 
-  redirect('/home');
+  redirect('/home/dashboard');
 }

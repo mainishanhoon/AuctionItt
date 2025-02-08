@@ -33,7 +33,11 @@ export function UserHeader() {
               height={100}
               className="size-10"
             />
-            <TextEffect per="char" preset="fade">
+            <TextEffect
+              per="char"
+              preset="fade"
+              className="min-w-0 shrink-0 grow-0"
+            >
               AuctionItt
             </TextEffect>
           </Link>

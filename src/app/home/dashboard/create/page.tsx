@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -12,23 +13,30 @@ import { useActionState, useState } from 'react';
 import { useForm } from '@conform-to/react';
 import { parseWithZod } from '@conform-to/zod';
 import { ItemsSchema } from '@/lib/schema';
-import { OnboardingUserAction } from '@/lib/actions';
+import { ItemCreationAction } from '@/lib/actions';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { CircleArrowRight, Loader, Trash2 } from 'lucide-react';
+import { CircleArrowRight, CloudUpload, Loader, Trash2 } from 'lucide-react';
 import { TextMorph } from '@/components/primitives/text-morph';
 import { motion } from 'motion/react';
 import { GlowEffect } from '@/components/primitives/glow-effect';
 import { toast } from 'sonner';
 import { UploadDropzone } from '@/lib/uploadthing';
 import Image from 'next/image';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselIndicator,
+  CarouselItem,
+  CarouselNavigation,
+} from '@/components/primitives/carousel';
 
 export default function ItemCreationRoute() {
   const [images, setImages] = useState<string[]>([]);
-
+  const [index, setIndex] = useState(0);
   const [lastResult, formAction, isPending] = useActionState(
-    OnboardingUserAction,
+    ItemCreationAction,
     null,
   );
 
@@ -43,10 +51,14 @@ export default function ItemCreationRoute() {
     shouldRevalidate: 'onInput',
   });
 
-   const handleDelete = (index: number) => {
-     setImages(images.filter((_, i) => i !== index));
-     toast.info('Image has been Deleted');
-   };
+  const handleDelete = (index: number) => {
+    const updatedImages = images.filter((_, i) => i !== index);
+
+    setImages(updatedImages);
+    setIndex(index === images.length - 1 ? index - 1 : index);
+
+    toast.info('Image has been deleted');
+  };
 
   return (
     <div className="relative">
@@ -69,9 +81,9 @@ export default function ItemCreationRoute() {
       </motion.div>
       <Card className="relative">
         <CardHeader>
-          <CardTitle className="text-2xl">Your are almost finished!</CardTitle>
+          <CardTitle className="text-2xl">Showcase your Items</CardTitle>
           <CardDescription>
-            Enter your information to create an account
+            Fill in the details of the item you want to put in the auction.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -90,7 +102,7 @@ export default function ItemCreationRoute() {
                       type="text"
                       key={fields.name.key}
                       name={fields.name.name}
-                      defaultValue={fields.name.initialValue}
+                      defaultValue={fields.name.initialValue as any}
                       className="w-full"
                       placeholder="First Name"
                     />
@@ -106,82 +118,114 @@ export default function ItemCreationRoute() {
                       name={fields.price.name}
                       defaultValue={fields.price.initialValue}
                       className="w-full"
-                      placeholder="Pin Code "
+                      placeholder="Price "
                     />
                     <p className="-mt-2 ml-3 text-sm font-medium text-destructive">
                       {fields.price.errors}
                     </p>
                   </div>
                 </div>
-                <div className="flex flex-col items-center gap-3">
-                  <Label>Images</Label>
-                  <input
-                    type="hidden"
-                    value={images}
-                    key={fields.image.key}
-                    name={fields.image.name}
-                    defaultValue={fields.image.initialValue as any}
+                <div className="flex flex-col gap-2">
+                  <Label>Description</Label>
+                  <Input
+                    type="text"
+                    key={fields.description.key}
+                    name={fields.description.name}
+                    defaultValue={fields.description.initialValue}
+                    className="w-full"
+                    placeholder="Last Name"
                   />
-                  {images ? (
-                    <UploadDropzone
-                      endpoint="imageUploader"
-                      appearance={{
-                        container:
-                          'capitalize border-muted-foreground font-medium border-2 bg-background w-full',
-                      }}
-                      onClientUploadComplete={(res) => {
-                        setImages(res.map((r) => r.url));
-                        toast.success('Image has been Uploaded');
-                      }}
-                      onUploadError={(error) => {
-                        toast.error(error.message);
-                      }}
-                    />
-                  ) : (
-                    <div className="mx-auto flex flex-wrap justify-center gap-5 rounded-lg bg-background p-5">
-                      {images.map((image, index) => (
-                        <div key={index} className="relative">
-                          <Image
-                            src={image}
-                            alt="Item's Image"
-                            width={200}
-                            height={200}
-                            className="size-24 rounded-lg border-2 border-muted-foreground bg-muted object-cover md:size-32"
-                          />
-
-                          <Button
-                            className="absolute inset-x-0 inset-y-[72px] h-6 w-24 rounded-t-none border-2 border-t-0 border-muted-foreground bg-red-700 hover:bg-red-800 md:inset-y-24 md:h-8 md:w-32"
-                            variant="destructive"
-                            onClick={() => handleDelete(index)}
-                            type="button"
-                          >
-                            <Trash2
-                              strokeWidth={3}
-                              className="mr-1 hidden size-4 md:block"
-                            />
-                            <p className="font-bold tracking-wide">Delete</p>
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  <p className="font-mont -mt-2 ml-3 text-destructive">
-                    {fields.image.errors}
+                  <p className="-mt-2 ml-3 text-sm font-medium text-destructive">
+                    {fields.description.errors}
                   </p>
                 </div>
               </div>
-              <div className="flex flex-col gap-2">
-                <Label>Description</Label>
+              <div className="flex flex-col items-center gap-2">
+                <Label>Images</Label>
                 <Input
-                  type="text"
-                  key={fields.description.key}
-                  name={fields.description.name}
-                  defaultValue={fields.description.initialValue}
-                  className="w-full"
-                  placeholder="Last Name"
+                  type="hidden"
+                  value={images}
+                  key={fields.image.key}
+                  name={fields.image.name}
                 />
-                <p className="-mt-2 ml-3 text-sm font-medium text-destructive">
-                  {fields.description.errors}
+                {images.length === 0 ? (
+                  <UploadDropzone
+                    endpoint="imageUploader"
+                    appearance={{
+                      container:
+                        'capitalize border-muted-foreground font-normal border-2 bg-background w-full',
+                    }}
+                    content={{
+                      uploadIcon: <CloudUpload size={50} />,
+                      label: 'Choose files or Drag & Drop',
+                    }}
+                    onClientUploadComplete={(res) => {
+                      setImages(res.map((r) => r.url));
+                      toast.success('Image has been Uploaded');
+                    }}
+                    onUploadError={(error) => {
+                      toast.error(error.message);
+                    }}
+                  />
+                ) : (
+                  <Card className="border-2 border-dashed border-muted-foreground bg-primary/10">
+                    <div className="relative mt-2 flex w-full flex-col items-center">
+                      <Carousel index={index} onIndexChange={setIndex}>
+                        <CarouselContent className="relative">
+                          {images.map((image, pointer) => (
+                            <CarouselItem key={pointer} className="p-4">
+                              <div className="relative flex justify-center">
+                                <Image
+                                  src={image}
+                                  alt={`Image ${pointer}`}
+                                  width={400}
+                                  height={200}
+                                  className="aspect-square rounded-lg border-2 border-dotted border-muted-foreground bg-muted object-contain"
+                                />
+                              </div>
+                            </CarouselItem>
+                          ))}
+                        </CarouselContent>
+                        <CarouselNavigation alwaysShow className="px-40" />
+                      </Carousel>
+
+                      <CardFooter className="mt-4 flex w-full flex-wrap justify-center gap-4">
+                        {images.map((_, marker) => (
+                          <div className="relative" key={marker}>
+                            <Image
+                              key={marker}
+                              src={images[marker]}
+                              alt={`Image ${marker}`}
+                              width={200}
+                              height={200}
+                              aria-label={`Go to slide ${marker + 1}`}
+                              onClick={() => setIndex(marker)}
+                              className={`size-16 rounded-lg object-contain outline-2 md:size-24 ${
+                                index === marker
+                                  ? 'bg-primary/20 outline-dashed outline-primary/20'
+                                  : 'bg-primary/10 outline outline-border dark:outline-muted-foreground/80'
+                              }`}
+                            />
+                            <Button
+                              className="absolute bottom-0 left-0 h-5 w-full rounded-b-xl rounded-t-none bg-red-500 text-white hover:bg-red-600 md:h-7"
+                              variant="destructive"
+                              onClick={() => handleDelete(marker)}
+                              type="button"
+                            >
+                              <Trash2
+                                strokeWidth={3}
+                                className="hidden size-5 md:block"
+                              />
+                              <p>Delete</p>
+                            </Button>
+                          </div>
+                        ))}
+                      </CardFooter>
+                    </div>
+                  </Card>
+                )}
+                <p className="font-mont -mt-2 ml-3 text-destructive">
+                  {fields.image.errors}
                 </p>
               </div>
             </div>

@@ -12,7 +12,7 @@ model Items {
   name        String
   price       Decimal
   description String
-  image       String
+  image       String[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

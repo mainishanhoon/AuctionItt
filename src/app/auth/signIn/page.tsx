@@ -15,7 +15,7 @@ export default async function AuthDialogBox() {
   const session = await auth();
 
   if (session?.user) {
-    return redirect('/dashboard');
+    return redirect('/home/dashboard');
   }
 
   return (
