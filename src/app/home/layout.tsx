@@ -1,9 +1,12 @@
-import { UserHeader } from '@/components/Header';
-import PageContainer from '@/components/PageContainer';
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+
+import { UserHeader } from '@/app/_components/home/Header';
 import { fetchUser } from '@/hooks/hooks';
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/app/_utils/prisma';
 import { redirect } from 'next/navigation';
-import { Fragment, ReactNode } from 'react';
+import { ReactNode } from 'react';
+import { AppSidebar } from '@/app/_components/home/Sidebar';
+import { SidebarInset, SidebarProvider } from '@/app/_components/ui/sidebar';
 
 async function getUser(userId: string) {
   const data = await prisma.user.findUnique({
@@ -26,7 +29,7 @@ async function getUser(userId: string) {
     !data?.city ||
     !data?.pinCode
   ) {
-    redirect('/onboarding');
+    redirect('/auth/onboarding');
   }
 }
 
@@ -39,11 +42,14 @@ export default async function DashboardLayout({
   await getUser(session.user?.id!);
 
   return (
-    <Fragment>
-      <UserHeader />
-      <PageContainer scrollable>
-        <main className="p-2 md:p-3 lg:p-5">{children}</main>
-      </PageContainer>
-    </Fragment>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset className="overflow-hidden">
+        <UserHeader />
+        <div className="min-h-[100vh] flex-1 p-2 md:min-h-min md:p-4 lg:p-6">
+          {children}
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

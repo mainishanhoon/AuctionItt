@@ -6,30 +6,29 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from '@/app/_components/ui/card';
 import Form from 'next/form';
 import { useActionState, useState } from 'react';
 import { useForm } from '@conform-to/react';
 import { parseWithZod } from '@conform-to/zod';
-import { OnboardingUserSchema } from '@/lib/schema';
-import { OnboardingUserAction } from '@/lib/actions';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
+import { OnboardingUserSchema } from '@/app/_utils/schema';
+import { OnboardingUserAction } from '@/app/actions';
+import { Input } from '@/app/_components/ui/input';
+import { Label } from '@/app/_components/ui/label';
+import { Button } from '@/app/_components/ui/button';
 import { ChevronsRight, Loader } from 'lucide-react';
 import { motion } from 'motion/react';
-import { TextMorph } from '@/components/primitives/text-morph';
-import { GlowEffect } from '@/components/primitives/glow-effect';
+import { TextMorph } from '@/app/_components/ui/text-morph';
+import { GlowEffect } from '@/app/_components/ui/glow-effect';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from '@/app/_components/ui/select';
 import { cities } from '@/constants/cities';
 import { states } from '@/constants/states';
-import { Spotlight } from '@/components/primitives/spotlight';
 
 export default function OnboardingRoute() {
   const [lastResult, formAction, isPending] = useActionState(
@@ -61,14 +60,6 @@ export default function OnboardingRoute() {
 
   return (
     <div className="relative flex items-center justify-center p-4 tracking-wide md:h-dvh md:p-0">
-      <Spotlight
-        className="from-blue-600 via-blue-500 to-blue-400 blur-3xl dark:from-blue-200 dark:via-blue-300 dark:to-blue-400"
-        size={250}
-        springOptions={{
-          bounce: 0.3,
-          duration: 0.1,
-        }}
-      />
       <div className="absolute inset-0">
         <svg className="h-full w-full">
           <defs>
@@ -145,7 +136,7 @@ export default function OnboardingRoute() {
                       className="w-full"
                       placeholder="First Name"
                     />
-                    <p className="font-mont -mt-2 ml-3 text-destructive">
+                    <p className="font-mont text-destructive -mt-2 ml-3">
                       {fields.firstName.errors}
                     </p>
                   </div>
@@ -159,7 +150,7 @@ export default function OnboardingRoute() {
                       className="w-full"
                       placeholder="Last Name"
                     />
-                    <p className="font-mont -mt-2 ml-3 text-destructive">
+                    <p className="font-mont text-destructive -mt-2 ml-3">
                       {fields.lastName.errors}
                     </p>
                   </div>
@@ -186,7 +177,7 @@ export default function OnboardingRoute() {
                         ))}
                       </SelectContent>
                     </Select>
-                    <p className="font-mont -mt-2 ml-3 text-destructive">
+                    <p className="font-mont text-destructive -mt-2 ml-3">
                       {fields.state.errors}
                     </p>
                   </div>
@@ -215,7 +206,8 @@ export default function OnboardingRoute() {
                         )}
                       </SelectContent>
                     </Select>
-                    <p className="font-mont -mt-2 ml-3 text-destructive">
+
+                    <p className="font-mont text-destructive -mt-2 ml-3">
                       {fields.city.errors}
                     </p>
                   </div>
@@ -230,7 +222,7 @@ export default function OnboardingRoute() {
                     className="w-full"
                     placeholder="Pin Code "
                   />
-                  <p className="font-mont -mt-2 ml-3 text-destructive">
+                  <p className="font-mont text-destructive -mt-2 ml-3">
                     {fields.pinCode.errors}
                   </p>
                 </div>
@@ -239,7 +231,7 @@ export default function OnboardingRoute() {
                   disabled={isPending}
                   variant={isPending ? 'outline' : 'default'}
                   type="submit"
-                  className={`${isPending && 'outline-dashed outline-2 outline-muted-foreground'} flex items-center gap-2 text-sm font-medium md:text-base`}
+                  className={`${isPending && 'outline-muted-foreground outline-2 outline-dashed'} flex items-center gap-2 text-sm font-medium md:text-base`}
                 >
                   {isPending && (
                     <Loader

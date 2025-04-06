@@ -16,8 +16,8 @@ model Items {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
@@ -38,7 +38,6 @@ model User {
   updatedAt DateTime @updatedAt
   items     Items[]
 }
-
 
 model Account {
   userId            String

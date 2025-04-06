@@ -7,30 +7,29 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from '@/app/_components/ui/card';
 import Form from 'next/form';
 import { useActionState, useState } from 'react';
 import { useForm } from '@conform-to/react';
 import { parseWithZod } from '@conform-to/zod';
-import { ItemsSchema } from '@/lib/schema';
-import { ItemCreationAction } from '@/lib/actions';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
+import { ItemsSchema } from '@/app/_utils/schema';
+import { ItemCreationAction } from '@/app/actions';
+import { Input } from '@/app/_components/ui/input';
+import { Label } from '@/app/_components/ui/label';
+import { Button } from '@/app/_components/ui/button';
 import { CircleArrowRight, CloudUpload, Loader, Trash2 } from 'lucide-react';
-import { TextMorph } from '@/components/primitives/text-morph';
+import { TextMorph } from '@/app/_components/ui/text-morph';
 import { motion } from 'motion/react';
-import { GlowEffect } from '@/components/primitives/glow-effect';
+import { GlowEffect } from '@/app/_components/ui/glow-effect';
 import { toast } from 'sonner';
-import { UploadDropzone } from '@/lib/uploadthing';
+import { UploadDropzone } from '@/app/_utils/uploadthing';
 import Image from 'next/image';
 import {
   Carousel,
   CarouselContent,
-  CarouselIndicator,
   CarouselItem,
   CarouselNavigation,
-} from '@/components/primitives/carousel';
+} from '@/app/_components/ui/carousel';
 
 export default function ItemCreationRoute() {
   const [images, setImages] = useState<string[]>([]);
@@ -97,47 +96,55 @@ export default function ItemCreationRoute() {
               <div className="flex flex-col gap-5">
                 <div className="grid gap-5 md:grid-cols-2">
                   <div className="flex flex-col gap-2">
-                    <Label>Name of the Product</Label>
+                    <div className="flex items-end justify-between">
+                      <Label>Name of the Product</Label>
+                      <p className="text-destructive mr-2 -mb-1 text-xs">
+                        {fields.name.errors}
+                      </p>
+                    </div>
                     <Input
                       type="text"
                       key={fields.name.key}
                       name={fields.name.name}
-                      defaultValue={fields.name.initialValue as any}
-                      className="w-full"
+                      defaultValue={fields.name.initialValue}
+                      className={fields.name.errors && 'border-destructive'}
                       placeholder="First Name"
                     />
-                    <p className="-mt-2 ml-3 text-sm font-medium text-destructive">
-                      {fields.name.errors}
-                    </p>
                   </div>
                   <div className="flex flex-col gap-2">
-                    <Label>Price</Label>
+                    <div className="flex items-end justify-between">
+                      <Label>Price</Label>
+                      <p className="text-destructive mr-2 -mb-1 text-xs">
+                        {fields.price.errors}
+                      </p>
+                    </div>
                     <Input
                       type="number"
                       key={fields.price.key}
                       name={fields.price.name}
                       defaultValue={fields.price.initialValue}
-                      className="w-full"
-                      placeholder="Price "
+                      className={fields.price.errors && 'border-destructive'}
+                      placeholder="Price"
                     />
-                    <p className="-mt-2 ml-3 text-sm font-medium text-destructive">
-                      {fields.price.errors}
-                    </p>
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <Label>Description</Label>
+                  <div className="flex items-end justify-between">
+                    <Label>Description</Label>
+                    <p className="text-destructive mr-2 -mb-1 text-xs">
+                      {fields.description.errors}
+                    </p>
+                  </div>
                   <Input
                     type="text"
                     key={fields.description.key}
                     name={fields.description.name}
                     defaultValue={fields.description.initialValue}
-                    className="w-full"
+                    className={
+                      fields.description.errors && 'border-destructive'
+                    }
                     placeholder="Last Name"
                   />
-                  <p className="-mt-2 ml-3 text-sm font-medium text-destructive">
-                    {fields.description.errors}
-                  </p>
                 </div>
               </div>
               <div className="flex flex-col items-center gap-2">
@@ -168,7 +175,7 @@ export default function ItemCreationRoute() {
                     }}
                   />
                 ) : (
-                  <Card className="border-2 border-dashed border-muted-foreground bg-primary/10">
+                  <Card className="border-muted-foreground bg-primary/10 border-2 border-dashed">
                     <div className="relative mt-2 flex w-full flex-col items-center">
                       <Carousel index={index} onIndexChange={setIndex}>
                         <CarouselContent className="relative">
@@ -180,7 +187,7 @@ export default function ItemCreationRoute() {
                                   alt={`Image ${pointer}`}
                                   width={400}
                                   height={200}
-                                  className="aspect-square rounded-lg border-2 border-dotted border-muted-foreground bg-muted object-contain"
+                                  className="border-muted-foreground bg-muted aspect-square rounded-lg border-2 border-dotted object-contain"
                                 />
                               </div>
                             </CarouselItem>
@@ -202,12 +209,12 @@ export default function ItemCreationRoute() {
                               onClick={() => setIndex(marker)}
                               className={`size-16 rounded-lg object-contain outline-2 md:size-24 ${
                                 index === marker
-                                  ? 'bg-primary/20 outline-dashed outline-primary/20'
-                                  : 'bg-primary/10 outline outline-border dark:outline-muted-foreground/80'
+                                  ? 'bg-primary/20 outline-primary/20 outline-dashed'
+                                  : 'bg-primary/10 outline-border dark:outline-muted-foreground/80 outline'
                               }`}
                             />
                             <Button
-                              className="absolute bottom-0 left-0 h-5 w-full rounded-b-xl rounded-t-none bg-red-500 text-white hover:bg-red-600 md:h-7"
+                              className="absolute bottom-0 left-0 h-5 w-full rounded-t-none rounded-b-xl bg-red-500 text-white hover:bg-red-600 md:h-7"
                               variant="destructive"
                               onClick={() => handleDelete(marker)}
                               type="button"
@@ -224,7 +231,7 @@ export default function ItemCreationRoute() {
                     </div>
                   </Card>
                 )}
-                <p className="font-mont -mt-2 ml-3 text-destructive">
+                <p className="font-mont text-destructive -mt-2 ml-3">
                   {fields.image.errors}
                 </p>
               </div>
@@ -233,7 +240,7 @@ export default function ItemCreationRoute() {
               <Button
                 disabled={isPending}
                 variant={isPending ? 'outline' : 'default'}
-                className={`${isPending && 'outline-dashed outline-2 outline-muted-foreground'} flex w-fit items-center gap-2 text-sm font-medium md:text-base`}
+                className={`${isPending && 'outline-muted-foreground outline-2 outline-dashed'} flex w-fit items-center gap-2 text-sm font-medium md:text-base`}
               >
                 {isPending && (
                   <Loader

@@ -1,33 +1,16 @@
-import { fetchUser } from '@/hooks/hooks';
-import { prisma } from '@/lib/prisma';
-import React from 'react';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { getUser } from '@/hooks/hooks';
+import { prisma } from '@/app/_utils/prisma';
+import ContactsTable from '@/app/_components/dashboard/ContactsTable';
+import { Button } from '@/app/_components/ui/button';
+import Stats from '@/app/_components/dashboard/Stats';
+import EmptyState from '@/app/_components/home/EmptyState';
 import Link from 'next/link';
-import { ChevronLeft, CircleFadingPlus } from 'lucide-react';
-import { DataTable } from '@/components/table/DataTable';
-import EmptyState from '@/components/EmptyState';
-import { columns } from '@/components/table/Columns';
-
-async function getData() {
-  const data = await prisma.items.findMany({
-    orderBy: { createdAt: 'desc' },
-  });
-
-  return data;
-}
 
 export default async function DashboardPage() {
-  const session = await fetchUser();
+  const user = await getUser();
   const data = await prisma.items.findMany({
     where: {
-      userId: session.user?.id!,
+      userId: String(user?.id),
     },
     select: {
       id: true,
@@ -41,33 +24,20 @@ export default async function DashboardPage() {
 
   return data ? (
     <section className="flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Button variant="outline" size="icon" asChild>
-            <Link href="/home">
-              <ChevronLeft size={25} strokeWidth={3} />
-            </Link>
-          </Button>
-          <h1 className="text-2xl font-medium">Products</h1>
+      <div className="flex items-center justify-between gap-4">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-semibold">Hello {user.firstName}!</h1>
+          <p className="text-muted-foreground text-sm">
+            Here&apos;s an overview of your items you have put on bids. Manage
+            or create new ones with ease!
+          </p>
         </div>
-        <Button asChild className="flex items-center gap-x-2">
-          <Link href="/dashboard/create">
-            <CircleFadingPlus size={20} strokeWidth={3} />
-            <span>Add Product</span>
-          </Link>
+        <Button asChild>
+          <Link href="/home/dashboard/create">Add Contact</Link>
         </Button>
       </div>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-xl">Product Details</CardTitle>
-          <CardDescription>
-            Manage your products and view their sales performance.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <DataTable data={data} columns={columns} />
-        </CardContent>
-      </Card>
+      <Stats />
+      <ContactsTable />
     </section>
   ) : (
     <EmptyState
