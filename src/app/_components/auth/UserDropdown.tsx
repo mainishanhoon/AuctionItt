@@ -20,6 +20,7 @@ import {
   IconSettingsFilled,
 } from '@tabler/icons-react';
 import Image from 'next/image';
+import SignOutWrapper from '@/app/_components/auth/SignOut';
 
 export default async function UserDropdown() {
   const user = await getUser();
@@ -29,7 +30,7 @@ export default async function UserDropdown() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
           <Avatar className="size-8 rounded-md">
-            <AvatarImage
+            <Image
               src={user.image as string}
               width={35}
               height={35}
@@ -49,7 +50,7 @@ export default async function UserDropdown() {
       <DropdownMenuContent className="max-w-64" align="end">
         <DropdownMenuLabel className="flex min-w-0 flex-col">
           <p className="text-foreground truncate text-sm font-medium capitalize">
-            {user.fullName}
+            {user.name}
           </p>
           <p className="text-muted-foreground truncate text-xs font-normal lowercase">
             {user.email}
@@ -75,10 +76,12 @@ export default async function UserDropdown() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive">
-          <IconLogout2 size={16} className="opacity-60" aria-hidden="true" />
-          <span>Sign out</span>
-        </DropdownMenuItem>
+        <SignOutWrapper>
+          <DropdownMenuItem variant="destructive">
+            <IconLogout2 size={16} className="opacity-60" aria-hidden="true" />
+            <span>Sign out</span>
+          </DropdownMenuItem>
+        </SignOutWrapper>
       </DropdownMenuContent>
     </DropdownMenu>
   );
