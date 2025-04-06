@@ -27,3 +27,13 @@ export async function getUser() {
 
   return data;
 }
+
+export async function onboardingUser() {
+  const session = await fetchUser();
+
+  if (session?.user?.name) {
+    redirect('/home');
+  }
+
+  return session;
+}

@@ -1,7 +1,6 @@
 import {
   Avatar,
   AvatarFallback,
-  AvatarImage,
 } from '@/app/_components/ui/avatar';
 import { Button } from '@/app/_components/ui/button';
 import {
