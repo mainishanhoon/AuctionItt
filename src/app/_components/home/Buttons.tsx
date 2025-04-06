@@ -19,13 +19,15 @@ export function GoogleAuthButton() {
         variant={'outline'}
         className={`${pending && 'outline-muted-foreground outline-2 outline-dashed'} text-foreground flex w-fit items-center text-sm font-medium tracking-normal`}
       >
-        <Image
-          alt="GoogleLogo"
-          src="/google.webp"
-          width={25}
-          height={25}
-          className="size-5"
-        />
+        {!pending && (
+          <Image
+            alt="GoogleLogo"
+            src="/google.webp"
+            width={25}
+            height={25}
+            className="size-5"
+          />
+        )}
         {pending && (
           <IconLoader
             size={25}
@@ -52,13 +54,15 @@ export function GitHubAuthButton() {
         variant={'outline'}
         className={`${pending && 'outline-muted-foreground outline-2 outline-dashed'} text-foreground flex w-fit items-center text-sm font-medium tracking-normal`}
       >
-        <Image
-          alt="GitHubLogo"
-          src="/github.webp"
-          width={25}
-          height={25}
-          className="size-5 invert-0 dark:invert"
-        />
+        {!pending && (
+          <Image
+            alt="GitHubLogo"
+            src="/github.webp"
+            width={25}
+            height={25}
+            className="size-5 invert-0 dark:invert"
+          />
+        )}
         {pending && (
           <IconLoader
             size={25}

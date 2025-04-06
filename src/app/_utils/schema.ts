@@ -1,16 +1,14 @@
 import { z } from 'zod';
-import { cities } from '@/constants/cities';
-import { states } from '@/constants/states';
 
 export const OnboardingUserSchema = z.object({
   firstName: z.string().min(2, 'First Name is required'),
   lastName: z.string().min(2, 'Last Name is required'),
-  state: z.string().refine((state) => states.includes(state), {
-    message: 'Invalid state selected',
-  }),
-  city: z.string().refine((city) => cities.some((c) => c.city === city), {
-    message: 'Invalid city selected',
-  }),
+  phoneNumber: z.number(
+    z
+      .string()
+      .min(10, 'Phone number must be exactly 10 digits long')
+      .max(10, 'Phone number must be exactly 10 digits long'),
+  ),
   pinCode: z
     .number({
       message: 'Pin Code is required',

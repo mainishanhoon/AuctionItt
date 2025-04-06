@@ -1,4 +1,5 @@
 'use client';
+
 import { onboardingUser } from '@/hooks/hooks';
 import { use } from 'react';
 import {
@@ -16,20 +17,10 @@ import { OnboardingUserSchema } from '@/app/_utils/schema';
 import { OnboardingUserAction } from '@/app/actions';
 import { Input } from '@/app/_components/ui/input';
 import { Label } from '@/app/_components/ui/label';
-import { Button } from '@/app/_components/ui/button';
-import { ChevronsRight, Loader } from 'lucide-react';
 import { motion } from 'motion/react';
-import { TextMorph } from '@/app/_components/ui/text-morph';
 import { GlowEffect } from '@/app/_components/ui/glow-effect';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/app/_components/ui/select';
-import { cities } from '@/constants/cities';
-import { states } from '@/constants/states';
+import { SubmitButton } from '@/app/_components/home/Buttons';
+import { IconSend } from '@tabler/icons-react';
 
 export default function OnboardingForm() {
   use(onboardingUser());
@@ -39,27 +30,14 @@ export default function OnboardingForm() {
     null,
   );
 
-  const [selectedState, setSelectedState] = useState<string>();
-  const [filteredCities, setFilteredCities] = useState<
-    { city: string; state: string }[]
-  >([]);
-
   const [form, fields] = useForm({
     lastResult,
-
     onValidate({ formData }) {
       return parseWithZod(formData, { schema: OnboardingUserSchema });
     },
-
     shouldValidate: 'onBlur',
     shouldRevalidate: 'onInput',
   });
-
-  function handleStateChange(state: string) {
-    setSelectedState(state);
-    const filtered = cities.filter((city) => city.state === state);
-    setFilteredCities(filtered);
-  }
 
   return (
     <div className="relative flex items-center justify-center p-4 tracking-wide md:h-dvh md:p-0">
@@ -126,137 +104,76 @@ export default function OnboardingForm() {
               onSubmit={form.onSubmit}
               action={formAction}
               noValidate
+              className="flex flex-col gap-4"
             >
-              <div className="flex flex-col gap-5">
-                <div className="grid gap-5 md:grid-cols-2 md:gap-2">
-                  <div className="flex flex-col gap-2">
-                    <Label>First Name</Label>
-                    <Input
-                      type="text"
-                      key={fields.firstName.key}
-                      name={fields.firstName.name}
-                      defaultValue={fields.firstName.initialValue}
-                      className="w-full"
-                      placeholder="First Name"
-                    />
-                    <p className="font-mont text-destructive -mt-2 ml-3">
-                      {fields.firstName.errors}
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <Label>Last Name</Label>
-                    <Input
-                      type="text"
-                      key={fields.lastName.key}
-                      name={fields.lastName.name}
-                      defaultValue={fields.lastName.initialValue}
-                      className="w-full"
-                      placeholder="Last Name"
-                    />
-                    <p className="font-mont text-destructive -mt-2 ml-3">
-                      {fields.lastName.errors}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="grid gap-5 md:grid-cols-2 md:gap-2">
-                  <div className="flex flex-col gap-2">
-                    <Label>State</Label>
-                    <Select
-                      key={fields.state.key}
-                      name={fields.state.name}
-                      defaultValue={fields.state.initialValue}
-                      value={selectedState}
-                      onValueChange={(value) => handleStateChange(value)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select State" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {states.map((state, index) => (
-                          <SelectItem key={index} value={state}>
-                            {state}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <p className="font-mont text-destructive -mt-2 ml-3">
-                      {fields.state.errors}
-                    </p>
-                  </div>
-
-                  <div className="flex flex-col gap-2">
-                    <Label>City</Label>
-                    <Select
-                      key={fields.city.key}
-                      name={fields.city.name}
-                      defaultValue={fields.city.initialValue}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select City" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {filteredCities.length > 0 ? (
-                          filteredCities.map((label, index) => (
-                            <SelectItem key={index} value={label.city}>
-                              {label.city}
-                            </SelectItem>
-                          ))
-                        ) : (
-                          <SelectItem value="Space" disabled>
-                            No State Selected
-                          </SelectItem>
-                        )}
-                      </SelectContent>
-                    </Select>
-
-                    <p className="font-mont text-destructive -mt-2 ml-3">
-                      {fields.city.errors}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <Label>Pin Code</Label>
-                  <Input
-                    type="number"
-                    key={fields.pinCode.key}
-                    name={fields.pinCode.name}
-                    defaultValue={fields.pinCode.initialValue}
-                    className="w-full"
-                    placeholder="Pin Code "
-                  />
-                  <p className="font-mont text-destructive -mt-2 ml-3">
-                    {fields.pinCode.errors}
+              <div className="flex flex-col gap-2">
+                <div className="flex items-end justify-between">
+                  <Label>First Name</Label>
+                  <p className="text-destructive mr-2 -mb-1 text-xs">
+                    {fields.firstName.errors}
                   </p>
                 </div>
-                <Button
-                  size="sm"
-                  disabled={isPending}
-                  variant={isPending ? 'outline' : 'default'}
-                  type="submit"
-                  className={`${isPending && 'outline-muted-foreground outline-2 outline-dashed'} flex items-center gap-2 text-sm font-medium md:text-base`}
-                >
-                  {isPending && (
-                    <Loader
-                      size={25}
-                      strokeWidth={2.5}
-                      className="animate-spin [animation-duration:3s]"
-                    />
-                  )}
-                  <TextMorph>
-                    {isPending
-                      ? 'Starting Your Journey...'
-                      : 'Start Your Journey'}
-                  </TextMorph>
-                  {!isPending && (
-                    <ChevronsRight
-                      size={25}
-                      strokeWidth={2.5}
-                      className="mt-0.5"
-                    />
-                  )}
-                </Button>
+                <Input
+                  type="text"
+                  key={fields.firstName.key}
+                  name={fields.firstName.name}
+                  defaultValue={fields.firstName.initialValue}
+                  placeholder="First Name"
+                  className={fields.firstName.errors && 'border-destructive'}
+                />
               </div>
+              <div className="flex flex-col gap-2">
+                <div className="flex items-end justify-between">
+                  <Label>Last Name</Label>
+                  <p className="text-destructive mr-2 -mb-1 text-xs">
+                    {fields.lastName.errors}
+                  </p>
+                </div>
+                <Input
+                  type="text"
+                  key={fields.lastName.key}
+                  name={fields.lastName.name}
+                  defaultValue={fields.lastName.initialValue}
+                  placeholder="Last Name"
+                  className={fields.lastName.errors && 'border-destructive'}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label>Phone Number</Label>
+                <Input
+                  type="number"
+                  key={fields.phoneNumber.key}
+                  name={fields.phoneNumber.name}
+                  defaultValue={fields.phoneNumber.initialValue}
+                  placeholder="First Name"
+                  className={fields.phoneNumber.errors && 'border-destructive'}
+                />
+                <p className="text-destructive -mt-1 ml-2 text-xs">
+                  {fields.phoneNumber.errors}
+                </p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label>Pin Code</Label>
+                <Input
+                  type="number"
+                  key={fields.pinCode.key}
+                  name={fields.pinCode.name}
+                  defaultValue={fields.pinCode.initialValue}
+                  placeholder="Pin Code"
+                  className={fields.pinCode.errors && 'border-destructive'}
+                />
+                <p className="text-destructive -mt-1 ml-2 text-xs">
+                  {fields.pinCode.errors}
+                </p>
+              </div>
+              <SubmitButton
+                icon={<IconSend />}
+                text="Start Your Journey"
+                loadingText="Starting Your Journey..."
+                buttonVariant="default"
+                loadingVariant="ghost"
+                className="w-full"
+              />
             </Form>
           </CardContent>
         </Card>

@@ -16,19 +16,11 @@ async function getUser(userId: string) {
     select: {
       firstName: true,
       lastName: true,
-      state: true,
-      city: true,
       pinCode: true,
     },
   });
 
-  if (
-    !data?.firstName ||
-    !data?.lastName ||
-    !data?.state ||
-    !data?.city ||
-    !data?.pinCode
-  ) {
+  if (!data?.firstName || !data?.lastName || !data?.pinCode) {
     redirect('/auth/onboarding');
   }
 }
