@@ -29,11 +29,18 @@ export async function getUser() {
 }
 
 export async function onboardingUser() {
-  const session = await fetchUser();
+  const user = await getUser();
 
-  if (session?.user?.name) {
+  const data = await prisma.user.findUnique({
+    where: {
+      id: user.id as string,
+      onboarded: false,
+    },
+  });
+
+  if (!data) {
     redirect('/home');
   }
 
-  return session;
+  return data;
 }

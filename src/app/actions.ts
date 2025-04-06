@@ -61,6 +61,7 @@ export async function OnboardingUserAction(
       state: submission.value.state,
       city: submission.value.city,
       pinCode: submission.value.pinCode,
+      onboarded: true,
     },
   });
 
