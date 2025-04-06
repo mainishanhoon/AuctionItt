@@ -15,9 +15,9 @@ import {
 } from '@/app/_components/ui/dropdown-menu';
 import { getUser } from '@/hooks/hooks';
 import {
+  IconAlertSquareRoundedFilled,
   IconLogout2,
-  IconSettings2,
-  IconUsersGroup,
+  IconSettingsFilled,
 } from '@tabler/icons-react';
 import Image from 'next/image';
 
@@ -48,31 +48,30 @@ export default async function UserDropdown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="max-w-64" align="end">
         <DropdownMenuLabel className="flex min-w-0 flex-col">
-          <p className="text-foreground space-x-1 truncate text-sm font-medium">
-            <span>{user.firstName}</span>
-            <span>{user.lastName}</span>
+          <p className="text-foreground truncate text-sm font-medium capitalize">
+            {user.fullName}
           </p>
-          <p className="text-muted-foreground truncate text-xs font-normal">
+          <p className="text-muted-foreground truncate text-xs font-normal lowercase">
             {user.email}
           </p>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <IconSettings2
+            <IconSettingsFilled
               size={16}
               className="opacity-60"
               aria-hidden="true"
             />
-            <span>Account settings</span>
+            <span>Settings</span>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <IconUsersGroup
+            <IconAlertSquareRoundedFilled
               size={16}
               className="opacity-60"
               aria-hidden="true"
             />
-            <span>Affiliate area</span>
+            <span>Help Center</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

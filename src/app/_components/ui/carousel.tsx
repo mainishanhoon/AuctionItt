@@ -137,13 +137,15 @@ function CarouselNavigation({
         type="button"
         aria-label="Previous slide"
         className={cn(
-          'pointer-events-auto h-fit w-fit rounded-full bg-zinc-50 p-2 transition-opacity duration-300 dark:bg-zinc-950',
+          'pointer-events-auto size-fit rounded-full bg-zinc-50 p-2 transition-opacity duration-300 dark:bg-zinc-950',
           alwaysShow
-            ? 'opacity-100'
+            ? 'cursor-pointer opacity-100'
             : 'opacity-0 group-hover/hover:opacity-100',
           alwaysShow
             ? 'disabled:opacity-40'
             : 'group-hover/hover:disabled:opacity-40',
+          index === 0 && 'cursor-not-allowed',
+
           classNameButton,
         )}
         disabled={index === 0}
@@ -161,13 +163,14 @@ function CarouselNavigation({
       <button
         type="button"
         className={cn(
-          'pointer-events-auto h-fit w-fit rounded-full bg-zinc-50 p-2 transition-opacity duration-300 dark:bg-zinc-950',
+          'pointer-events-auto size-fit rounded-full bg-zinc-50 p-2 transition-opacity duration-300 dark:bg-zinc-950',
           alwaysShow
-            ? 'opacity-100'
+            ? 'cursor-pointer opacity-100'
             : 'opacity-0 group-hover/hover:opacity-100',
           alwaysShow
             ? 'disabled:opacity-40'
             : 'group-hover/hover:disabled:opacity-40',
+          index + 1 === itemsCount && 'cursor-not-allowed',
           classNameButton,
         )}
         aria-label="Next slide"

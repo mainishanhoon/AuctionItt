@@ -10,7 +10,7 @@ import { extractRouterConfig } from 'uploadthing/server';
 import { ourFileRouter } from '@/app/api/uploadthing/core';
 import { Banner } from '@/app/_components/home/Banner';
 
-const poppins = Funnel_Sans({
+const funnelSans = Funnel_Sans({
   weight: 'variable',
   subsets: ['latin'],
 });
@@ -18,9 +18,9 @@ const poppins = Funnel_Sans({
 export const metadata: Metadata = {
   title: 'AuctionItt - Bid. Win. Repeat.',
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
+    icon: '/Icon.png',
+    shortcut: '/Icon.png',
+    apple: '/Icon.png',
   },
   description:
     'AuctionItt is your go-to platform for live, real-time online auctions. Bid on exclusive items, sell your products, and experience transparent, secure, and engaging auctions powered by modern technology.',
@@ -53,7 +53,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body className={`${poppins.className}`} suppressHydrationWarning>
+      <body className={`${funnelSans.className}`} suppressHydrationWarning>
         <NextTopLoader color="hsl(var(--primary))" showSpinner={false} />
         <ThemeProvider>
           <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
@@ -61,7 +61,7 @@ export default function RootLayout({
           <Toaster
             richColors
             closeButton
-            className={`${poppins.className} font-medium`}
+            className={`${funnelSans.className} font-medium`}
           />
           <Banner />
         </ThemeProvider>

@@ -60,14 +60,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import {
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-  useTransition,
-} from 'react';
+import { useId, useMemo, useRef, useState, useTransition } from 'react';
 import {
   Tooltip,
   TooltipContent,
@@ -291,22 +284,19 @@ export default function ContactsTable() {
 
   const columns = useMemo(() => getColumns({ data, setData }), [data]);
 
-  useEffect(() => {
-    async function fetchPosts() {
-      try {
-        const res = await fetch(
-          'https://res.cloudinary.com/dlzlfasou/raw/upload/users-02_mohkpe.json',
-        );
-        const data = await res.json();
-        setData(data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setIsLoading(false);
-      }
+  (async function fetchPosts() {
+    try {
+      const res = await fetch(
+        'https://res.cloudinary.com/dlzlfasou/raw/upload/users-02_mohkpe.json',
+      );
+      const data = await res.json();
+      setData(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setIsLoading(false);
     }
-    fetchPosts();
-  }, []);
+  })();
 
   const handleDeleteRows = () => {
     const selectedRows = table.getSelectedRowModel().rows;

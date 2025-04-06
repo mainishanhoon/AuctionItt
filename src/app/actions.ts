@@ -57,6 +57,7 @@ export async function OnboardingUserAction(
     data: {
       firstName: submission.value.firstName,
       lastName: submission.value.lastName,
+      fullName: `${submission.value.firstName} ${submission.value.lastName}`,
       state: submission.value.state,
       city: submission.value.city,
       pinCode: submission.value.pinCode,
