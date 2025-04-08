@@ -1,17 +1,18 @@
 import { z } from 'zod';
 
 export const OnboardingUserSchema = z.object({
-  firstName: z.string().min(2, 'First Name is required'),
-  lastName: z.string().min(2, 'Last Name is required'),
-  phoneNumber: z.number(
-    z
-      .string()
-      .min(10, 'Phone number must be exactly 10 digits long')
-      .max(10, 'Phone number must be exactly 10 digits long'),
-  ),
+  firstName: z.string().min(2, 'Required'),
+  lastName: z.string().min(2, 'Required'),
+  phoneNumber: z
+    .number({
+      message: 'Phone Number is Required',
+    })
+    .int()
+    .gte(1000000000, { message: 'Pin Code must be of 10 digits' })
+    .lte(9999999999, { message: 'Pin Code must be of 10 digits' }),
   pinCode: z
     .number({
-      message: 'Pin Code is required',
+      message: 'Pin Code is Required',
     })
     .int()
     .gte(100000, { message: 'Pin Code must be of 6 digits' })

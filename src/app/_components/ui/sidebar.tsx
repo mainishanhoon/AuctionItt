@@ -254,7 +254,7 @@ function SidebarTrigger({
         size={22}
         aria-hidden="true"
       />
-      <IconGavel className="bg-primary text-background dark:text-foreground block size-10 rounded-sm p-1 md:hidden" />
+      <IconGavel className="bg-primary block size-10 rounded-sm p-1 text-white md:hidden" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );

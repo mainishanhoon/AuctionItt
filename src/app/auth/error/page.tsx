@@ -5,7 +5,7 @@ import React from 'react';
 
 export default function ErrorPage() {
   return (
-    <section className="flex h-dvh w-screen flex-col items-center justify-center p-4">
+    <section className="flex min-h-dvh w-full flex-col items-center justify-center p-4">
       <div className="border-muted-foreground bg-muted animate-in fade-in-50 flex flex-col items-center justify-center rounded-3xl border-2 border-dashed p-8 text-center">
         <div className="flex size-24 items-center justify-center rounded-full bg-red-500/10">
           <IconAlertHexagon strokeWidth={3} className="size-16 text-red-500" />

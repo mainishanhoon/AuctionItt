@@ -22,7 +22,7 @@ export default async function AuthDialogBox() {
   }
 
   return (
-    <section className="flex min-h-dvh items-center justify-center p-4 md:p-0">
+    <section className="flex min-h-dvh h-full items-center justify-center p-4 md:p-0">
       <div className="absolute inset-0">
         <svg className="size-full">
           <defs>
@@ -56,7 +56,7 @@ export default async function AuthDialogBox() {
       <Card className="relative">
         <CardHeader>
           <CardTitle className="flex items-center justify-center gap-2 text-4xl font-black">
-            <IconGavel className="bg-primary text-foreground size-10 rounded-lg p-1" />
+            <IconGavel className="bg-primary text-white size-10 rounded-lg p-1" />
             <p className="text-primary font-semibold tracking-normal">
               Auction<span className="text-foreground">Itt</span>
             </p>

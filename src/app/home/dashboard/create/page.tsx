@@ -17,7 +17,6 @@ import { ItemCreationAction } from '@/app/actions';
 import { Input } from '@/app/_components/ui/input';
 import { Label } from '@/app/_components/ui/label';
 import { Button } from '@/app/_components/ui/button';
-import { CircleArrowRight, CloudUpload, Loader, Trash2 } from 'lucide-react';
 import { TextMorph } from '@/app/_components/ui/text-morph';
 import { motion } from 'motion/react';
 import { GlowEffect } from '@/app/_components/ui/glow-effect';
@@ -30,6 +29,12 @@ import {
   CarouselItem,
   CarouselNavigation,
 } from '@/app/_components/ui/carousel';
+import {
+  IconLoader,
+  IconTagPlus,
+  IconUpload,
+  IconTrash,
+} from '@tabler/icons-react';
 
 export default function ItemCreationRoute() {
   const [images, setImages] = useState<string[]>([]);
@@ -92,7 +97,7 @@ export default function ItemCreationRoute() {
             action={formAction}
             noValidate
           >
-            <div className="grid gap-5 md:grid-cols-2">
+            <div className="grid gap-5 md:grid-cols-2 md:gap-10">
               <div className="flex flex-col gap-5">
                 <div className="grid gap-5 md:grid-cols-2">
                   <div className="flex flex-col gap-2">
@@ -160,10 +165,14 @@ export default function ItemCreationRoute() {
                     endpoint="imageUploader"
                     appearance={{
                       container:
-                        'capitalize border-muted-foreground font-normal border-2 bg-background w-full',
+                        'capitalize border-muted-foreground font-normal border-2 bg-background w-full p-5 md:p-10',
+                      button:
+                        'ut-ready:bg-green-500 md:text-sm text-xs ut-uploading:cursor-not-allowed cursor-pointer bg-primary px-2 md:px-3 after:bg-orange-400',
                     }}
                     content={{
-                      uploadIcon: <CloudUpload size={50} />,
+                      uploadIcon: (
+                        <IconUpload className="border-muted-foreground bg-muted size-20 rounded-xl border-2 border-dashed p-2 md:size-28" />
+                      ),
                       label: 'Choose files or Drag & Drop',
                     }}
                     onClientUploadComplete={(res) => {
@@ -219,7 +228,7 @@ export default function ItemCreationRoute() {
                               onClick={() => handleDelete(marker)}
                               type="button"
                             >
-                              <Trash2
+                              <IconTrash
                                 strokeWidth={3}
                                 className="hidden size-5 md:block"
                               />
@@ -240,10 +249,11 @@ export default function ItemCreationRoute() {
               <Button
                 disabled={isPending}
                 variant={isPending ? 'outline' : 'default'}
-                className={`${isPending && 'outline-muted-foreground outline-2 outline-dashed'} flex w-fit items-center gap-2 text-sm font-medium md:text-base`}
+                className={`${isPending && 'outline-muted-foreground outline-2 outline-dashed'} flex w-fit items-center gap-2 text-sm font-medium`}
               >
+                {!isPending && <IconTagPlus />}
                 {isPending && (
-                  <Loader
+                  <IconLoader
                     size={25}
                     strokeWidth={2.5}
                     className="animate-spin [animation-duration:3s]"
@@ -252,13 +262,6 @@ export default function ItemCreationRoute() {
                 <TextMorph>
                   {isPending ? 'Adding your Product...' : 'Add your Product'}
                 </TextMorph>
-                {!isPending && (
-                  <CircleArrowRight
-                    size={25}
-                    strokeWidth={2.5}
-                    className="mt-0.5"
-                  />
-                )}
               </Button>
             </div>
           </Form>

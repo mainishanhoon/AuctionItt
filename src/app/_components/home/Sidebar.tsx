@@ -26,7 +26,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar {...props}>
       <SidebarHeader className="dark:border-sidebar-accent border-b">
         <div className="flex items-center gap-2 px-2">
-          <IconGavel className="bg-primary text-foreground size-8 rounded-md p-1" />
+          <IconGavel className="bg-primary size-8 rounded-md p-1 text-white" />
           <p className="text-primary text-2xl font-semibold">
             Auction<span className="text-foreground">Itt</span>
           </p>
@@ -69,7 +69,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SignOutWrapper>
-              <SidebarMenuButton className="data-[active=true]:from-primary/20 data-[active=true]:to-primary/5 hover:bg-destructive/20 h-9 gap-3 cursor-pointer rounded-md font-medium [&>svg]:size-auto">
+              <SidebarMenuButton className="data-[active=true]:from-primary/20 data-[active=true]:to-primary/5 hover:bg-destructive/20 h-9 cursor-pointer gap-3 rounded-md font-medium [&>svg]:size-auto">
                 <IconLogout2
                   className="text-muted-foreground/60 group-data-[active=true]/menu-button:text-primary"
                   size={22}

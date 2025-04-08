@@ -60,7 +60,14 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { useId, useMemo, useRef, useState, useTransition } from 'react';
+import {
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  useTransition,
+} from 'react';
 import {
   Tooltip,
   TooltipContent,
@@ -79,6 +86,7 @@ import {
   IconAlertSquareRoundedFilled,
   IconTrash,
 } from '@tabler/icons-react';
+import { prisma } from '@/app/_utils/prisma';
 
 type Item = {
   id: string;
@@ -262,7 +270,7 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
   },
 ];
 
-export default function ContactsTable() {
+export default function ItemsTable() {
   const id = useId();
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -284,19 +292,22 @@ export default function ContactsTable() {
 
   const columns = useMemo(() => getColumns({ data, setData }), [data]);
 
-  (async function fetchPosts() {
-    try {
-      const res = await fetch(
-        'https://res.cloudinary.com/dlzlfasou/raw/upload/users-02_mohkpe.json',
-      );
-      const data = await res.json();
-      setData(data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setIsLoading(false);
+  useEffect(() => {
+    async function fetchPosts() {
+      try {
+        const res = await fetch(
+          'https://res.cloudinary.com/dlzlfasou/raw/upload/users-02_mohkpe.json',
+        );
+        const data = await res.json();
+        setData(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setIsLoading(false);
+      }
     }
-  })();
+    fetchPosts();
+  }, []);
 
   const handleDeleteRows = () => {
     const selectedRows = table.getSelectedRowModel().rows;
@@ -424,7 +435,7 @@ export default function ContactsTable() {
                     aria-hidden="true"
                   />
                   Delete
-                  <span className="border-border bg-background text-muted-foreground/70 ms-1 -me-1 inline-flex h-5 max-h-full items-center rounded border px-1 font-[inherit] text-[0.625rem] font-medium">
+                  <span className="border-border dark:border-muted bg-background text-muted-foreground/70 ms-1 -me-1 inline-flex h-5 max-h-full items-center rounded border px-1 font-[inherit] text-[0.625rem] font-medium">
                     {table.getSelectedRowModel().rows.length}
                   </span>
                 </Button>
@@ -523,7 +534,7 @@ export default function ContactsTable() {
       </div>
 
       {/* Table */}
-      <Table className="table-fixed border-separate border-spacing-0 rounded-xl border-2 [&_tr:not(:last-child)_td]:border-b">
+      <Table className="dark:border-muted-foreground/30 table-fixed border-separate border-spacing-0 rounded-xl border-2 [&_tr:not(:last-child)_td]:border-b">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id} className="hover:bg-transparent">
