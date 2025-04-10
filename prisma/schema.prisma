@@ -38,7 +38,7 @@ model User {
   firstName     String?
   lastName      String?
   name          String?
-  phoneNumber   Int?
+  phoneNumber   BigInt?
   pinCode       Int?
   email         String          @unique
   emailVerified DateTime?

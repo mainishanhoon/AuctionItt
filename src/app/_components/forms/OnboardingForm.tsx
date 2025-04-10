@@ -141,7 +141,7 @@ export default function OnboardingForm() {
                   key={fields.phoneNumber.key}
                   name={fields.phoneNumber.name}
                   defaultValue={fields.phoneNumber.initialValue}
-                  placeholder="First Name"
+                  placeholder="Phone Number"
                   className={fields.phoneNumber.errors && 'border-destructive'}
                 />
                 <p className="text-destructive -mt-1 ml-2 text-xs">
