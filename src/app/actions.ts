@@ -88,7 +88,7 @@ export async function ItemCreationAction(
   await prisma.item.create({
     data: {
       userId: session.user?.id!,
-      name: submissGion.value.name,
+      name: submission.value.name,
       description: submission.value.description,
       startingPrice: submission.value.startingPrice,
       image: flattenURLs,
