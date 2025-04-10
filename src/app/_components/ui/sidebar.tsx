@@ -250,11 +250,11 @@ function SidebarTrigger({
       {...props}
     >
       <IconLayoutSidebarFilled
-        className="hidden size-5.5 md:block"
+        className="hidden md:block"
         size={22}
         aria-hidden="true"
       />
-      <IconGavel className="bg-primary block size-10 rounded-sm p-1 text-white md:hidden" />
+      <IconGavel className="bg-primary block rounded-sm p-1 text-white md:hidden" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );

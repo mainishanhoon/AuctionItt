@@ -56,9 +56,9 @@ export function ProductCard({ item }: ProductProps) {
             ₹{item.startingPrice}
           </h3>
         </div>
-        <p className="text-muted-foreground text-xs tracking-wide">
+        <div className="text-muted-foreground text-xs tracking-wide">
           <TipTapViewer json={JSON.parse(item.description)} />
-        </p>
+        </div>
       </CardContent>
 
       <CardFooter className="grid grid-cols-2 gap-5">
