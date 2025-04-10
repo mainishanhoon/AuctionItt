@@ -4,12 +4,12 @@ export const OnboardingUserSchema = z.object({
   firstName: z.string().min(2, 'Required').toLowerCase(),
   lastName: z.string().min(2, 'Required').toLowerCase(),
   phoneNumber: z
-    .number({
+    .string({
       message: 'Phone Number is Required',
     })
-    .int()
-    .gte(1000000000, { message: 'Phone Number must be of 10 digits' })
-    .lte(9999999999, { message: 'Phone Number must be of 10 digits' }),
+    .min(10, 'Phone Number must be of 6 digits')
+    .max(10, 'Phone Number must be of 6 digits')
+    .toLowerCase(),
   pinCode: z
     .number({
       message: 'Pin Code is Required',
