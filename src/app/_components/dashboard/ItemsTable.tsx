@@ -86,7 +86,6 @@ import {
   IconAlertSquareRoundedFilled,
   IconTrash,
 } from '@tabler/icons-react';
-import { prisma } from '@/app/_utils/prisma';
 
 type Item = {
   id: string;

@@ -49,7 +49,7 @@ export default function Breadcrumbs() {
             <div key={crumb.href} className="flex items-center gap-2">
               {!isFirst && (
                 <BreadcrumbSeparator
-                  className={cn(isLast && 'hidden md:block')}
+                  className={cn(isLast && 'hidden md:block', 'block')}
                 />
               )}
 

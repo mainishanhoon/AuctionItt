@@ -14,6 +14,7 @@ import {
   CardHeader,
 } from '@/app/_components/ui/card';
 import { IconReceiptRupee, IconShoppingCartFilled } from '@tabler/icons-react';
+import { TipTapViewer } from '@/app/_components/dashboard/TipTapViewer';
 
 interface ProductProps {
   item: {
@@ -56,7 +57,7 @@ export function ProductCard({ item }: ProductProps) {
           </h3>
         </div>
         <p className="text-muted-foreground text-xs tracking-wide">
-          {item.description}
+          <TipTapViewer json={JSON.parse(item.description)} />
         </p>
       </CardContent>
 

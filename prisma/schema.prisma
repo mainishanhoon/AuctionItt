@@ -13,10 +13,10 @@ model Item {
   name          String
   description   String
   image         String[]
-  currentBid    Int      @default(0)
-  startingPrice Int      @default(0)
-  bidInterval   Int      @default(100)
-  endDate       DateTime
+  currentBid    Int?      @default(0)
+  startingPrice Int?      @default(0)
+  bidInterval   Int?      @default(100)
+  endDate       DateTime?
 
   user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
   bids Bid[]

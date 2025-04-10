@@ -8,7 +8,7 @@ export async function GET(_: NextRequest) {
   const data = await getUser();
 
   try {
-    const user = await prisma.items.findMany({
+    const user = await prisma.item.findMany({
       where: { id: data?.id },
     });
 

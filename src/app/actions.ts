@@ -85,13 +85,13 @@ export async function ItemCreationAction(
     urlString.split(',').map((url) => url.trim()),
   );
 
-  await prisma.items.create({
+  await prisma.item.create({
     data: {
-      name: submission.value.name,
-      description: submission.value.description,
-      price: submission.value.price,
-      image: flattenURLs,
       userId: session.user?.id!,
+      name: submissGion.value.name,
+      description: submission.value.description,
+      startingPrice: submission.value.startingPrice,
+      image: flattenURLs,
     },
   });
 
@@ -101,7 +101,7 @@ export async function ItemCreationAction(
 export async function DeleteInvoiceAction(formData: FormData) {
   const session = await fetchUser();
 
-  await prisma.items.delete({
+  await prisma.item.delete({
     where: {
       userId: session.user?.id,
       id: formData.get('id') as string,

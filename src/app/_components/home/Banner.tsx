@@ -14,7 +14,7 @@ export function Banner() {
 
   return (
     <div className="bg-background text-foreground fixed right-5 bottom-5 z-9999 rounded-md border py-1 ps-3 pe-1.5 shadow-lg">
-      <div className="flex items-center justify-between gap-0.5">
+      <div className="flex items-center justify-between gap-1">
         <Link
           href="https://mainishanhoon.vercel.app"
           prefetch={false}
@@ -24,16 +24,12 @@ export function Banner() {
           <span className="text-muted-foreground">Made by</span>
           <TextShimmer duration={2}>@mainishanhoon</TextShimmer>
         </Link>
-        <button
-          className="group focus-visible:border-ring focus-visible:ring-ring/50 flex size-7 cursor-pointer items-center justify-center rounded transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:pointer-events-none"
+        <IconCircleDashedX
+          className="cursor-pointer opacity-50 transition-opacity duration-300 hover:opacity-80"
+          size={18}
+          aria-hidden="true"
           onClick={() => setIsVisible(false)}
-        >
-          <IconCircleDashedX
-            className="opacity-50 transition-opacity group-hover:opacity-80"
-            size={18}
-            aria-hidden="true"
-          />
-        </button>
+        />
       </div>
     </div>
   );

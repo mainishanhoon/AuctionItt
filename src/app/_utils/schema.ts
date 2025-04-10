@@ -21,9 +21,11 @@ export const OnboardingUserSchema = z.object({
 
 export const ItemsSchema = z.object({
   name: z.string(),
-  price: z.number().min(0, 'Must be a positive number'),
-  description: z.string(),
-  image: z.array(z.string()).min(1, 'At least 4 Images are Required'),
+  startingPrice: z.number().min(0, 'Must be a positive number'),
+  description: z
+    .string({ message: 'Description is Required' })
+    .min(10, 'Description must be at least 10 characters long'),
+  image: z.array(z.string()).min(1, 'Images are Required'),
 });
 
 export type Items = z.infer<typeof ItemsSchema>;

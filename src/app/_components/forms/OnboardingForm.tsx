@@ -1,7 +1,5 @@
 'use client';
 
-import { onboardingUser } from '@/hooks/hooks';
-import { use } from 'react';
 import {
   Card,
   CardContent,
