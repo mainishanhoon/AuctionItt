@@ -13,6 +13,8 @@ import {
   CardFooter,
   CardHeader,
 } from '@/app/_components/ui/card';
+import { IconReceiptRupee, IconShoppingCartFilled } from '@tabler/icons-react';
+import { TipTapViewer } from '@/app/_components/dashboard/TipTapViewer';
 
 interface ProductProps {
   item: {
@@ -24,14 +26,14 @@ interface ProductProps {
   };
 }
 
-export function ProductCard({ item }: ProductProps) {
+export function ProductUpdationCard({ item }: ProductProps) {
   return (
     <Card>
       <CardHeader>
         <Carousel className="border-muted-foreground overflow-hidden rounded-xl border-2 border-dashed p-1">
           <CarouselContent>
             {item.image.map((item, index) => (
-              <CarouselItem key={index} className="aspect-square">
+              <CarouselItem key={index} className="aspect-square rounded-sm">
                 <Image
                   src={item}
                   alt="Product Image"
@@ -52,23 +54,29 @@ export function ProductCard({ item }: ProductProps) {
           <h1 className="text-primary text-xl font-medium capitalize">
             {item.name}
           </h1>
-          <h3 className="bg-primary/20 text-primary ring-primary/10 inline-flex items-center rounded-sm px-2 py-1 text-xs font-bold tracking-wider ring-1 ring-inset">
+          <h3 className="bg-primary/20 text-primary ring-primary/10 inline-flex items-center rounded-md px-2 py-1 text-xs font-bold tracking-wider ring-1 ring-inset">
             ₹ {Number(item.startingPrice).toLocaleString()}
           </h3>
         </div>
+        <div className="text-muted-foreground max-h-10 truncate text-xs tracking-wide">
+          <TipTapViewer json={JSON.parse(item.description)} />
+        </div>
       </CardContent>
-      <CardFooter className="grid grid-cols-2 gap-2">
+
+      <CardFooter className="grid grid-cols-2 gap-5">
         <Button
           asChild
           variant="ghost"
           className="bg-muted-foreground/20 hover:bg-muted-foreground/10 w-full"
         >
           <Link href={`/product/${item.id}`}>
-            <p>Show Details</p>
+            <IconShoppingCartFilled strokeWidth={2.5} />
+            <p>Add to Cart</p>
           </Link>
         </Button>
         <Button asChild className="w-full">
           <Link href={`/home/myItems/${item.id}`}>
+            <IconReceiptRupee strokeWidth={2.5} />
             <p>Purchase</p>
           </Link>
         </Button>

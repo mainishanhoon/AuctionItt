@@ -156,6 +156,7 @@ function CarouselNavigation({
         }}
       >
         <IconChevronLeft
+          strokeWidth={3}
           className="stroke-zinc-600 dark:stroke-zinc-50"
           size={16}
         />
@@ -182,6 +183,7 @@ function CarouselNavigation({
         }}
       >
         <IconChevronRight
+          strokeWidth={3}
           className="stroke-zinc-600 dark:stroke-zinc-50"
           size={16}
         />

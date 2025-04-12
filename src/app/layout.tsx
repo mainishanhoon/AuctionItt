@@ -1,4 +1,4 @@
-import { Funnel_Sans } from 'next/font/google';
+import { Funnel_Display, Funnel_Sans } from 'next/font/google';
 import '@/app/globals.css';
 import type { Metadata } from 'next';
 import NextTopLoader from 'nextjs-toploader';
@@ -11,6 +11,13 @@ import { ourFileRouter } from '@/app/api/uploadthing/core';
 import { Banner } from '@/app/_components/home/Banner';
 
 const funnelSans = Funnel_Sans({
+  variable: '--font-funnel-sans',
+  weight: 'variable',
+  subsets: ['latin'],
+});
+
+const funnelDisplay = Funnel_Display({
+  variable: '--font-funnel-display',
   weight: 'variable',
   subsets: ['latin'],
 });
@@ -53,9 +60,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body className={`${funnelSans.className}`} suppressHydrationWarning>
+      <body
+        className={`${funnelSans.className} ${funnelDisplay.variable} antialiased`}
+      >
         <NextTopLoader color="hsl(var(--primary))" showSpinner={false} />
-        <ThemeProvider>
+        <ThemeProvider defaultTheme="dark">
           <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
           {children}
           <Toaster

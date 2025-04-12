@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+
 'use client';
 
 import {
@@ -12,7 +14,7 @@ import { useActionState, useState } from 'react';
 import { useForm } from '@conform-to/react';
 import { parseWithZod } from '@conform-to/zod';
 import { ItemsSchema } from '@/app/_utils/schema';
-import { ItemCreationAction } from '@/app/actions';
+import { ItemUpdationAction } from '@/app/actions';
 import { Input } from '@/app/_components/ui/input';
 import { Label } from '@/app/_components/ui/label';
 import { Button } from '@/app/_components/ui/button';
@@ -31,18 +33,25 @@ import {
 import { IconLoader, IconTagPlus, IconUpload } from '@tabler/icons-react';
 import TipTapEditor from '@/app/_components/dashboard/TipTapEditor';
 import { ScrollArea } from '@/app/_components/ui/scroll-area';
+import { Prisma } from '@prisma/client';
 
-export default function ItemCreationRoute() {
-  const [images, setImages] = useState<string[]>([]);
+interface ItemUpdationProps {
+  data: Prisma.ItemGetPayload<{}>;
+}
+
+export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
+  const [images, setImages] = useState<string[]>(data.image);
   const [index, setIndex] = useState(0);
   const [lastResult, formAction, isPending] = useActionState(
-    ItemCreationAction,
+    ItemUpdationAction,
     null,
   );
 
   const [form, fields] = useForm({
     lastResult,
-
+    defaultValue: {
+      description: String(data.description),
+    },
     onValidate({ formData }) {
       return parseWithZod(formData, { schema: ItemsSchema });
     },
@@ -103,11 +112,12 @@ export default function ItemCreationRoute() {
                         {fields.name.errors}
                       </p>
                     </div>
+                    <Input type="hidden" name="id" value={data.id} />
                     <Input
                       type="text"
                       key={fields.name.key}
                       name={fields.name.name}
-                      defaultValue={fields.name.initialValue}
+                      defaultValue={data.name}
                       className={fields.name.errors && 'border-destructive'}
                       placeholder="First Name"
                     />
@@ -123,7 +133,7 @@ export default function ItemCreationRoute() {
                       type="number"
                       key={fields.startingPrice.key}
                       name={fields.startingPrice.name}
-                      defaultValue={fields.startingPrice.initialValue}
+                      defaultValue={Number(data.startingPrice)}
                       className={
                         fields.startingPrice.errors && 'border-destructive'
                       }
@@ -142,7 +152,7 @@ export default function ItemCreationRoute() {
                     type="hidden"
                     key={fields.description.key}
                     name={fields.description.name}
-                    defaultValue={fields.description.initialValue}
+                    defaultValue={data.description}
                   />
                   <TipTapEditor
                     field={fields.description}
@@ -210,7 +220,7 @@ export default function ItemCreationRoute() {
                         </CarouselContent>
                         <CarouselNavigation
                           alwaysShow
-                          className="flex justify-center gap-[25%] md:gap-[30%] lg:gap-[35%] xl:gap-[40%]"
+                          className="flex justify-center gap-[40%] xl:gap-[50%]"
                         />
                       </Carousel>
                     </div>

@@ -1,5 +1,5 @@
 import {
-  IconAddressBook,
+  IconClipboardList,
   IconCode,
   IconDashboard,
   IconHelpSquareRounded,
@@ -25,9 +25,9 @@ export const navigationLink = {
           icon: IconDashboard,
         },
         {
-          title: 'Contacts',
-          url: '#',
-          icon: IconAddressBook,
+          title: 'My Items',
+          url: '/home/myItems',
+          icon: IconClipboardList,
         },
         {
           title: 'Tools',

@@ -22,7 +22,7 @@ export function TipTapViewer({ json }: { json: JSONContent }) {
     editorProps: {
       attributes: {
         class:
-          'prose prose-sm sm:prose lg:prose-lg xl:prose-xl   dark:prose-invert',
+          'prose-base leading-none prose focus:outline-none min-h-[300px] p-2 max-w-none dark:prose-invert',
       },
     },
 
@@ -30,5 +30,5 @@ export function TipTapViewer({ json }: { json: JSONContent }) {
     immediatelyRender: false,
   });
 
-  return <EditorContent editor={editor} />;
+  return <EditorContent editor={editor}/>;
 }

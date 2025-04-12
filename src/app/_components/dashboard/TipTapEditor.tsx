@@ -8,9 +8,6 @@ import {
   IconItalic,
   IconUnderline,
   IconStrikethrough,
-  IconH1,
-  IconH2,
-  IconH3,
   IconList,
   IconListNumbers,
   IconAlignLeft,
@@ -19,6 +16,7 @@ import {
   IconArrowForwardUp,
   IconArrowBackUp,
   IconQuotes,
+  IconHeading,
 } from '@tabler/icons-react';
 import { Button } from '@/app/_components/ui/button';
 import { Toggle } from '@/app/_components/ui/toggle';
@@ -36,7 +34,6 @@ import Link from '@tiptap/extension-link';
 import TextAlign from '@tiptap/extension-text-align';
 import Typography from '@tiptap/extension-typography';
 import { useEffect } from 'react';
-import { twMerge } from 'tailwind-merge';
 import { useInputControl } from '@conform-to/react';
 import { Underline } from '@tiptap/extension-underline';
 
@@ -47,8 +44,6 @@ interface TipTapEditorProps {
 
 export default function TipTapEditor({ field, className }: TipTapEditorProps) {
   const input = useInputControl(field);
-  console.log('FIELD:', field);
-  console.log('INPUT CONTROL:', input);
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -64,19 +59,17 @@ export default function TipTapEditor({ field, className }: TipTapEditorProps) {
     editorProps: {
       attributes: {
         class:
-          'prose prose-sm sm:prose lg:prose-lg xl:prose-xl focus:outline-none min-h-[300px] p-4 max-w-none dark:prose-invert',
+          'prose-sm leading-none font-display prose focus:outline-none min-h-[300px] p-2 max-w-none dark:prose-invert',
       },
     },
     onUpdate: ({ editor }) => {
       const value = JSON.stringify(editor.getJSON());
-      console.log('Editor updated:', value);
       input.change?.(value);
     },
     content: input.value ? JSON.parse(String(input.value)) : '',
     immediatelyRender: false,
   });
 
-  // Update editor content when form value changes externally
   useEffect(() => {
     if (editor && input.value && editor.getHTML() !== input.value) {
       editor.commands.setContent(JSON.parse(String(input.value)));
@@ -86,13 +79,13 @@ export default function TipTapEditor({ field, className }: TipTapEditorProps) {
   return (
     <div className="w-full">
       <div
-        className={twMerge(
-          'bg-background h-full overflow-hidden rounded-lg border',
+        className={cn(
+          'bg-background h-full overflow-hidden rounded-lg border-2',
           className,
         )}
       >
         <MenuBar editor={editor} />
-        <EditorContent editor={editor} className="h-full" />
+        <EditorContent editor={editor} />
       </div>
     </div>
   );
@@ -201,48 +194,6 @@ function MenuBar({ editor }: MenuBarProps) {
             </TooltipTrigger>
             <TooltipContent>BlockQuote</TooltipContent>
           </Tooltip>
-        </div>
-
-        <Separator orientation="vertical" className="mx-1 h-5 w-px" />
-
-        <div className="flex flex-wrap gap-0.5">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Toggle
-                size="sm"
-                pressed={editor.isActive('heading', { level: 1 })}
-                onPressedChange={() =>
-                  editor.chain().focus().toggleHeading({ level: 1 }).run()
-                }
-                className={cn(
-                  editor.isActive('heading', { level: 1 }) &&
-                    'bg-muted text-muted-foreground',
-                )}
-              >
-                <IconH1 />
-              </Toggle>
-            </TooltipTrigger>
-            <TooltipContent>Heading 1</TooltipContent>
-          </Tooltip>
-
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Toggle
-                size="sm"
-                pressed={editor.isActive('heading', { level: 2 })}
-                onPressedChange={() =>
-                  editor.chain().focus().toggleHeading({ level: 2 }).run()
-                }
-                className={cn(
-                  editor.isActive('heading', { level: 2 }) &&
-                    'bg-muted text-muted-foreground',
-                )}
-              >
-                <IconH2 />
-              </Toggle>
-            </TooltipTrigger>
-            <TooltipContent>Heading 2</TooltipContent>
-          </Tooltip>
 
           <Tooltip>
             <TooltipTrigger asChild>
@@ -257,10 +208,10 @@ function MenuBar({ editor }: MenuBarProps) {
                     'bg-muted text-muted-foreground',
                 )}
               >
-                <IconH3 />
+                <IconHeading />
               </Toggle>
             </TooltipTrigger>
-            <TooltipContent>Heading 3</TooltipContent>
+            <TooltipContent>Heading</TooltipContent>
           </Tooltip>
         </div>
 

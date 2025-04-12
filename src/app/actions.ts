@@ -98,6 +98,40 @@ export async function ItemCreationAction(
   redirect('/home/dashboard');
 }
 
+export async function ItemUpdationAction(
+  prevState: unknown,
+  formData: FormData,
+) {
+  const submission = parseWithZod(formData, {
+    schema: ItemsSchema,
+  });
+
+  if (submission.status !== 'success') {
+    return submission.reply();
+  }
+
+  const session = await fetchUser();
+
+  const flattenURLs = submission.value.image.flatMap((urlString) =>
+    urlString.split(',').map((url) => url.trim()),
+  );
+
+  await prisma.item.update({
+    where: {
+      userId: session.user?.id,
+      id: formData.get('id') as string,
+    },
+    data: {
+      name: submission.value.name,
+      description: submission.value.description,
+      startingPrice: submission.value.startingPrice,
+      image: flattenURLs,
+    },
+  });
+
+  redirect('/home/dashboard');
+}
+
 export async function DeleteInvoiceAction(formData: FormData) {
   const session = await fetchUser();
 

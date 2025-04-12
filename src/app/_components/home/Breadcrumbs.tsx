@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 'use client';
 
 import {
@@ -15,21 +17,10 @@ import { cn } from '@/lib/utils';
 
 export default function Breadcrumbs() {
   const pathname = usePathname();
+  // @ts-expect-error it is alright
   const pathSegments = pathname.split('/').filter(Boolean);
 
-  const breadcrumbs = pathSegments.map((segment, index) => {
-    const href = '/' + pathSegments.slice(0, index + 1).join('/');
-    const navItem = findNavItem(href);
-    const label = navItem?.title || segment;
-
-    return {
-      label,
-      href,
-      icon: navItem?.icon || null,
-      isLast: index === pathSegments.length - 1,
-    };
-  });
-
+  // Helper to find nav item based on URL
   function findNavItem(url: string) {
     for (const section of navigationLink.navMain) {
       const match = section.items.find((item) => item.url === url);
@@ -38,12 +29,37 @@ export default function Breadcrumbs() {
     return null;
   }
 
+  // Build breadcrumbs by checking if each subpath exactly matches a nav item
+  const breadcrumbs = pathSegments.reduce(
+    (acc, segment, index) => {
+      const href = '/' + pathSegments.slice(0, index + 1).join('/');
+      const navItem = findNavItem(href);
+      if (navItem) {
+        acc.push({
+          label: navItem.title,
+          href,
+          icon: navItem.icon || null,
+          isLast: false, // we'll set this properly later
+        });
+      }
+      return acc;
+    },
+    [] as { label: string; href: string; icon: any; isLast: boolean }[],
+  );
+
+  // Mark last breadcrumb as final
+  if (breadcrumbs.length > 0) {
+    breadcrumbs[breadcrumbs.length - 1].isLast = true;
+  }
+
+  if (breadcrumbs.length === 0) return null;
+
   return (
     <Breadcrumb suppressHydrationWarning>
       <BreadcrumbList className="bg-background rounded-md border px-3 py-2 shadow-xs">
         {breadcrumbs.map((crumb, index) => {
           const isFirst = index === 0;
-          const isLast = index === breadcrumbs.length - 1;
+          const isLast = crumb.isLast;
 
           return (
             <div key={crumb.href} className="flex items-center gap-2">
@@ -52,9 +68,8 @@ export default function Breadcrumbs() {
                   className={cn(isLast && 'hidden md:block', 'block')}
                 />
               )}
-
               <BreadcrumbItem>
-                {crumb.isLast ? (
+                {isLast ? (
                   <BreadcrumbPage className="flex items-center gap-1 capitalize">
                     {crumb.icon && <crumb.icon size={18} aria-hidden="true" />}
                     <span className="hidden font-medium md:block">

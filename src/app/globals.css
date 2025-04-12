@@ -8,6 +8,30 @@ html {
   scrollbar-width: none;
 }
 
+@layer base {
+  .container {
+    @apply mx-auto w-full px-4 md:px-8;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1500px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
 :root {
   --radius: 0.75rem;
   --background: oklch(1 0 0);
@@ -78,8 +102,8 @@ html {
 }
 
 @theme inline {
-  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-sans: var(--font-funnel-sans);
+  --font-display: var(--font-funnel-display);
 
   --color-border: var(--border);
   --color-input: var(--input);

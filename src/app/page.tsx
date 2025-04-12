@@ -1,14 +1,16 @@
 'use client';
 
 import { HeroHeader } from '@/app/_components/home/Header';
-import Features from '@/sections/Features';
-import Hero from '@/sections/Hero';
-import Testimonial from '@/sections/Testimonials';
+import Banner from '@/pages/Banner';
+import Features from '@/pages/Features';
+import Hero from '@/pages/Hero';
+import Testimonial from '@/pages/Testimonials';
 import { Fragment } from 'react';
 
 export default function VisitorPage() {
   return (
     <Fragment>
+      <Banner />
       <HeroHeader />
       <Hero />
       <Features />
