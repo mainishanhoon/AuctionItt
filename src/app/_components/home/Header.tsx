@@ -16,7 +16,6 @@ import { SidebarTrigger } from '@/app/_components/ui/sidebar';
 import Breadcrumbs from '@/app/_components/home/Breadcrumbs';
 
 export function UserHeader() {
-
   return (
     <header className="bg-sidebar outline-border flex h-12 w-full items-center justify-between gap-2 outline-1">
       <div className="flex flex-1 items-center gap-2 px-2 md:px-4 lg:px-6">
@@ -37,36 +36,36 @@ export function UserHeader() {
 
 export function HeroHeader() {
   return (
-    <header className="sticky top-0 z-50 border-b-2 px-3 py-1.5 sm:px-5">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
+    <header className="border-b border-gray-800 bg-black py-1.5">
+      <div className="container flex items-center justify-between">
+        <div className="flex items-center md:py-2">
           <Link
             href="/"
             className="flex items-center gap-2 text-2xl font-black max-md:hidden"
           >
-            <IconGavel className="bg-primary size-8 rounded-lg p-1 text-white" />
+            <IconGavel className="bg-primary size-8 rounded-md p-1 text-white" />
             <p className="text-primary font-semibold">
-              Auction<span className="text-foreground">Itt</span>
+              Auction<span className="text-white">Itt</span>
             </p>
           </Link>
           <Sheet>
             <SheetTrigger asChild>
               <div className="flex cursor-pointer items-center space-x-2 md:hidden">
-                <IconGavel className="bg-primary size-8 rounded-lg p-1 text-white" />
+                <IconGavel className="bg-primary size-8 rounded-md p-1 text-white" />
                 <p className="text-primary font-semibold">
-                  Auction<span className="text-foreground">Itt</span>
+                  Auction<span className="text-white">Itt</span>
                 </p>
               </div>
             </SheetTrigger>
-            <SheetContent side="left">
+            <SheetContent side="left" className="dark">
               <SheetTitle>
                 <Link
                   href="/"
                   className="mt-5 flex items-center justify-center gap-2 text-2xl font-black"
                 >
-                  <IconGavel className="bg-primary size-8 rounded-lg p-1 text-white" />
+                  <IconGavel className="bg-primary size-8 rounded-md p-1 text-white" />
                   <p className="text-primary font-semibold">
-                    Auction<span className="text-foreground">Itt</span>
+                    Auction<span className="text-white">Itt</span>
                   </p>
                 </Link>
               </SheetTitle>
@@ -80,7 +79,6 @@ export function HeroHeader() {
           <HeroNavBar />
         </nav>
         <div className="flex items-center space-x-2 sm:space-x-5">
-          <ThemeToggle />
           <Link href="/auth/signIn">
             <Button className="flex items-center gap-1 px-2 md:gap-2 md:px-3">
               <IconLogin2 strokeWidth={2.5} />

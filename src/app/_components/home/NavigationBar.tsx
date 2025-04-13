@@ -16,7 +16,7 @@ export function HeroNavBar() {
           spy={true}
           smooth={true}
           duration={1000}
-          className="cursor-pointer"
+          className="text-muted-foreground cursor-pointer"
         >
           <motion.div
             layout

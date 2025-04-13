@@ -30,5 +30,5 @@ export function TipTapViewer({ json }: { json: JSONContent }) {
     immediatelyRender: false,
   });
 
-  return <EditorContent editor={editor}/>;
+  return <EditorContent editor={editor} />;
 }

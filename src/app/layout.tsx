@@ -64,7 +64,7 @@ export default function RootLayout({
         className={`${funnelSans.className} ${funnelDisplay.variable} antialiased`}
       >
         <NextTopLoader color="hsl(var(--primary))" showSpinner={false} />
-        <ThemeProvider defaultTheme="dark">
+        <ThemeProvider defaultTheme="system">
           <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
           {children}
           <Toaster
