@@ -7,7 +7,7 @@ export default function LogoTicker() {
       <h2 className="text-center text-xs text-white/50 md:text-sm">
         Trusted by innovative teams worldwide
       </h2>
-      <div className="mt-5 [mask-image:linear-gradient(to_right,transparent,black_20%,black_80%,transparent)] md:mt-8">
+      <div className="container mt-5 [mask-image:linear-gradient(to_right,transparent,black_20%,black_80%,transparent)] md:mt-8">
         <InfiniteSlider speedOnHover={25} gap={30}>
           <Image
             src="/company/acme.webp"

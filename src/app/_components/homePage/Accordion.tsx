@@ -115,7 +115,7 @@ function AccordionItem({ value, children, className }: AccordionItemProps) {
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
           return React.cloneElement(child, {
-            
+            //@ts-expect-error some unknown error
             ...child.props,
             value,
             expanded: isExpanded,
@@ -146,7 +146,7 @@ function AccordionTrigger({
       onClick={() => value !== undefined && toggleItem(value)}
       aria-expanded={isExpanded}
       type="button"
-      className={cn('group', className)}
+      className={cn('group cursor-pointer', className)}
       {...(isExpanded ? { 'data-expanded': '' } : { 'data-closed': '' })}
     >
       {children}

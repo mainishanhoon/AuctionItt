@@ -1,17 +1,26 @@
+import {
+  IconBellRinging,
+  IconListDetails,
+  IconPlugConnected,
+} from '@tabler/icons-react';
+
 export const features = [
   {
-    title: 'Integration Ecosystem',
+    title: 'Real-Time Bidding',
     description:
-      'Enhance your productivity by connecting with your tools, keeping your essentials in one place.',
+      'Place live bids and watch the action unfold instantly with real-time updates and competitive edge.',
+    icon: IconPlugConnected,
   },
   {
-    title: 'Goal Setting and Tracking',
+    title: 'Smart Notifications',
     description:
-      'Define and track your goals, breaking down objectives into achievable tasks to keep your targets in sight.',
+      'Get instant alerts for outbids, auction endings, and wins—never miss a chance to secure your deal.',
+    icon: IconBellRinging,
   },
   {
     title: 'Secure Data Encryption',
     description:
-      'With end-to-end encryption, your data is securely stored and protected from unauthorized access.',
+      'Effortlessly upload, edit, and track your auction items with a user-friendly, seller-focused dashboard.',
+    icon: IconListDetails,
   },
 ];

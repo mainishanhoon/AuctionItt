@@ -3,16 +3,16 @@
 import { motion } from 'motion/react';
 import ScrambleHover from '@/app/_components/ui/scramble-hover';
 import { Link as Scroll } from 'react-scroll/modules';
-import { heroNavigationLink } from '@/constants/navLinks';
 import { Fragment } from 'react';
+import { navItems } from '@/constants/header';
 
-export function HeroNavBar() {
+export default function NavBar() {
   return (
     <Fragment>
-      {heroNavigationLink.map((item, index) => (
+      {navItems.map(({ name, href }) => (
         <Scroll
-          key={index}
-          to={item.href}
+          key={name}
+          to={href}
           spy={true}
           smooth={true}
           duration={1000}
@@ -20,17 +20,16 @@ export function HeroNavBar() {
         >
           <motion.div
             layout
-            key={index}
+            key={name}
             animate={{ opacity: [0, 1, 1], y: [10, 10, 0] }}
             transition={{
               duration: 0.1,
               ease: 'circInOut',
-              delay: index * 0.05 + 0.5,
               times: [0, 0.2, 1],
             }}
           >
             <ScrambleHover
-              text={item.name}
+              text={name}
               scrambleSpeed={50}
               maxIterations={8}
               useOriginalCharsOnly={true}

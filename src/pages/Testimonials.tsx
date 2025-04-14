@@ -5,15 +5,14 @@ import { InfiniteSlider } from '@/app/_components/homePage/InfiniteSlider';
 
 export default function TestimonialsSection() {
   return (
-    <section id="Testimonials" className="bg-black text-white py-16 lg:py-24">
+    <section id="testimonials" className="bg-black py-16 text-white lg:py-24">
       <div className="container">
         <h2 className="text-center text-5xl font-bold tracking-tight md:text-6xl">
           What our customers say
         </h2>
         <p className="mx-auto mt-5 max-w-2xl text-center text-xl text-white/70">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse iusto
-          doloribus amet! Vero error qui eveniet, fuga maiores quo inventore
-          ullam, deserunt
+          Hear from real users sharing their experiences, success stories, and
+          trust in our auction platform.{' '}
         </p>
         <div className="mt-5 [mask-image:linear-gradient(to_right,transparent,black_20%,black_80%,transparent)] md:mt-8">
           <InfiniteSlider speedOnHover={25} gap={30} className="py-5">

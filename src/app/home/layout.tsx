@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { UserHeader } from '@/app/_components/home/Header';
+import UserHeader from '@/app/_components/home/Header';
 import { fetchUser } from '@/hooks/hooks';
 import { prisma } from '@/app/_utils/prisma';
 import { redirect } from 'next/navigation';

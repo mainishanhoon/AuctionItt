@@ -8,18 +8,18 @@ export default function ProductShowcase() {
     target: dashboardImg,
     offset: ['start end', 'end end'],
   });
-  const rotateX = useTransform(scrollYProgress, [0, 1], [15, 0]);
+  const rotateX = useTransform(scrollYProgress, [0, 1], [30, 0]);
   const opacity = useTransform(scrollYProgress, [0, 1], [0.5, 1]);
 
   return (
-    <div className="bg-gradient-to-b from-black to-emerald-500 py-18 text-white md:py-24">
+    <section className="bg-gradient-to-b from-black to-emerald-500 py-18 text-white md:py-24">
       <div className="container">
         <h2 className="text-center text-5xl font-bold tracking-tight md:text-6xl">
           Intuitive Interface
         </h2>
         <p className="mx-auto mt-5 max-w-2xl text-center text-xl text-white/70">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni,
-          pariatur sequi explicabo iusto, vitae nemo iste consequuntur,
+          Easily navigate, bid, and manage auctions with a clean, user-friendly
+          and thoughtfully designed layout.
         </p>
         <motion.div
           style={{
@@ -39,6 +39,6 @@ export default function ProductShowcase() {
           />
         </motion.div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -1,17 +1,23 @@
-import { IconLeaf } from '@tabler/icons-react';
 import { useMotionTemplate, motion, useMotionValue } from 'motion/react';
-import { useEffect, useRef } from 'react';
+import { ElementType, useEffect, useRef } from 'react';
+import { BorderTrail } from './BorderTrail';
 
 interface FeatureCardProps {
   title: string;
   description: string;
+  icon: ElementType;
 }
 
-export default function FeatureCard({ title, description }: FeatureCardProps) {
+export default function FeatureCard({
+  title,
+  description,
+  icon,
+}: FeatureCardProps) {
   const border = useRef<HTMLDivElement>(null);
   const offsetX = useMotionValue(-100);
   const offsetY = useMotionValue(-100);
   const maskImage = useMotionTemplate`radial-gradient(100px 100px at ${offsetX}px ${offsetY}px, black, transparent)`;
+  const Icon = icon;
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
@@ -26,7 +32,7 @@ export default function FeatureCard({ title, description }: FeatureCardProps) {
     return () => {
       window.removeEventListener('mousemove', updateMousePosition);
     };
-  }, []);
+  }, [offsetX, offsetY]);
 
   return (
     <div
@@ -38,8 +44,15 @@ export default function FeatureCard({ title, description }: FeatureCardProps) {
         style={{ WebkitMaskImage: maskImage, maskImage }}
         className="absolute inset-0 rounded-xl border-2 border-emerald-400"
       />
-      <div className="inline-flex size-14 items-center justify-center rounded-lg bg-white text-black">
-        <IconLeaf />
+      <div className="relative inline-flex size-14 items-center justify-center rounded-lg bg-white text-black">
+        <BorderTrail
+          style={{
+            boxShadow:
+              '0px 0px 60px 30px rgb(255 255 255 / 50%), 0 0 100px 60px rgb(0 0 0 / 50%), 0 0 140px 90px rgb(0 0 0 / 50%)',
+          }}
+          size={100}
+        />
+        <Icon size={30} />
       </div>
       <h3 className="mt-6 font-bold">{title}</h3>
       <p className="mt-2 text-white/70">{description}</p>

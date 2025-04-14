@@ -1,11 +1,10 @@
 import { footerLinks } from '@/constants/footer';
-import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/20 bg-black py-5 text-white/60">
-      <div className="container">
+    <footer className="bg-black text-white/60">
+      <div className="container border-t border-white/20 py-5">
         <div className="flex flex-col gap-4 md:flex-row md:justify-between">
           <div className="text-center">
             &copy; {new Date().getFullYear()} AuctionItt, Inc. All rights

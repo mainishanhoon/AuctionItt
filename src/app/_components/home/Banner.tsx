@@ -3,7 +3,7 @@
 import { IconCircleDashedX } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useState } from 'react';
-import { TextShimmer } from '../ui/text-shimmer';
+import { TextShimmer } from '@/app/_components/ui/text-shimmer';
 
 export function Banner() {
   const [isVisible, setIsVisible] = useState(true);
@@ -21,7 +21,7 @@ export function Banner() {
           target="_blank"
           className="block space-x-1 text-xs font-medium"
         >
-          <span className="text-muted-foreground">Made by</span>
+          <span className="text-white/50">Made by</span>
           <TextShimmer duration={2}>@mainishanhoon</TextShimmer>
         </Link>
         <IconCircleDashedX
