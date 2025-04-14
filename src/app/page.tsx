@@ -1,8 +1,10 @@
 'use client';
 
-import { HeroHeader } from '@/app/_components/home/Header';
+import CallToAction from '@/pages/CallToAction';
 import FAQs from '@/pages/FAQs';
 import Features from '@/pages/Features';
+import Footer from '@/pages/Footer';
+import Header from '@/pages/Header';
 import Hero from '@/pages/Hero';
 import LogoTicker from '@/pages/LogoTicker';
 import ProductShowcase from '@/pages/ProductShowcase';
@@ -12,13 +14,15 @@ import { Fragment } from 'react';
 export default function VisitorPage() {
   return (
     <Fragment>
-      <HeroHeader />
+      <Header />
       <Hero />
       <LogoTicker />
       <Features />
       <ProductShowcase />
       <FAQs />
       <Testimonial />
+      <CallToAction />
+      <Footer />
     </Fragment>
   );
 }

@@ -11,7 +11,7 @@ export default function FAQs() {
   return (
     <section
       id="Features"
-      className="font-display bg-gradient-to-t from-black to-emerald-500 py-18 text-white md:py-24"
+      className="bg-gradient-to-t from-black to-emerald-500 py-18 text-white md:py-24"
     >
       <div className="container">
         <h2 className="text-center text-5xl font-bold tracking-tight md:text-6xl">
@@ -58,7 +58,7 @@ export default function FAQs() {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-          <Separator className="bg-muted-foreground dark md:my-3 my-1 h-px" />
+          <Separator className="bg-muted-foreground dark my-1 h-px" />
           <Accordion
             className="flex w-full flex-col"
             transition={{ type: 'spring', stiffness: 120, damping: 20 }}
@@ -86,7 +86,7 @@ export default function FAQs() {
                 </div>
               </AccordionTrigger>
               <AccordionContent className="origin-left">
-                <p className="pt-4">
+                <p className="pt-2">
                   Kick off your experience by setting up Motion-Primitives. This
                   section covers the basics of installation and how to add
                   animations to your projects. You&apos;ll get familiar with the
@@ -95,7 +95,7 @@ export default function FAQs() {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-          <Separator className="bg-muted-foreground my-3 h-px" />
+          <Separator className="bg-muted-foreground my-1 h-px" />
           <Accordion
             className="flex w-full flex-col"
             transition={{ type: 'spring', stiffness: 120, damping: 20 }}
@@ -123,7 +123,7 @@ export default function FAQs() {
                 </div>
               </AccordionTrigger>
               <AccordionContent className="origin-left">
-                <p className="pt-4">
+                <p className="pt-2">
                   Kick off your experience by setting up Motion-Primitives. This
                   section covers the basics of installation and how to add
                   animations to your projects. You&apos;ll get familiar with the
@@ -132,7 +132,7 @@ export default function FAQs() {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-          <Separator className="bg-muted-foreground my-3 h-px" />
+          <Separator className="bg-muted-foreground my-1 h-px" />
           <Accordion
             className="flex w-full flex-col"
             transition={{ type: 'spring', stiffness: 120, damping: 20 }}
@@ -160,7 +160,7 @@ export default function FAQs() {
                 </div>
               </AccordionTrigger>
               <AccordionContent className="origin-left">
-                <p className="pt-4">
+                <p className="pt-2">
                   Kick off your experience by setting up Motion-Primitives. This
                   section covers the basics of installation and how to add
                   animations to your projects. You&apos;ll get familiar with the
@@ -169,7 +169,7 @@ export default function FAQs() {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-          <Separator className="bg-muted-foreground my-3 h-px" />
+          <Separator className="bg-muted-foreground my-1 h-px" />
         </div>
       </div>
     </section>
