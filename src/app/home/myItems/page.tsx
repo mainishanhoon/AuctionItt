@@ -16,7 +16,7 @@ export default async function ListingPage() {
     </div>
   ) : (
     <EmptyState
-      title="No Item is listed for Bidding"
+      title="You have not is listed for Bidding"
       description="No items are currently open for bidding. Please check back later or explore other available categories."
       text="Refresh Page"
       href="/home"

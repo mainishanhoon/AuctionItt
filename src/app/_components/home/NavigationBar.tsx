@@ -16,7 +16,7 @@ export default function NavBar() {
           spy={true}
           smooth={true}
           duration={1000}
-          className="text-muted-foreground cursor-pointer"
+          className="cursor-pointer text-white/60 hover:text-white"
         >
           <motion.div
             layout
@@ -33,7 +33,6 @@ export default function NavBar() {
               scrambleSpeed={50}
               maxIterations={8}
               useOriginalCharsOnly={true}
-              className="cursor-pointer"
             />
           </motion.div>
         </Scroll>

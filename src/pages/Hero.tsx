@@ -33,7 +33,7 @@ export default function Hero() {
         </div>
         <div className="mt-8 flex items-center justify-center">
           <div className="relative inline-flex">
-            <h1 className="z-10 inline-flex text-center text-7xl font-bold tracking-tight md:text-9xl">
+            <h1 className="z-10 inline-flex text-center text-6xl md:text-7xl font-bold tracking-tight lg:text-9xl">
               Where Bids Fly <br />& Deals Land
             </h1>
             <motion.div
@@ -86,9 +86,9 @@ export default function Hero() {
             </motion.div>
           </div>
         </div>
-        <p className="mx-auto mt-8 max-w-md text-center text-xl">
+        <p className="mx-auto mt-8 max-w-md text-center md:text-xl">
           Indulge in curated auctions, premium listings, and effortless bidding,
-          designed for the discerning deal seeker.{' '}
+          designed for the discerning deal seeker.
         </p>
         <div className="mt-8 flex justify-center">
           <Link href="/auth/signIn">

@@ -10,7 +10,7 @@ export default function Features() {
         <h2 className="text-center text-5xl font-bold tracking-tight md:text-6xl">
           Everything you need
         </h2>
-        <p className="mx-auto mt-5 max-w-2xl text-center text-xl text-white/70">
+        <p className="mx-auto mt-5 max-w-2xl text-center md:text-xl text-white/70">
           Power-packed tools designed to elevate your bidding game with speed,
           alerts, and total control.
         </p>

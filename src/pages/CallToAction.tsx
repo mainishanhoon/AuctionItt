@@ -19,9 +19,9 @@ export default function CallToAction() {
         <h2 className="text-center text-5xl font-bold tracking-tight md:text-6xl">
           Try it Yourself!
         </h2>
-        <p className="mx-auto mt-5 max-w-2xl text-center text-xl text-white/70">
+        <p className="mx-auto mt-5 max-w-2xl text-center text-white/70 md:text-xl">
           Jump in, explore live auctions, and experience the thrill of bidding
-          firsthand—no strings attached{' '}
+          firsthand—no strings attached.
         </p>
         <motion.div
           animate={{ y: [0, -20, 0] }}

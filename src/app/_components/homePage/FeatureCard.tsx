@@ -55,7 +55,7 @@ export default function FeatureCard({
         <Icon size={30} />
       </div>
       <h3 className="mt-6 font-bold">{title}</h3>
-      <p className="mt-2 text-white/70">{description}</p>
+      <p className="mt-2 text-white/70 text-sm md:text-base">{description}</p>
     </div>
   );
 }

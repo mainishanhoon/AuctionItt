@@ -4,8 +4,6 @@ import NavBar from '@/app/_components/home/NavigationBar';
 import { IconGavel, IconLogin2 } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useState } from 'react';
-import { motion } from 'motion/react';
-import ScrambleHover from '@/app/_components/ui/scramble-hover';
 import { Link as Scroll } from 'react-scroll/modules';
 import { Fragment } from 'react';
 import { navItems } from '@/constants/header';
@@ -57,27 +55,10 @@ export default function Header() {
                         spy={true}
                         smooth={true}
                         duration={1000}
-                        className="text-muted-foreground cursor-pointer"
+                        className="cursor-pointer text-white/60 hover:text-white"
                         onClick={() => setIsMobileNavOpen((curr) => !curr)}
                       >
-                        <motion.div
-                          layout
-                          key={name}
-                          animate={{ opacity: [0, 1, 1], y: [10, 10, 0] }}
-                          transition={{
-                            duration: 0.1,
-                            ease: 'circInOut',
-                            times: [0, 0.2, 1],
-                          }}
-                        >
-                          <ScrambleHover
-                            text={name}
-                            scrambleSpeed={50}
-                            maxIterations={8}
-                            useOriginalCharsOnly={true}
-                            className="cursor-pointer"
-                          />
-                        </motion.div>
+                        {name}
                       </Scroll>
                     ))}
                   </Fragment>

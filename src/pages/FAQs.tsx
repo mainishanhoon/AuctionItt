@@ -17,7 +17,7 @@ export default function FAQs() {
         <h2 className="text-center text-5xl font-bold tracking-tight md:text-6xl">
           Frequently Asked Questions
         </h2>
-        <p className="mx-auto mt-5 max-w-2xl text-center text-xl text-white/70">
+        <p className="mx-auto mt-5 max-w-2xl text-center text-white/70 md:text-xl">
           Find clear answers to common questions and confidently navigate every
           step of your auction journey.
         </p>

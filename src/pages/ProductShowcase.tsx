@@ -17,7 +17,7 @@ export default function ProductShowcase() {
         <h2 className="text-center text-5xl font-bold tracking-tight md:text-6xl">
           Intuitive Interface
         </h2>
-        <p className="mx-auto mt-5 max-w-2xl text-center text-xl text-white/70">
+        <p className="mx-auto mt-5 max-w-2xl text-center md:text-xl text-white/70">
           Easily navigate, bid, and manage auctions with a clean, user-friendly
           and thoughtfully designed layout.
         </p>

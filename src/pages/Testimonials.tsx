@@ -10,7 +10,7 @@ export default function TestimonialsSection() {
         <h2 className="text-center text-5xl font-bold tracking-tight md:text-6xl">
           What our customers say
         </h2>
-        <p className="mx-auto mt-5 max-w-2xl text-center text-xl text-white/70">
+        <p className="mx-auto mt-5 max-w-2xl text-center md:text-xl text-white/70">
           Hear from real users sharing their experiences, success stories, and
           trust in our auction platform.{' '}
         </p>

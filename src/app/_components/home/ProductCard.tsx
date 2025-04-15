@@ -69,7 +69,7 @@ export function ProductCard({ item }: ProductProps) {
         </Button>
         <Button asChild className="w-full">
           <Link href={`/home/myItems/${item.id}`}>
-            <p>Purchase</p>
+            <p>Bid Now</p>
           </Link>
         </Button>
       </CardFooter>

@@ -80,7 +80,7 @@ export default function TipTapEditor({ field, className }: TipTapEditorProps) {
     <div className="w-full">
       <div
         className={cn(
-          'bg-background h-full overflow-hidden rounded-lg border-2',
+          'bg-background h-full overflow-hidden rounded-lg border',
           className,
         )}
       >

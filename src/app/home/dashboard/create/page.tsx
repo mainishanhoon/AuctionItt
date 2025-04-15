@@ -31,6 +31,7 @@ import {
 import { IconLoader, IconTagPlus, IconUpload } from '@tabler/icons-react';
 import TipTapEditor from '@/app/_components/dashboard/TipTapEditor';
 import { ScrollArea } from '@/app/_components/ui/scroll-area';
+import { cn } from '@/lib/utils';
 
 export default function ItemCreationRoute() {
   const [images, setImages] = useState<string[]>([]);
@@ -176,7 +177,14 @@ export default function ItemCreationRoute() {
                     }}
                     content={{
                       uploadIcon: (
-                        <IconUpload className="border-muted-foreground bg-muted size-20 rounded-xl border-2 border-dashed p-2 md:size-28" />
+                        <IconUpload
+                          className={cn(
+                            fields.description.errors
+                              ? 'border-destructive'
+                              : 'border-muted-foreground',
+                            'bg-muted size-20 rounded-xl border-2 border-dashed p-2 md:size-28',
+                          )}
+                        />
                       ),
                       label: 'Choose files or Drag & Drop',
                     }}
@@ -215,7 +223,7 @@ export default function ItemCreationRoute() {
                       </Carousel>
                     </div>
 
-                    <ScrollArea className="overflow-x-clip xl:h-[calc(100%-96px)] xl:w-1/4">
+                    <ScrollArea className="overflow-x-clip xl:h-96 xl:w-1/4">
                       <div className="flex flex-wrap items-center justify-center gap-2 p-1 md:gap-3 xl:flex-col xl:gap-3">
                         {images.map((_, marker) => (
                           <div className="relative" key={marker}>

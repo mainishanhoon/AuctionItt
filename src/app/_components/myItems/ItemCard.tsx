@@ -13,8 +13,6 @@ import {
   CardFooter,
   CardHeader,
 } from '@/app/_components/ui/card';
-import { IconReceiptRupee, IconShoppingCartFilled } from '@tabler/icons-react';
-import { TipTapViewer } from '@/app/_components/dashboard/TipTapViewer';
 
 interface ProductProps {
   item: {
@@ -58,9 +56,6 @@ export function ProductUpdationCard({ item }: ProductProps) {
             ₹ {Number(item.startingPrice).toLocaleString()}
           </h3>
         </div>
-        <div className="text-muted-foreground max-h-10 truncate text-xs tracking-wide">
-          <TipTapViewer json={JSON.parse(item.description)} />
-        </div>
       </CardContent>
 
       <CardFooter className="grid grid-cols-2 gap-5">
@@ -70,14 +65,12 @@ export function ProductUpdationCard({ item }: ProductProps) {
           className="bg-muted-foreground/20 hover:bg-muted-foreground/10 w-full"
         >
           <Link href={`/product/${item.id}`}>
-            <IconShoppingCartFilled strokeWidth={2.5} />
-            <p>Add to Cart</p>
+            <p>Show Details</p>
           </Link>
         </Button>
         <Button asChild className="w-full">
           <Link href={`/home/myItems/${item.id}`}>
-            <IconReceiptRupee strokeWidth={2.5} />
-            <p>Purchase</p>
+            <p>Edit</p>
           </Link>
         </Button>
       </CardFooter>
