@@ -98,7 +98,7 @@ export default function Header() {
         </nav>
         <Link
           href="/auth/signIn"
-          className="hidden items-center justify-center gap-1 rounded-md bg-white/90 px-3 py-1.5 lg:flex"
+          className="hidden items-center justify-center gap-1 rounded-md bg-white/90 px-3 py-1.5 text-black lg:flex"
         >
           <IconLogin2 strokeWidth={2.5} />
           <p>SignIn</p>
