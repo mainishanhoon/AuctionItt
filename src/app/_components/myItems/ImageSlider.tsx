@@ -1,84 +1,61 @@
 'use client';
-
-import { Button } from '@/app/_components/ui/button';
-import { cn } from '@/lib/utils';
-import { ChevronLeftCircle, ChevronRightCircle } from 'lucide-react';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNavigation,
+} from '@/app/_components/ui/carousel';
 import Image from 'next/image';
 import { useState } from 'react';
 
-interface ImageSliderProps {
+interface ImageCarouselProps {
   images: string[];
 }
 
-export function ImageSlider({ images }: ImageSliderProps) {
-  const [mainImageIndex, setMainImageIndex] = useState(0);
-
-  function handlePreviousClick() {
-    setMainImageIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1,
-    );
-  }
-
-  function handleNextClick() {
-    setMainImageIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1,
-    );
-  }
-
-  function handleImageClick(index: number) {
-    setMainImageIndex(index);
-  }
+export default function ImageCarousel({ images }: ImageCarouselProps) {
+  const [index, setIndex] = useState(0);
 
   return (
-    <div className="grid gap-6 md:gap-3">
-      <div className="relative overflow-hidden rounded-3xl border-4">
-        <Image
-          width={600}
-          height={600}
-          src={images[mainImageIndex]}
-          alt="Product image"
-          className="aspect-square size-full object-cover"
+    <div className="relative flex flex-col items-center justify-center">
+      <Carousel index={index} onIndexChange={setIndex}>
+        <CarouselContent className="relative">
+          {images.map((image, pointer) => (
+            <CarouselItem
+              key={pointer}
+              className="flex items-center justify-center p-4"
+            >
+              <Image
+                src={image || '/placeholder.svg'}
+                alt={`Image ${pointer}`}
+                width={1000}
+                height={200}
+                className="border-muted-foreground bg-muted aspect-square rounded-lg border-2 border-dashed object-cover md:size-96"
+              />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselNavigation
+          alwaysShow
+          className="flex justify-center gap-[25%] md:gap-[30%] lg:gap-[35%] xl:gap-[40%]"
         />
+      </Carousel>
 
-        <div className="absolute inset-0 flex items-center justify-between px-4">
-          <Button
-            onClick={handlePreviousClick}
-            variant="secondary"
-            size="icon"
-            className="rounded-full bg-muted transition-transform duration-300 ease-in-out hover:scale-125"
-          >
-            <ChevronLeftCircle strokeWidth={2.5} size={40} />
-          </Button>
-          <Button
-            onClick={handleNextClick}
-            variant="secondary"
-            size="icon"
-            className="rounded-full bg-muted transition-transform duration-300 ease-in-out hover:scale-125"
-          >
-            <ChevronRightCircle strokeWidth={2.5} size={40} />
-          </Button>
-        </div>
-      </div>
-
-      <div className="mt-6 grid grid-cols-4 gap-2 sm:grid-cols-5 sm:gap-4">
-        {images.map((image, index) => (
-          <div
-            className={cn(
-              index === mainImageIndex
-                ? 'border-2 border-primary'
-                : 'border-2 bg-muted',
-              'relative cursor-pointer overflow-hidden rounded-2xl',
-            )}
-            key={index}
-            onClick={() => handleImageClick(index)}
-          >
+      <div className="mt-4 flex flex-wrap justify-center gap-3">
+        {images.map((_, marker) => (
+          <div className="relative" key={marker}>
             <Image
-              src={image}
-              alt="Product Image"
-              width={500}
-              height={500}
-              loading="lazy"
-              className="aspect-square object-cover"
+              key={marker}
+              src={images[marker] || '/placeholder.svg'}
+              alt={`Image ${marker}`}
+              width={200}
+              height={200}
+              aria-label={`Go to slide ${marker}`}
+              onClick={() => setIndex(marker)}
+              className={`size-16 rounded-lg object-cover outline-2 md:size-24 ${
+                index === marker
+                  ? 'bg-primary/20 outline-muted-foreground outline-dashed'
+                  : 'bg-primary/10 outline-border dark:outline-muted-foreground/60'
+              }`}
             />
           </div>
         ))}

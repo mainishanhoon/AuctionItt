@@ -50,7 +50,7 @@ export function ProductUpdationCard({ item }: ProductProps) {
       <CardContent>
         <div className="flex items-center justify-between">
           <h1 className="text-primary text-xl font-medium capitalize">
-            {item.name}
+            {String(item.name)}
           </h1>
           <h3 className="bg-primary/20 text-primary ring-primary/10 inline-flex items-center rounded-md px-2 py-1 text-xs font-bold tracking-wider ring-1 ring-inset">
             ₹ {Number(item.startingPrice).toLocaleString()}
@@ -64,7 +64,7 @@ export function ProductUpdationCard({ item }: ProductProps) {
           variant="ghost"
           className="bg-muted-foreground/20 hover:bg-muted-foreground/10 w-full"
         >
-          <Link href={`/product/${item.id}`}>
+          <Link href={`/home/item/${item.id}`}>
             <p>Show Details</p>
           </Link>
         </Button>
