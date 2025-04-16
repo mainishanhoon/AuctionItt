@@ -63,7 +63,7 @@ export function ProductCard({ item }: ProductProps) {
           variant="ghost"
           className="bg-muted-foreground/20 hover:bg-muted-foreground/10 w-full"
         >
-          <Link href={`/product/${item.id}`}>
+          <Link href={`/home/item/${item.id}`}>
             <p>Show Details</p>
           </Link>
         </Button>

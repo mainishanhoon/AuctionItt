@@ -55,7 +55,7 @@ export default function Header() {
                         spy={true}
                         smooth={true}
                         duration={1000}
-                        className="cursor-pointer text-white/60 hover:text-white"
+                        className="cursor-pointer opacity-60 transition-opacity duration-500 hover:opacity-90"
                         onClick={() => setIsMobileNavOpen((curr) => !curr)}
                       >
                         {name}
