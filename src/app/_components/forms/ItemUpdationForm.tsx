@@ -206,14 +206,14 @@ export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
                           {images.map((image, pointer) => (
                             <CarouselItem
                               key={pointer}
-                              className="flex items-center justify-center object-contain p-4"
+                              className="flex items-center justify-center p-4"
                             >
                               <Image
                                 src={image || '/placeholder.svg'}
                                 alt={`Image ${pointer}`}
                                 width={1000}
                                 height={200}
-                                className="border-muted-foreground bg-muted aspect-square rounded-lg border-2 border-dotted md:size-96"
+                                className="border-muted-foreground bg-muted aspect-square rounded-lg border-2 border-dotted object-cover md:size-96"
                               />
                             </CarouselItem>
                           ))}
@@ -225,35 +225,32 @@ export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
                       </Carousel>
                     </div>
 
-                    <ScrollArea className="overflow-x-clip xl:h-96 xl:w-1/4">
-                      <div className="flex flex-wrap items-center justify-center gap-2 p-1 md:gap-3 xl:flex-col xl:gap-3">
-                        {images.map((_, marker) => (
-                          <div className="relative" key={marker}>
-                            <Image
-                              key={marker}
-                              src={images[marker] || '/placeholder.svg'}
-                              alt={`Image ${marker}`}
-                              width={200}
-                              height={200}
-                              aria-label={`Go to slide ${marker}`}
-                              onClick={() => setIndex(marker)}
-                              className={`size-16 rounded-lg object-contain outline-2 md:size-24 ${
-                                index === marker
-                                  ? 'bg-primary/20 outline-muted-foreground outline-dashed'
-                                  : 'bg-primary/10 outline-border dark:outline-muted-foreground/60 outline'
-                              }`}
-                            />
-
-                            <p
-                              className="absolute bottom-0 left-0 h-6 w-full cursor-pointer gap-0.5 rounded-t-none rounded-b-xl bg-red-500 text-center text-white hover:bg-red-600"
-                              onClick={() => handleDelete(marker)}
-                            >
-                              Delete
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    </ScrollArea>
+                    <div className="flex flex-wrap items-center justify-center gap-2 p-1 md:gap-3 xl:flex-col xl:gap-3">
+                      {images.map((_, marker) => (
+                        <div className="relative" key={marker}>
+                          <Image
+                            key={marker}
+                            src={images[marker] || '/placeholder.svg'}
+                            alt={`Image ${marker}`}
+                            width={200}
+                            height={200}
+                            aria-label={`Go to slide ${marker}`}
+                            onClick={() => setIndex(marker)}
+                            className={`size-16 rounded-lg object-cover outline-2 md:size-24 ${
+                              index === marker
+                                ? 'bg-primary/20 outline-muted-foreground outline-dashed'
+                                : 'bg-primary/10 outline-border dark:outline-muted-foreground/60 outline'
+                            }`}
+                          />
+                          <p
+                            className="absolute bottom-0 left-0 h-6 w-full cursor-pointer gap-0.5 rounded-t-none rounded-b-xl bg-red-500 text-center text-white hover:bg-red-600"
+                            onClick={() => handleDelete(marker)}
+                          >
+                            Delete
+                          </p>
+                        </div>
+                      ))}
+                    </div>
                   </Card>
                 )}
               </div>

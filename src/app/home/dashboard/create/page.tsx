@@ -204,14 +204,14 @@ export default function ItemCreationRoute() {
                           {images.map((image, pointer) => (
                             <CarouselItem
                               key={pointer}
-                              className="flex items-center justify-center object-contain p-4"
+                              className="flex aspect-square items-center justify-center p-4"
                             >
                               <Image
                                 src={image || '/placeholder.svg'}
                                 alt={`Image ${pointer}`}
                                 width={1000}
                                 height={200}
-                                className="border-muted-foreground bg-muted aspect-square rounded-lg border-2 border-dotted md:size-96"
+                                className="border-muted-foreground bg-muted rounded-lg border-2 border-dotted object-cover md:size-96"
                               />
                             </CarouselItem>
                           ))}

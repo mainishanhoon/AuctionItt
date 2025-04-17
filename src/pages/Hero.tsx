@@ -8,9 +8,9 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="bg-background relative overflow-clip bg-[linear-gradient(to_bottom,#000000,#0B2E1D_34%,#1E7F4D_65%,#74D99F_82%)] py-18 text-white md:pb-24 lg:pb-30"
+      className="bg-background relative overflow-clip bg-[linear-gradient(to_bottom,#000000,#0B2E1D_34%,#1E7F4D_65%,#74D99F_82%)] py-18 text-white md:pb-28 lg:pb-36 xl:pb-40"
     >
-      <span className="absolute top-[calc(100%-96px)] bottom-24 left-1/2 h-[375px] w-[750px] -translate-x-1/2 overflow-clip rounded-[100%] border border-emerald-500 bg-black bg-[radial-gradient(closest-side,#000000_82%,#34D399)] sm:h-[600px] sm:w-[1536px] md:top-[calc(100%-120px)] lg:top-[calc(100%-140px)] lg:h-[650px] lg:w-[2000px] xl:h-[850px] xl:w-[2000px] 2xl:h-[750px] 2xl:w-[2800px]" />
+      <span className="absolute top-[calc(100%-96px)] bottom-24 left-1/2 h-[375px] w-[750px] -translate-x-1/2 overflow-clip rounded-[100%] border border-emerald-500 bg-black bg-[radial-gradient(closest-side,#000000_82%,#34D399)] sm:h-[600px] sm:w-[1536px] md:top-[calc(100%-135px)] lg:top-[calc(100%-165px)] lg:h-[650px] lg:w-[2000px] xl:top-[calc(100%-180px)] xl:w-[2000px] xl:h-[850px] 2xl:h-[900px] 2xl:w-[2800px]" />
       <div className="relative">
         <div className="flex items-center justify-center">
           <Link
@@ -33,7 +33,7 @@ export default function Hero() {
         </div>
         <div className="mt-8 flex items-center justify-center">
           <div className="relative inline-flex">
-            <h1 className="z-10 inline-flex text-center text-6xl md:text-7xl font-bold tracking-tight lg:text-9xl">
+            <h1 className="z-10 inline-flex text-center text-6xl font-bold tracking-tight md:text-7xl lg:text-9xl">
               Where Bids Fly <br />& Deals Land
             </h1>
             <motion.div
