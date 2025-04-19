@@ -32,8 +32,8 @@ import {
 } from '@/app/_components/ui/carousel';
 import { IconLoader, IconTagPlus, IconUpload } from '@tabler/icons-react';
 import TipTapEditor from '@/app/_components/dashboard/TipTapEditor';
-import { ScrollArea } from '@/app/_components/ui/scroll-area';
 import { Prisma } from '@prisma/client';
+import { cn } from '@/lib/utils';
 
 interface ItemUpdationProps {
   data: Prisma.ItemGetPayload<{}>;
@@ -186,7 +186,14 @@ export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
                     }}
                     content={{
                       uploadIcon: (
-                        <IconUpload className="border-muted-foreground bg-muted size-20 rounded-xl border-2 border-dashed p-2 md:size-28" />
+                        <IconUpload
+                          className={cn(
+                            fields.image.errors
+                              ? 'border-destructive'
+                              : 'border-muted-foreground',
+                            'bg-muted size-20 rounded-xl border-2 border-dashed p-2 md:size-28',
+                          )}
+                        />
                       ),
                       label: 'Choose files or Drag & Drop',
                     }}
@@ -199,33 +206,38 @@ export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
                     }}
                   />
                 ) : (
-                  <Card className="border-muted-foreground bg-primary/10 relative mt-2 flex w-full items-center justify-center border-2 border-dashed max-xl:flex-col">
-                    <div className="xl:w-3/4">
-                      <Carousel index={index} onIndexChange={setIndex}>
-                        <CarouselContent>
-                          {images.map((image, pointer) => (
-                            <CarouselItem
-                              key={pointer}
-                              className="flex items-center justify-center p-4"
-                            >
-                              <Image
-                                src={image || '/placeholder.svg'}
-                                alt={`Image ${pointer}`}
-                                width={1000}
-                                height={200}
-                                className="border-muted-foreground bg-muted aspect-square rounded-lg border-2 border-dotted object-cover md:size-96"
-                              />
-                            </CarouselItem>
-                          ))}
-                        </CarouselContent>
-                        <CarouselNavigation
-                          alwaysShow
-                          className="flex justify-center gap-[40%] xl:gap-[50%]"
-                        />
-                      </Carousel>
-                    </div>
+                  <Card
+                    className={cn(
+                      fields.image.errors
+                        ? 'border-destructive'
+                        : 'border-muted-foreground',
+                      'bg-primary/10 relative mt-2 flex items-center justify-center border-2 border-dashed',
+                    )}
+                  >
+                    <Carousel index={index} onIndexChange={setIndex}>
+                      <CarouselContent className="relative">
+                        {images.map((image, pointer) => (
+                          <CarouselItem
+                            key={pointer}
+                            className="flex items-center justify-center p-4"
+                          >
+                            <Image
+                              src={image || '/placeholder.svg'}
+                              alt={`Image ${pointer}`}
+                              width={1000}
+                              height={200}
+                              className="border-muted-foreground bg-muted aspect-square rounded-lg border-2 border-dashed object-cover md:size-96"
+                            />
+                          </CarouselItem>
+                        ))}
+                      </CarouselContent>
+                      <CarouselNavigation
+                        alwaysShow
+                        className="flex justify-center gap-[25%] md:gap-[30%] lg:gap-[35%] xl:gap-[45%]"
+                      />
+                    </Carousel>
 
-                    <div className="flex flex-wrap items-center justify-center gap-2 p-1 md:gap-3 xl:flex-col xl:gap-3">
+                    <div className="mt-4 flex flex-wrap justify-center gap-3">
                       {images.map((_, marker) => (
                         <div className="relative" key={marker}>
                           <Image
@@ -236,10 +248,10 @@ export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
                             height={200}
                             aria-label={`Go to slide ${marker}`}
                             onClick={() => setIndex(marker)}
-                            className={`size-16 rounded-lg object-cover outline-2 md:size-24 ${
+                            className={`size-14 rounded-lg object-cover outline-2 md:size-20 ${
                               index === marker
                                 ? 'bg-primary/20 outline-muted-foreground outline-dashed'
-                                : 'bg-primary/10 outline-border dark:outline-muted-foreground/60 outline'
+                                : 'bg-primary/10 outline-border dark:outline-muted-foreground/60'
                             }`}
                           />
                           <p
@@ -270,7 +282,7 @@ export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
                   />
                 )}
                 <TextMorph>
-                  {isPending ? 'Adding your Product...' : 'Add your Product'}
+                  {isPending ? 'Saving Changes...' : 'Save Changes'}
                 </TextMorph>
               </Button>
             </div>

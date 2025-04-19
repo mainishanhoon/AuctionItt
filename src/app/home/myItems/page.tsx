@@ -6,18 +6,26 @@ import React from 'react';
 
 export default async function ListingPage() {
   const user = await getUser();
-  const data = await prisma.item.findMany({ where: { userId: user.id } });
+  const data = await prisma.item.findMany({
+    where: { userId: user.id },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      startingPrice: true,
+      image: true,
+    },
+  });
 
   return data.length !== 0 ? (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
       {data.map((item) => (
-        // @ts-expect-error I will fix it later
         <ProductUpdationCard key={item.id} item={item} />
       ))}
     </div>
   ) : (
     <EmptyState
-      title="You have not is listed for Bidding"
+      title="You have not listed any item for Bidding"
       description="No items are currently open for bidding. Please check back later or explore other available categories."
       text="Refresh Page"
       href="/home"

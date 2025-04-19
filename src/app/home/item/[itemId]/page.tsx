@@ -7,7 +7,13 @@ import { Separator } from '@/app/_components/ui/separator';
 import { Button } from '@/app/_components/ui/button';
 import Link from 'next/link';
 import { TipTapViewer } from '@/app/_components/dashboard/TipTapViewer';
-import { IconCoinRupee, IconTrophy, IconTruck, IconWorld } from '@tabler/icons-react';
+import {
+  IconCoinRupee,
+  IconTrophy,
+  IconTruck,
+  IconWorld,
+} from '@tabler/icons-react';
+import EmptyState from '@/app/_components/home/EmptyState';
 
 interface Params {
   params: Promise<{ itemId: string }>;
@@ -39,7 +45,7 @@ export default async function ItemRoute({ params }: Params) {
   const { itemId } = await params;
   const data = await getData(itemId);
 
-  return (
+  return data ? (
     <section className="grid grid-cols-1 items-start gap-6 sm:px-16 md:grid-cols-2 lg:gap-x-24">
       <ImageCarousel images={data.image} />
       <div>
@@ -62,7 +68,7 @@ export default async function ItemRoute({ params }: Params) {
           </Button>
           <Button asChild className="w-full space-x-2">
             <Link href={`/product/`}>
-              <span className="tracking-widest">Purchase</span>
+              <span className="tracking-widest">Place Bid</span>
             </Link>
           </Button>
         </div>
@@ -103,7 +109,7 @@ export default async function ItemRoute({ params }: Params) {
             >
               <IconCoinRupee size={35} color="var(--muted-foreground)" />
               <span className="text-muted-foreground text-xs font-bold tracking-wider">
-                Pay on Delivery
+                Pay on (Delivery)
               </span>
             </Badge>
           </div>
@@ -112,5 +118,12 @@ export default async function ItemRoute({ params }: Params) {
         <h3 className="text-2xl font-bold tracking-wider">Product Details:</h3>
       </div>
     </section>
+  ) : (
+    <EmptyState
+      title="Item Not Found"
+      description="The item you're looking for doesn't exist or may have been removed. Please try refreshing the page or explore other available items."
+      text="Go Back Home"
+      href="/home"
+    />
   );
 }
