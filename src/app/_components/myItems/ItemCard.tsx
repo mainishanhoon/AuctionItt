@@ -14,7 +14,7 @@ import {
   CardHeader,
 } from '@/app/_components/ui/card';
 
-interface ProductProps {
+interface ItemProps {
   item: {
     id: string;
     name: string;
@@ -24,7 +24,7 @@ interface ProductProps {
   };
 }
 
-export function ProductUpdationCard({ item }: ProductProps) {
+export default function ItemUpdationCard({ item }: ItemProps) {
   return (
     <Card>
       <CardHeader>

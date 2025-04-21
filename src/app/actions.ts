@@ -36,6 +36,35 @@ export async function sendVerificationRequest(params: any) {
     throw new Error('Resend error: ' + JSON.stringify(await response.json()));
 }
 
+export async function placeBids(formData: FormData) {
+  const session = await fetchUser();
+
+  const itemId = formData.get('ItemID') as string;
+
+  const item = await prisma.item.findUnique({
+    where: { id: itemId },
+  });
+
+  if (!item || !session.user?.id) return;
+
+  const latestBidAmount = Number(item.currentBid) + Number(item.bidInterval);
+
+  await prisma.$transaction([
+    prisma.bid.create({
+      data: {
+        amount: latestBidAmount,
+        itemId: itemId,
+        userId: session.user.id,
+        timestamp: new Date(),
+      },
+    }),
+    prisma.item.update({
+      where: { id: itemId },
+      data: { currentBid: latestBidAmount },
+    }),
+  ]);
+}
+
 export async function OnboardingUserAction(
   prevState: unknown,
   formData: FormData,

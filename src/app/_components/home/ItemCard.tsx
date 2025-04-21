@@ -14,7 +14,7 @@ import {
   CardHeader,
 } from '@/app/_components/ui/card';
 
-interface ProductProps {
+interface ItemProps {
   item: {
     id: string;
     name: string;
@@ -24,7 +24,7 @@ interface ProductProps {
   };
 }
 
-export function ProductCard({ item }: ProductProps) {
+export default function ItemCard({ item }: ItemProps) {
   return (
     <Card>
       <CardHeader>
@@ -38,6 +38,7 @@ export function ProductCard({ item }: ProductProps) {
                   width={500}
                   height={500}
                   loading="lazy"
+                  draggable={false}
                   className="size rounded-sm object-cover object-center sm:size-full"
                 />
               </CarouselItem>

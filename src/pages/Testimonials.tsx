@@ -12,7 +12,7 @@ export default function TestimonialsSection() {
         </h2>
         <p className="mx-auto mt-5 max-w-2xl text-center md:text-xl text-white/70">
           Hear from real users sharing their experiences, success stories, and
-          trust in our auction platform.{' '}
+          trust in our auction platform.
         </p>
         <div className="mt-5 [mask-image:linear-gradient(to_right,transparent,black_20%,black_80%,transparent)] md:mt-8">
           <InfiniteSlider speedOnHover={25} gap={30} className="py-5">

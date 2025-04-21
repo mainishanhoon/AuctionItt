@@ -2,16 +2,15 @@ import { Skeleton } from '@/app/_components/ui/skeleton';
 
 export default function ProductLoadingRoute() {
   return (
-    <div className="grid items-start gap-6 py-6 md:grid-cols-2 lg:gap-x-24">
-      <div>
-        <Skeleton className="h-[600px] w-full" />
-        <div className="mt-6 grid grid-cols-5 gap-4">
-          <Skeleton className="h-[100px] w-[100px]" />
-          <Skeleton className="h-[100px] w-[100px]" />
-          <Skeleton className="h-[100px] w-[100px]" />
-          <Skeleton className="h-[100px] w-[100px]" />
-          <Skeleton className="h-[100px] w-[100px]" />
-        </div>
+    <div className="grid gap-5 xl:grid-cols-2 p-2 md:p-4">
+      <div className="flex flex-col items-center justify-center">
+        <Skeleton className="md:size-96" />
+        <span className="mt-4 flex flex-wrap justify-center gap-3">
+          <Skeleton className="size-16 md:size-24" />
+          <Skeleton className="size-16 md:size-24" />
+          <Skeleton className="size-16 md:size-24" />
+          <Skeleton className="size-16 md:size-24" />
+        </span>
       </div>
 
       <div>

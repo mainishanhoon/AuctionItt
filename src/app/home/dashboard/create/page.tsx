@@ -216,6 +216,8 @@ export default function ItemCreationRoute() {
                               alt={`Image ${pointer}`}
                               width={1000}
                               height={200}
+                              loading="lazy"
+                              draggable={false}
                               className="border-muted-foreground bg-muted aspect-square rounded-lg border-2 border-dashed object-cover md:size-96"
                             />
                           </CarouselItem>

@@ -1,121 +1,145 @@
 import ImageCarousel from '@/app/_components/myItems/ImageSlider';
 import { prisma } from '@/app/_utils/prisma';
-import { notFound } from 'next/navigation';
 import { unstable_noStore as noStore } from 'next/cache';
 import { Badge } from '@/app/_components/ui/badge';
 import { Separator } from '@/app/_components/ui/separator';
 import { Button } from '@/app/_components/ui/button';
 import Link from 'next/link';
 import { TipTapViewer } from '@/app/_components/dashboard/TipTapViewer';
-import {
-  IconCoinRupee,
-  IconTrophy,
-  IconTruck,
-  IconWorld,
-} from '@tabler/icons-react';
 import EmptyState from '@/app/_components/home/EmptyState';
+import { formatDistanceToNow } from 'date-fns';
+import Image from 'next/image';
+import Form from 'next/form';
+import { placeBids } from '@/app/actions';
+import { numberIcons } from '@/constants/icons';
 
 interface Params {
   params: Promise<{ itemId: string }>;
 }
 
-async function getData(productId: string) {
-  const data = await prisma.item.findUnique({
-    where: {
-      id: productId,
-    },
-    select: {
-      id: true,
-      image: true,
-      name: true,
-      startingPrice: true,
-      description: true,
-    },
-  });
+async function getData(itemId: string) {
+  const [data, bids] = await Promise.all([
+    prisma.item.findUnique({
+      where: {
+        id: itemId,
+      },
+      select: {
+        id: true,
+        name: true,
+        image: true,
+        startingPrice: true,
+        description: true,
+      },
+    }),
 
-  if (!data) {
-    return notFound();
-  }
+    prisma.bid.findMany({
+      where: {
+        itemId: itemId,
+      },
+      select: {
+        user: {
+          select: { image: true, firstName: true, lastName: true },
+        },
+        amount: true,
+        timestamp: true,
+      },
+      orderBy: { timestamp: 'desc' },
+      take: 5,
+    }),
+  ]);
 
-  return data;
+  return {
+    data,
+    bids,
+  };
 }
-
 export default async function ItemRoute({ params }: Params) {
   noStore();
   const { itemId } = await params;
-  const data = await getData(itemId);
+  const { data, bids } = await getData(itemId);
 
   return data ? (
-    <section className="grid grid-cols-1 items-start gap-6 sm:px-16 md:grid-cols-2 lg:gap-x-24">
+    <section className="grid items-start gap-6 p-4 md:p-2 lg:grid-cols-2">
       <ImageCarousel images={data.image} />
       <div>
-        <h1 className="text-3xl font-bold tracking-wider">{data.name}</h1>
+        <h1 className="font-display text-3xl font-bold capitalize">
+          {data.name}
+        </h1>
         <Badge
-          variant="secondary"
-          className="text-primary mt-3 rounded-lg text-3xl font-bold tracking-wider"
+          variant="outline"
+          className="text-primary border-muted-foreground font-display mt-3 rounded-lg border-2 border-dashed text-3xl font-bold"
         >
           ₹{data.startingPrice}
         </Badge>
         <div className="my-5 flex gap-2">
-          <Button
-            asChild
-            variant="secondary"
-            className="border-muted-foreground w-full space-x-2 border-2"
-          >
+          <Button asChild variant="secondary" className="w-full">
             <Link href={`/product/`}>
               <span className="tracking-wider">Add to Cart</span>
             </Link>
           </Button>
-          <Button asChild className="w-full space-x-2">
-            <Link href={`/product/`}>
-              <span className="tracking-widest">Place Bid</span>
-            </Link>
-          </Button>
+          <Form
+            action={placeBids}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground inline-flex w-full cursor-pointer items-center justify-center rounded-md"
+          >
+            <input name="ItemID" defaultValue={data.id} hidden />
+            <button
+              type="submit"
+              className="size-full cursor-pointer rounded-md"
+            >
+              Place Bid
+            </button>
+          </Form>
         </div>
         <Separator className="my-2 h-0.5" />
-        <TipTapViewer json={JSON.parse(data.description)} />
-        <div className="flex justify-center md:justify-start">
-          <div className="my-3 grid grid-cols-3 gap-3 sm:gap-5 md:grid-cols-4">
-            <Badge
-              variant="secondary"
-              className="size-24 flex-col justify-center gap-2 rounded-lg text-center"
-            >
-              <IconTrophy size={35} color="var(--muted-foreground)" />
-              <span className="text-muted-foreground text-xs tracking-wider">
-                Top Brand
-              </span>
-            </Badge>
-            <Badge
-              variant="secondary"
-              className="size-24 flex-col justify-center gap-2 rounded-lg text-center"
-            >
-              <IconWorld size={35} color="var(--muted-foreground)" />
-              <span className="text-muted-foreground text-xs tracking-wider">
-                Secure Transaction
-              </span>
-            </Badge>
-            <Badge
-              variant="secondary"
-              className="size-24 flex-col justify-center gap-2 rounded-lg text-center"
-            >
-              <IconTruck size={35} color="var(--muted-foreground)" />
-              <span className="text-muted-foreground text-xs tracking-wider">
-                Free Delivery
-              </span>
-            </Badge>
-            <Badge
-              variant="secondary"
-              className="size-24 flex-col justify-center gap-2 rounded-lg text-center"
-            >
-              <IconCoinRupee size={35} color="var(--muted-foreground)" />
-              <span className="text-muted-foreground text-xs font-bold tracking-wider">
-                Pay on (Delivery)
-              </span>
-            </Badge>
-          </div>
+        <div className="bg-sidebar flex flex-col justify-center gap-2 rounded-xl p-2 md:gap-4 md:p-4">
+          {bids.map((bid, index) => {
+            const Icon = numberIcons[index];
+
+            return (
+              <ul
+                key={index}
+                className="bg-background font-display relative flex justify-between gap-2 rounded-xl p-4 max-md:flex-col"
+              >
+                <li className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                  <Icon className="size-10 text-muted" />
+                </li>
+
+                <span className="flex items-center justify-start gap-3">
+                  <li>
+                    <Image
+                      src={bid.user.image as string}
+                      alt={`${bid.user.firstName?.charAt(0)} ${bid.user.lastName?.charAt(0)}`}
+                      width={25}
+                      height={25}
+                      draggable={false}
+                      loading="lazy"
+                      className="size-8 rounded-sm md:size-10"
+                    />
+                  </li>
+                  <li className="text-base md:text-lg z-10">
+                    {bid.user.firstName}&nbsp;
+                    {bid.user.lastName}
+                  </li>
+                </span>
+
+                <span className="flex items-end justify-between md:flex-col">
+                  <li className="font-medium">₹{bid.amount}</li>
+                  <li className="text-xs">
+                    {formatDistanceToNow(new Date(bid.timestamp), {
+                      addSuffix: true,
+                    })}
+                  </li>
+                </span>
+              </ul>
+            );
+          })}
         </div>
 
-        <h3 className="text-2xl font-bold tracking-wider">Product Details:</h3>
+        {bids.length !== 0 && <Separator className="my-2 h-0.5" />}
+        <h3 className="font-display text-2xl font-bold">Item Description</h3>
+        <article>
+          <TipTapViewer json={JSON.parse(data.description)} />
+        </article>
       </div>
     </section>
   ) : (
