@@ -121,6 +121,9 @@ export async function ItemCreationAction(
       description: submission.value.description,
       startingPrice: submission.value.startingPrice,
       image: flattenURLs,
+      bidInterval: submission.value.bidInterval,
+      currentBid: submission.value.startingPrice,
+      endDate: submission.value.endDate
     },
   });
 

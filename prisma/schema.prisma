@@ -8,15 +8,16 @@ generator client {
 }
 
 model Item {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   userId        String
   name          String
   description   String
   image         String[]
-  currentBid    Int?      @default(0)
-  startingPrice Int       @default(0)
-  bidInterval   Int?      @default(100)
+  currentBid    Int?       @default(0)
+  startingPrice Int        @default(0)
+  bidInterval   Int?       @default(100)
   endDate       DateTime?
+  status        ItemStatus @default(ACTIVE)
 
   user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
   bids Bid[]
@@ -107,4 +108,9 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
+}
+
+enum ItemStatus {
+  ACTIVE
+  INACTIVE
 }

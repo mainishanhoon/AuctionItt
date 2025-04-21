@@ -29,6 +29,7 @@ async function getData(itemId: string) {
         image: true,
         startingPrice: true,
         description: true,
+        endDate: true,
       },
     }),
 
@@ -59,22 +60,24 @@ export default async function ItemRoute({ params }: Params) {
   const { data, bids } = await getData(itemId);
 
   return data ? (
-    <section className="grid items-start gap-6 p-4 md:p-2 lg:grid-cols-2">
-      <ImageCarousel images={data.image} />
-      <div>
-        <h1 className="font-display text-3xl font-bold capitalize">
-          {data.name}
-        </h1>
+    <section className="bg-muted font-display dark:border-muted-foreground/50 grid items-start gap-6 rounded-xl border shadow md:p-2 lg:grid-cols-2">
+      <ImageCarousel images={data.image} className="p-4" />
+      <div className="p-4">
+        <h1 className="text-3xl font-bold capitalize">{data.name}</h1>
         <Badge
           variant="outline"
-          className="text-primary border-muted-foreground font-display mt-3 rounded-lg border-2 border-dashed text-3xl font-bold"
+          className="text-primary border-muted-foreground mt-3 rounded-lg border-2 border-dashed text-3xl font-bold"
         >
           ₹{data.startingPrice}
         </Badge>
         <div className="my-5 flex gap-2">
-          <Button asChild variant="secondary" className="w-full">
+          <Button
+            asChild
+            variant="secondary"
+            className="hover:bg-sidebar bg-background w-full"
+          >
             <Link href={`/product/`}>
-              <span className="tracking-wider">Add to Cart</span>
+              <p>Add to Cart</p>
             </Link>
           </Button>
           <Form
@@ -90,54 +93,63 @@ export default async function ItemRoute({ params }: Params) {
             </button>
           </Form>
         </div>
+        <p className="text-xl bg-sidebar p-4 rounded-md">
+          <span className="font-medium">Bid Deadline:</span>&nbsp;
+          <span className='text-primary'>
+            {Intl.DateTimeFormat('en-IN', {
+              dateStyle: 'medium',
+            }).format(data.endDate!)}
+          </span>
+        </p>
         <Separator className="my-2 h-0.5" />
-        <div className="bg-sidebar flex flex-col justify-center gap-2 rounded-xl p-2 md:gap-4 md:p-4">
-          {bids.map((bid, index) => {
-            const Icon = numberIcons[index];
+        {bids.length !== 0 && (
+          <div className="bg-sidebar flex flex-col justify-center gap-2 rounded-xl p-2 md:gap-4 md:p-4">
+            {bids.map((bid, index) => {
+              const Icon = numberIcons[index];
 
-            return (
-              <ul
-                key={index}
-                className="bg-background font-display relative flex justify-between gap-2 rounded-xl p-4 max-md:flex-col"
-              >
-                <li className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <Icon className="size-10 text-muted" />
-                </li>
+              return (
+                <ul
+                  key={index}
+                  className="bg-background relative flex justify-between gap-2 rounded-xl p-4 shadow-xl max-md:flex-col"
+                >
+                  <li className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <Icon className="text-muted size-10" />
+                  </li>
+                  <span className="flex items-center justify-start gap-3">
+                    <li>
+                      <Image
+                        src={bid.user.image as string}
+                        alt={`${bid.user.firstName?.charAt(0)} ${bid.user.lastName?.charAt(0)}`}
+                        width={25}
+                        height={25}
+                        draggable={false}
+                        loading="lazy"
+                        className="size-8 rounded-sm md:size-10"
+                      />
+                    </li>
+                    <li className="z-10 text-base md:text-lg">
+                      {bid.user.firstName}&nbsp;
+                      {bid.user.lastName}
+                    </li>
+                  </span>
 
-                <span className="flex items-center justify-start gap-3">
-                  <li>
-                    <Image
-                      src={bid.user.image as string}
-                      alt={`${bid.user.firstName?.charAt(0)} ${bid.user.lastName?.charAt(0)}`}
-                      width={25}
-                      height={25}
-                      draggable={false}
-                      loading="lazy"
-                      className="size-8 rounded-sm md:size-10"
-                    />
-                  </li>
-                  <li className="text-base md:text-lg z-10">
-                    {bid.user.firstName}&nbsp;
-                    {bid.user.lastName}
-                  </li>
-                </span>
-
-                <span className="flex items-end justify-between md:flex-col">
-                  <li className="font-medium">₹{bid.amount}</li>
-                  <li className="text-xs">
-                    {formatDistanceToNow(new Date(bid.timestamp), {
-                      addSuffix: true,
-                    })}
-                  </li>
-                </span>
-              </ul>
-            );
-          })}
-        </div>
+                  <span className="flex items-end justify-between md:flex-col">
+                    <li className="font-medium">₹{bid.amount}</li>
+                    <li className="text-xs">
+                      {formatDistanceToNow(new Date(bid.timestamp), {
+                        addSuffix: true,
+                      })}
+                    </li>
+                  </span>
+                </ul>
+              );
+            })}
+          </div>
+        )}
 
         {bids.length !== 0 && <Separator className="my-2 h-0.5" />}
-        <h3 className="font-display text-2xl font-bold">Item Description</h3>
-        <article>
+        <h3 className="text-2xl font-bold">Item Description</h3>
+        <article className="bg-sidebar rounded-xl p-2">
           <TipTapViewer json={JSON.parse(data.description)} />
         </article>
       </div>

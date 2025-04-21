@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation';
 import { ReactNode } from 'react';
 import { AppSidebar } from '@/app/_components/home/Sidebar';
 import { SidebarInset, SidebarProvider } from '@/app/_components/ui/sidebar';
+import { Banner } from '@/app/_components/home/Banner';
 
 async function getUser(userId: string) {
   const data = await prisma.user.findUnique({
@@ -35,6 +36,7 @@ export default async function DashboardLayout({
 
   return (
     <SidebarProvider>
+      <Banner />
       <AppSidebar />
       <SidebarInset className="overflow-hidden">
         <UserHeader />

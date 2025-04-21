@@ -28,12 +28,15 @@ import {
   CarouselItem,
   CarouselNavigation,
 } from '@/app/_components/ui/carousel';
-import { IconLoader, IconTagPlus, IconUpload } from '@tabler/icons-react';
+import { IconCalendarWeek, IconLoader, IconTagPlus, IconUpload } from '@tabler/icons-react';
 import TipTapEditor from '@/app/_components/dashboard/TipTapEditor';
 import { cn } from '@/lib/utils';
+import { Popover, PopoverContent, PopoverTrigger } from '@/app/_components/ui/popover';
+import { Calendar } from '@/app/_components/ui/calendar';
 
 export default function ItemCreationRoute() {
   const [images, setImages] = useState<string[]>([]);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [index, setIndex] = useState(0);
   const [lastResult, formAction, isPending] = useActionState(
     ItemCreationAction,
@@ -104,6 +107,12 @@ export default function ItemCreationRoute() {
                       </p>
                     </div>
                     <Input
+                      type="hidden"
+                      key={fields.endDate.key}
+                      name={fields.endDate.name}
+                      value={selectedDate.toISOString()}
+                    />
+                    <Input
                       type="text"
                       key={fields.name.key}
                       name={fields.name.name}
@@ -129,6 +138,60 @@ export default function ItemCreationRoute() {
                       }
                       placeholder="Starting Price"
                     />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-end justify-between">
+                      <Label>Bid Interval</Label>
+                      <p className="text-destructive mr-2 -mb-1 text-xs">
+                        {fields.bidInterval.errors}
+                      </p>
+                    </div>
+                    <Input
+                      type="number"
+                      key={fields.bidInterval.key}
+                      name={fields.bidInterval.name}
+                      defaultValue={fields.bidInterval.initialValue}
+                      className={
+                        fields.bidInterval.errors && 'border-destructive'
+                      }
+                      placeholder="Starting Price"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-end justify-between">
+                      <Label>Bid Deadline</Label>
+                      <p className="text-destructive mr-2 -mb-1 text-xs">
+                        {fields.endDate.errors}
+                      </p>
+                    </div>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className="justify-start hover:bg-sidebar text-left"
+                        >
+                          <IconCalendarWeek />
+
+                          {selectedDate ? (
+                            new Intl.DateTimeFormat('en-IN', {
+                              dateStyle: 'long',
+                            }).format(selectedDate)
+                          ) : (
+                            <span>Pick a Date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className='size-fit p-1'>
+                        <Calendar
+                          selected={selectedDate}
+                          onSelect={(date) =>
+                            setSelectedDate(date || new Date())
+                          }
+                          mode="single"
+                          fromDate={new Date()}
+                        />
+                      </PopoverContent>
+                    </Popover>
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">

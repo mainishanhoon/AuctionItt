@@ -13,7 +13,7 @@ export function Banner() {
   }
 
   return (
-    <div className="bg-background dark text-foreground fixed right-5 bottom-5 z-9999 rounded-md border py-1 ps-3 pe-1.5 shadow-lg">
+    <div className="bg-background text-foreground fixed right-5 bottom-5 z-9999 rounded-md border py-1 ps-3 pe-1.5 shadow-lg">
       <div className="flex items-center justify-between gap-1">
         <Link
           href="https://mainishanhoon.vercel.app"
@@ -21,7 +21,7 @@ export function Banner() {
           target="_blank"
           className="block space-x-1 text-xs font-medium"
         >
-          <span className="text-white/50">Made by</span>
+          <span className="text-muted-foreground">Made by</span>
           <TextShimmer duration={2}>@mainishanhoon</TextShimmer>
         </Link>
         <IconCircleDashedX

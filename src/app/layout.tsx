@@ -8,7 +8,6 @@ import { ReactNode } from 'react';
 import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
 import { extractRouterConfig } from 'uploadthing/server';
 import { ourFileRouter } from '@/app/api/uploadthing/core';
-import { Banner } from '@/app/_components/home/Banner';
 
 const funnelSans = Funnel_Sans({
   variable: '--font-funnel-sans',
@@ -72,7 +71,6 @@ export default function RootLayout({
             closeButton
             className={`${funnelSans.className} font-medium`}
           />
-          <Banner />
         </ThemeProvider>
       </body>
     </html>

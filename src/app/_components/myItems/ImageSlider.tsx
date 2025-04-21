@@ -5,18 +5,25 @@ import {
   CarouselItem,
   CarouselNavigation,
 } from '@/app/_components/ui/carousel';
+import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { useState } from 'react';
 
 interface ImageCarouselProps {
   images: string[];
+  className?: string;
 }
 
-export default function ImageCarousel({ images }: ImageCarouselProps) {
+export default function ImageCarousel({ images, className }: ImageCarouselProps) {
   const [index, setIndex] = useState(0);
 
   return (
-    <div className="relative flex flex-col items-center justify-center">
+    <div
+      className={cn(
+        'relative flex flex-col items-center justify-center',
+        className,
+      )}
+    >
       <Carousel index={index} onIndexChange={setIndex}>
         <CarouselContent className="relative">
           {images.map((image, pointer) => (
@@ -29,6 +36,8 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
                 alt={`Image ${pointer}`}
                 width={1000}
                 height={200}
+                draggable={false}
+                loading="lazy"
                 className="border-muted-foreground bg-muted aspect-square rounded-lg border-2 border-dashed object-cover md:size-96"
               />
             </CarouselItem>
@@ -49,6 +58,8 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
               alt={`Image ${marker}`}
               width={200}
               height={200}
+              draggable={false}
+              loading="lazy"
               aria-label={`Go to slide ${marker}`}
               onClick={() => setIndex(marker)}
               className={`size-16 rounded-lg object-cover outline-2 md:size-24 ${
