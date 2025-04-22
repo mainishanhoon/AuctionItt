@@ -12,6 +12,7 @@ import Image from 'next/image';
 import Form from 'next/form';
 import { placeBids } from '@/app/actions';
 import { numberIcons } from '@/constants/icons';
+import CountdownTimer from '@/app/_components/home/ItemCountDown';
 
 interface Params {
   params: Promise<{ itemId: string }>;
@@ -93,14 +94,15 @@ export default async function ItemRoute({ params }: Params) {
             </button>
           </Form>
         </div>
-        <p className="text-xl bg-sidebar p-4 rounded-md">
-          <span className="font-medium">Bid Deadline:</span>&nbsp;
-          <span className='text-primary'>
+        <div className="bg-sidebar rounded-md p-4 text-xl font-medium">
+          <span>Bid Deadline:</span>&nbsp;
+          <span className="text-primary">
             {Intl.DateTimeFormat('en-IN', {
-              dateStyle: 'medium',
-            }).format(data.endDate!)}
+              dateStyle: 'long',
+            }).format(data.endDate)}
           </span>
-        </p>
+          {data.endDate > new Date() && <CountdownTimer date={data.endDate} />}
+        </div>
         <Separator className="my-2 h-0.5" />
         {bids.length !== 0 && (
           <div className="bg-sidebar flex flex-col justify-center gap-2 rounded-xl p-2 md:gap-4 md:p-4">
@@ -110,7 +112,7 @@ export default async function ItemRoute({ params }: Params) {
               return (
                 <ul
                   key={index}
-                  className="bg-background relative flex justify-between gap-2 rounded-xl p-4 shadow-xl max-md:flex-col"
+                  className="bg-background relative flex justify-between gap-2 rounded-xl p-4 shadow-lg max-md:flex-col"
                 >
                   <li className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                     <Icon className="text-muted size-10" />

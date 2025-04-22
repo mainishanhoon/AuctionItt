@@ -1,0 +1,85 @@
+import EmptyState from '@/app/_components/home/EmptyState';
+import PastItemCard from '@/app/_components/pastItems/PastItemCard';
+import { prisma } from '@/app/_utils/prisma';
+import { getUser } from '@/hooks/hooks';
+import React from 'react';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/app/_components/ui/tabs';
+export default async function ListingPage() {
+  const user = await getUser();
+  const [data, myData] = await Promise.all([
+    prisma.item.findMany({
+      where: {
+        endDate: {
+          lt: new Date(),
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        startingPrice: true,
+        image: true,
+      },
+    }),
+    prisma.item.findMany({
+      where: {
+        userId: user.id,
+        endDate: {
+          lt: new Date(),
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        startingPrice: true,
+        image: true,
+      },
+    }),
+  ]);
+
+  return (
+    <Tabs defaultValue="AllItems" className="space-y-3">
+      <TabsList className="bg-sidebar grid w-full max-w-96 grid-cols-2 p-1.5">
+        <TabsTrigger value="AllItems">All Items</TabsTrigger>
+        <TabsTrigger value="MyItems">My Items</TabsTrigger>
+      </TabsList>
+      <TabsContent
+        value="AllItems"
+        className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4"
+      >
+        {data.length !== 0 ? (
+          data.map((item, index) => <PastItemCard key={index} item={item} />)
+        ) : (
+          <EmptyState
+            title="No Past Auction Items to Display"
+            description="There are currently no items available in past events. Check back later or explore other auction categories to find active listings."
+            text="Refresh Page"
+            href="/home"
+          />
+        )}
+      </TabsContent>
+
+      <TabsContent
+        value="MyItems"
+        className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4"
+      >
+        {myData.length !== 0 ? (
+          myData.map((item, index) => <PastItemCard key={index} item={item} />)
+        ) : (
+          <EmptyState
+            title="No Past Auction Items to Display"
+            description="There are currently no items available in past events. Check back later or explore other auction categories to find active listings."
+            text="Refresh Page"
+            href="/home"
+          />
+        )}
+      </TabsContent>
+    </Tabs>
+  );
+}

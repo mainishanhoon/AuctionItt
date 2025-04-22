@@ -1,6 +1,6 @@
 import {
+  IconBrandElastic,
   IconClipboardList,
-  IconCode,
   IconDashboard,
   IconHelpSquareRounded,
   IconHome,
@@ -30,9 +30,9 @@ export const navigationLink = {
           icon: IconClipboardList,
         },
         {
-          title: 'Tools',
-          url: '#',
-          icon: IconCode,
+          title: 'Past Items',
+          url: '/home/pastItems',
+          icon: IconBrandElastic,
         },
         {
           title: 'Reports',

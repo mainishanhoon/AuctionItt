@@ -11,6 +11,9 @@ export default async function ListingPage() {
       userId: {
         not: user.id,
       },
+      endDate: {
+        gt: new Date(),
+      },
     },
   });
   return data.length !== 0 ? (
