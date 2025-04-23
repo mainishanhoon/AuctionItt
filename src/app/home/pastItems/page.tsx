@@ -45,7 +45,7 @@ export default async function ListingPage() {
 
   return (
     <Tabs defaultValue="AllItems" className="space-y-3">
-      <TabsList className="bg-sidebar grid w-full max-w-96 grid-cols-2 p-1.5">
+      <TabsList className="bg-sidebar border-muted dark:border-sidebar-accent grid w-full max-w-96 grid-cols-2 border">
         <TabsTrigger value="AllItems">All Items</TabsTrigger>
         <TabsTrigger value="MyItems">My Items</TabsTrigger>
       </TabsList>

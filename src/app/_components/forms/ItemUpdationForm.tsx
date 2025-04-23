@@ -30,10 +30,21 @@ import {
   CarouselItem,
   CarouselNavigation,
 } from '@/app/_components/ui/carousel';
-import { IconLoader, IconTagPlus, IconUpload } from '@tabler/icons-react';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/app/_components/ui/popover';
+import {
+  IconCalendarWeek,
+  IconLoader,
+  IconTagPlus,
+  IconUpload,
+} from '@tabler/icons-react';
 import TipTapEditor from '@/app/_components/dashboard/TipTapEditor';
 import { Prisma } from '@prisma/client';
 import { cn } from '@/lib/utils';
+import { Calendar } from '@/app/_components/ui/calendar';
 
 interface ItemUpdationProps {
   data: Prisma.ItemGetPayload<{}>;
@@ -41,6 +52,7 @@ interface ItemUpdationProps {
 
 export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
   const [images, setImages] = useState<string[]>(data.image);
+  const [selectedDate, setSelectedDate] = useState(data.endDate);
   const [index, setIndex] = useState(0);
   const [lastResult, formAction, isPending] = useActionState(
     ItemUpdationAction,
@@ -50,6 +62,9 @@ export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
   const [form, fields] = useForm({
     lastResult,
     defaultValue: {
+      name: String(data.name),
+      startingPrice: Number(data.startingPrice),
+      bidInterval: Number(data.bidInterval),
       description: String(data.description),
     },
     onValidate({ formData }) {
@@ -114,10 +129,16 @@ export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
                     </div>
                     <Input type="hidden" name="id" value={data.id} />
                     <Input
+                      type="hidden"
+                      key={fields.endDate.key}
+                      name={fields.endDate.name}
+                      value={selectedDate.toISOString()}
+                    />
+                    <Input
                       type="text"
                       key={fields.name.key}
                       name={fields.name.name}
-                      defaultValue={data.name}
+                      defaultValue={fields.name.initialValue}
                       className={fields.name.errors && 'border-destructive'}
                       placeholder="First Name"
                     />
@@ -133,12 +154,66 @@ export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
                       type="number"
                       key={fields.startingPrice.key}
                       name={fields.startingPrice.name}
-                      defaultValue={Number(data.startingPrice)}
+                      defaultValue={fields.startingPrice.initialValue}
                       className={
                         fields.startingPrice.errors && 'border-destructive'
                       }
                       placeholder="Starting Price"
                     />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-end justify-between">
+                      <Label>Bid Interval</Label>
+                      <p className="text-destructive mr-2 -mb-1 text-xs">
+                        {fields.bidInterval.errors}
+                      </p>
+                    </div>
+                    <Input
+                      type="number"
+                      key={fields.bidInterval.key}
+                      name={fields.bidInterval.name}
+                      defaultValue={fields.bidInterval.initialValue}
+                      className={
+                        fields.bidInterval.errors && 'border-destructive'
+                      }
+                      placeholder="Bid Interval"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-end justify-between">
+                      <Label>Bid Deadline</Label>
+                      <p className="text-destructive mr-2 -mb-1 text-xs">
+                        {fields.endDate.errors}
+                      </p>
+                    </div>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className="hover:bg-sidebar justify-start text-left"
+                        >
+                          <IconCalendarWeek />
+
+                          {selectedDate ? (
+                            new Intl.DateTimeFormat('en-IN', {
+                              dateStyle: 'long',
+                            }).format(selectedDate)
+                          ) : (
+                            <span>Pick a Date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="size-fit p-1">
+                        <Calendar
+                          selected={selectedDate}
+                          onSelect={(date) =>
+                            setSelectedDate(date || new Date())
+                          }
+                          mode="single"
+                          fromDate={new Date()}
+                        />
+                      </PopoverContent>
+                    </Popover>
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
@@ -152,7 +227,7 @@ export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
                     type="hidden"
                     key={fields.description.key}
                     name={fields.description.name}
-                    defaultValue={data.description}
+                    defaultValue={fields.description.initialValue}
                   />
                   <TipTapEditor
                     field={fields.description}

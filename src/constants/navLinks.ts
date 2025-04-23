@@ -1,10 +1,10 @@
 import {
-  IconBrandElastic,
   IconClipboardList,
+  IconClock,
   IconDashboard,
   IconHelpSquareRounded,
   IconHome,
-  IconReport,
+  IconLibraryPlus,
   IconSettings,
 } from '@tabler/icons-react';
 
@@ -32,12 +32,12 @@ export const navigationLink = {
         {
           title: 'Past Items',
           url: '/home/pastItems',
-          icon: IconBrandElastic,
+          icon: IconClock,
         },
         {
-          title: 'Reports',
-          url: '#',
-          icon: IconReport,
+          title: 'Add Item',
+          url: '/home/addItem',
+          icon: IconLibraryPlus,
         },
       ],
     },
@@ -47,7 +47,7 @@ export const navigationLink = {
       items: [
         {
           title: 'Settings',
-          url: '#',
+          url: '/home/settings',
           icon: IconSettings,
         },
         {

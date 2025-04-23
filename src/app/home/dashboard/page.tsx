@@ -18,7 +18,7 @@ export default async function DashboardPage() {
           </p>
         </div>
         <Button asChild>
-          <Link href="/home/dashboard/create">Place New Item</Link>
+          <Link href="/home/addItem">Place New Item</Link>
         </Button>
       </div>
       <Stats />

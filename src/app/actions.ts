@@ -3,7 +3,7 @@
 'use server';
 
 import { parseWithZod } from '@conform-to/zod';
-import { ItemsSchema, OnboardingUserSchema } from './_utils/schema';
+import { ItemsSchema, UserSchema } from './_utils/schema';
 import { redirect } from 'next/navigation';
 import { fetchUser } from '@/hooks/hooks';
 import { prisma } from '@/app/_utils/prisma';
@@ -70,7 +70,7 @@ export async function OnboardingUserAction(
   formData: FormData,
 ) {
   const submission = parseWithZod(formData, {
-    schema: OnboardingUserSchema,
+    schema: UserSchema,
   });
 
   if (submission.status !== 'success') {
@@ -123,7 +123,7 @@ export async function ItemCreationAction(
       image: flattenURLs,
       bidInterval: submission.value.bidInterval,
       currentBid: submission.value.startingPrice,
-      endDate: submission.value.endDate
+      endDate: submission.value.endDate,
     },
   });
 
@@ -158,6 +158,41 @@ export async function ItemUpdationAction(
       description: submission.value.description,
       startingPrice: submission.value.startingPrice,
       image: flattenURLs,
+      bidInterval: submission.value.bidInterval,
+      currentBid: submission.value.startingPrice,
+      endDate: submission.value.endDate,
+    },
+  });
+
+  redirect('/home/dashboard');
+}
+
+export async function ProfileUpdationAction(
+  prevState: unknown,
+  formData: FormData,
+) {
+  const submission = parseWithZod(formData, {
+    schema: UserSchema,
+  });
+
+  if (submission.status !== 'success') {
+    return submission.reply();
+  }
+
+  const session = await fetchUser();
+
+  await prisma.user.update({
+    where: {
+      id: session.user?.id,
+    },
+    data: {
+      firstName: submission.value.firstName,
+      lastName: submission.value.lastName,
+      name: `${submission.value.firstName} ${submission.value.lastName}`,
+      phoneNumber: submission.value.phoneNumber,
+      pinCode: submission.value.pinCode,
+      image: submission.value.image,
+      email: submission.value.email,
     },
   });
 

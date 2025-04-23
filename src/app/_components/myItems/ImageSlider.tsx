@@ -45,7 +45,7 @@ export default function ImageCarousel({ images, className }: ImageCarouselProps)
         </CarouselContent>
         <CarouselNavigation
           alwaysShow
-          className="flex justify-center gap-[45%]"
+          className="flex justify-center gap-[40%]"
         />
       </Carousel>
 

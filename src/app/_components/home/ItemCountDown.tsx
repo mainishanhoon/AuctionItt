@@ -30,9 +30,9 @@ export default function CountdownTimer({ date }: { date: Date }) {
   const seconds = totalSecondsLeft % 60;
 
   return (
-    <div className="flex items-center gap-2 mt-2">
+    <div className="mt-2 flex items-center gap-2">
       {days > 0 && (
-        <p className="text-muted-foreground inline-flex items-center gap-1.5 text-xl font-bold">
+        <div className="text-muted-foreground inline-flex items-center gap-1.5 text-xl font-bold">
           <Counter
             value={Number(days)}
             places={[10, 1]}
@@ -43,9 +43,9 @@ export default function CountdownTimer({ date }: { date: Date }) {
             fontWeight={900}
           />
           {Number(days) <= 1 ? 'Day' : 'Days'}
-        </p>
+        </div>
       )}
-      <p className="text-muted-foreground inline-flex items-center gap-1.5 text-xl font-bold">
+      <div className="text-muted-foreground inline-flex items-center gap-1.5 text-xl font-bold">
         <Counter
           value={Number(hours)}
           places={[10, 1]}
@@ -56,8 +56,8 @@ export default function CountdownTimer({ date }: { date: Date }) {
           fontWeight={900}
         />
         {Number(hours) <= 1 ? 'Hour' : 'Hours'}
-      </p>
-      <p className="text-muted-foreground inline-flex items-center gap-1.5 text-xl font-bold">
+      </div>
+      <div className="text-muted-foreground inline-flex items-center gap-1.5 text-xl font-bold">
         <Counter
           value={Number(minutes)}
           places={[10, 1]}
@@ -68,8 +68,8 @@ export default function CountdownTimer({ date }: { date: Date }) {
           textColorClass="text-primary bg-background"
         />
         {Number(minutes) <= 1 ? 'Minute' : 'Minutes'}
-      </p>
-      <p className="text-muted-foreground inline-flex items-center gap-1.5 text-xl font-bold">
+      </div>
+      <div className="text-muted-foreground inline-flex items-center gap-1.5 text-xl font-bold">
         <Counter
           value={Number(seconds)}
           places={[10, 1]}
@@ -80,7 +80,7 @@ export default function CountdownTimer({ date }: { date: Date }) {
           fontWeight={900}
         />
         {Number(seconds) <= 1 ? 'Second' : 'Seconds'}
-      </p>
+      </div>
     </div>
   );
 }

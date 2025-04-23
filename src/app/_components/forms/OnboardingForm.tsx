@@ -11,7 +11,7 @@ import Form from 'next/form';
 import { useActionState } from 'react';
 import { useForm } from '@conform-to/react';
 import { parseWithZod } from '@conform-to/zod';
-import { OnboardingUserSchema } from '@/app/_utils/schema';
+import { UserSchema } from '@/app/_utils/schema';
 import { OnboardingUserAction } from '@/app/actions';
 import { Input } from '@/app/_components/ui/input';
 import { Label } from '@/app/_components/ui/label';
@@ -29,7 +29,7 @@ export default function OnboardingForm() {
   const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {
-      return parseWithZod(formData, { schema: OnboardingUserSchema });
+      return parseWithZod(formData, { schema: UserSchema });
     },
     shouldValidate: 'onBlur',
     shouldRevalidate: 'onInput',

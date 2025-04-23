@@ -58,7 +58,7 @@ export default function ItemUpdationCard({ item }: ItemProps) {
         </div>
       </CardContent>
 
-      <CardFooter className="grid grid-cols-2 gap-5">
+      <CardFooter className="grid grid-cols-2 gap-2">
         <Button
           asChild
           variant="ghost"

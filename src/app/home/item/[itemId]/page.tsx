@@ -1,7 +1,6 @@
 import ImageCarousel from '@/app/_components/myItems/ImageSlider';
 import { prisma } from '@/app/_utils/prisma';
 import { unstable_noStore as noStore } from 'next/cache';
-import { Badge } from '@/app/_components/ui/badge';
 import { Separator } from '@/app/_components/ui/separator';
 import { Button } from '@/app/_components/ui/button';
 import Link from 'next/link';
@@ -65,12 +64,9 @@ export default async function ItemRoute({ params }: Params) {
       <ImageCarousel images={data.image} className="p-4" />
       <div className="p-4">
         <h1 className="text-3xl font-bold capitalize">{data.name}</h1>
-        <Badge
-          variant="outline"
-          className="text-primary border-muted-foreground mt-3 rounded-lg border-2 border-dashed text-3xl font-bold"
-        >
+        <h2 className="text-primary border-muted-foreground hover:bg-sidebar bg-background mt-3 size-fit rounded-lg border-2 border-dashed px-2 py-1 text-3xl font-bold">
           ₹{data.startingPrice}
-        </Badge>
+        </h2>
         <div className="my-5 flex gap-2">
           <Button
             asChild
@@ -112,7 +108,7 @@ export default async function ItemRoute({ params }: Params) {
               return (
                 <ul
                   key={index}
-                  className="bg-background relative flex justify-between gap-2 rounded-xl p-4 shadow-lg max-md:flex-col"
+                  className="bg-background relative flex justify-between gap-2 rounded-xl p-4 shadow-md transition-shadow duration-500 hover:shadow-sm max-md:flex-col"
                 >
                   <li className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                     <Icon className="text-muted size-10" />
