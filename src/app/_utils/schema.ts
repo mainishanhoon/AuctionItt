@@ -17,7 +17,7 @@ export const UserSchema = z.object({
     .int()
     .gte(100000, { message: 'Pin Code must be of 6 digits' })
     .lte(999999, { message: 'Pin Code must be of 6 digits' }),
-  image: z.string(),
+  image: z.string().optional(),
   email: z.string().email().optional(),
 });
 
@@ -30,6 +30,7 @@ export const ItemsSchema = z.object({
     .string({ message: 'Description is Required' })
     .min(10, 'Description must be at least 10 characters long'),
   image: z.array(z.string()).min(1, 'Images are Required'),
+  status: z.enum(['DRAFT', 'PUBLISHED']),
 });
 
 export type Items = z.infer<typeof ItemsSchema>;

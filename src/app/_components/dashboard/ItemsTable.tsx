@@ -16,7 +16,6 @@ import {
 import { Badge } from '@/app/_components/ui/badge';
 import { Button } from '@/app/_components/ui/button';
 import { Checkbox } from '@/app/_components/ui/checkbox';
-import { Progress } from '@/app/_components/ui/progress';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -69,12 +68,6 @@ import {
   useTransition,
 } from 'react';
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/app/_components/ui/tooltip';
-import {
   IconDotsVertical,
   IconFilter,
   IconRosetteDiscountCheckFilled,
@@ -85,21 +78,30 @@ import {
   IconChevronDown,
   IconAlertSquareRoundedFilled,
   IconTrash,
+  IconEdit,
+  IconRosetteDiscountCheck,
 } from '@tabler/icons-react';
+import { ItemStatus } from '@prisma/client';
+import { TipTapViewer } from './TipTapViewer';
+import { toast } from 'sonner';
+import Link from 'next/link';
 
 type Item = {
   id: string;
-  image: string;
   name: string;
-  status: string;
-  location: string;
-  verified: boolean;
-  referral: {
-    name: string;
-    image: string;
-  };
-  value: number;
-  joinDate: string;
+  description: string;
+  image: string[];
+  currentBid: number;
+  startingPrice: number;
+  bidInterval: number;
+  endDate: Date;
+  status: ItemStatus;
+  bids: {
+    user: {
+      name: string | null;
+      image: string | null;
+    };
+  }[];
 };
 
 const statusFilterFn: FilterFn<Item> = (
@@ -142,30 +144,22 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
     enableHiding: false,
   },
   {
-    header: 'Name',
+    header: 'Title',
     accessorKey: 'name',
     cell: ({ row }) => (
       <div className="flex items-center gap-3">
         <Image
-          className="rounded-full"
-          src={row.original.image}
+          src={row.original.image[0].toString()}
           width={32}
           height={32}
           alt={row.getValue('name')}
+          className="aspect-square rounded-sm object-cover"
         />
-        <div className="font-medium">{row.getValue('name')}</div>
+        <div className="font-medium capitalize">{row.getValue('name')}</div>
       </div>
     ),
     size: 180,
     enableHiding: false,
-  },
-  {
-    header: 'ID',
-    accessorKey: 'id',
-    cell: ({ row }) => (
-      <span className="text-muted-foreground">{row.getValue('id')}</span>
-    ),
-    size: 110,
   },
   {
     header: 'Status',
@@ -175,10 +169,10 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
         <Badge
           variant="outline"
           className={cn(
-            'text-foreground gap-1 rounded-lg px-2 py-0.5 text-sm',
-            row.original.status === 'Inactive'
-              ? 'bg-amber-500'
-              : 'bg-emerald-500',
+            'gap-1 px-2 py-0.5 text-sm',
+            row.original.status === 'DRAFT'
+              ? 'bg-amber-500 text-amber-800'
+              : 'text-primary-foreground bg-emerald-500',
           )}
         >
           {row.original.status}
@@ -189,12 +183,15 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
     filterFn: statusFilterFn,
   },
   {
-    header: 'Location',
-    accessorKey: 'location',
+    header: 'Description',
+    accessorKey: 'description',
     cell: ({ row }) => (
-      <span className="text-muted-foreground">{row.getValue('location')}</span>
+      <TipTapViewer
+        json={JSON.parse(row.getValue('description'))}
+        className="text-muted-foreground h-9 max-w-sm truncate"
+      />
     ),
-    size: 140,
+    size: 150,
   },
   {
     header: 'Verified',
@@ -202,12 +199,12 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
     cell: ({ row }) => (
       <div>
         <span className="sr-only">
-          {row.original.verified ? 'Verified' : 'Not Verified'}
+          {row.original.status ? 'Verified' : 'Not Verified'}
         </span>
         <IconRosetteDiscountCheckFilled
           size={20}
           className={cn(
-            row.original.verified
+            row.original.status === 'PUBLISHED'
               ? 'fill-emerald-600'
               : 'fill-muted-foreground/50',
           )}
@@ -218,45 +215,23 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
     size: 90,
   },
   {
-    header: 'Referral',
-    accessorKey: 'referral',
+    header: 'Highest Bidder',
+    accessorKey: 'bids',
     cell: ({ row }) => (
       <div className="flex items-center gap-3">
         <Image
           className="rounded-full"
-          src={row.original.referral.image}
+          src={row.original.bids[0]?.user.image ?? '/avatar/avatar-5.webp'}
           width={20}
           height={20}
-          alt={row.original.referral.name}
+          alt={row.original.bids[0]?.user.name ?? 'No Bidder'}
         />
-        <div className="text-muted-foreground">
-          {row.original.referral.name}
+        <div className="text-muted-foreground capitalize">
+          {row.original.bids[0]?.user.name ?? 'No Bidder'}
         </div>
       </div>
     ),
     size: 140,
-  },
-  {
-    header: 'Value',
-    accessorKey: 'value',
-    cell: ({ row }) => {
-      const value = row.getValue('value') as number;
-      return (
-        <TooltipProvider delayDuration={0}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className="flex h-full w-full items-center">
-                <Progress className="h-1 max-w-14" value={value} />
-              </div>
-            </TooltipTrigger>
-            <TooltipContent align="start" sideOffset={-8}>
-              <p>{value}%</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      );
-    },
-    size: 80,
   },
   {
     id: 'actions',
@@ -269,7 +244,7 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
   },
 ];
 
-export default function ItemsTable() {
+export default function ItemsTable({ tableData }: { tableData: Item[] }) {
   const id = useId();
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -294,28 +269,25 @@ export default function ItemsTable() {
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const res = await fetch(
-          'https://res.cloudinary.com/dlzlfasou/raw/upload/users-02_mohkpe.json',
-        );
-        const data = await res.json();
-        setData(data);
+        setData(tableData);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
         setIsLoading(false);
       }
     }
-    fetchPosts();
-  }, []);
 
-  const handleDeleteRows = () => {
+    fetchPosts();
+  }, [tableData]);
+
+  async function handleDeleteRows() {
     const selectedRows = table.getSelectedRowModel().rows;
     const updatedData = data.filter(
       (item) => !selectedRows.some((row) => row.original.id === item.id),
     );
     setData(updatedData);
     table.resetRowSelection();
-  };
+  }
 
   const table = useReactTable({
     data,
@@ -359,7 +331,7 @@ export default function ItemsTable() {
     return (statusFilterValue as string[]) ?? [];
   }, [statusFilterValue]);
 
-  const handleStatusChange = (checked: boolean, value: string) => {
+  async function handleStatusChange(checked: boolean, value: string) {
     const filterValue = table.getColumn('status')?.getFilterValue() as string[];
     const newFilterValue = filterValue ? [...filterValue] : [];
 
@@ -375,7 +347,7 @@ export default function ItemsTable() {
     table
       .getColumn('status')
       ?.setFilterValue(newFilterValue.length ? newFilterValue : undefined);
-  };
+  }
 
   return (
     <div className="space-y-4">
@@ -602,9 +574,9 @@ export default function ItemsTable() {
             <TableRow className="hover:bg-transparent [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
               <TableCell
                 colSpan={columns.length}
-                className="flex h-24 justify-center gap-4"
+                className="h-24 gap-4 text-center"
               >
-                <p>Loading...</p>
+                Loading...
               </TableCell>
             </TableRow>
           ) : table.getRowModel().rows?.length ? (
@@ -692,43 +664,63 @@ function RowActions({
   const [isUpdatePending, startUpdateTransition] = useTransition();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
-  const handleStatusToggle = () => {
-    startUpdateTransition(() => {
-      const updatedData = data.map((dataItem) => {
-        if (dataItem.id === item.id) {
-          return {
-            ...dataItem,
-            status: item.status === 'Active' ? 'Inactive' : 'Active',
-          };
-        }
-        return dataItem;
-      });
-      setData(updatedData);
-    });
-  };
+  async function handleStatusToggle() {
+    toast.promise(
+      fetch(`/api/status/${item.id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then(() => {
+        startUpdateTransition(() => {
+          const updatedData = data.map((dataItem) => {
+            if (dataItem.id === item.id) {
+              return {
+                ...dataItem,
+                status:
+                  item.status === ('DRAFT' as ItemStatus)
+                    ? ('PUBLISHED' as ItemStatus)
+                    : ('DRAFT' as ItemStatus),
+              };
+            }
+            return dataItem;
+          });
+          setData(updatedData);
+        });
+      }),
+      {
+        loading: 'Saving Changes...',
+        success: 'Saved Changes',
+        error: 'Failed to Save Changes',
+      },
+    );
+  }
 
-  const handleVerifiedToggle = () => {
+  async function RemoveUserAction() {
     startUpdateTransition(() => {
-      const updatedData = data.map((dataItem) => {
-        if (dataItem.id === item.id) {
-          return {
-            ...dataItem,
-            verified: !item.verified,
-          };
-        }
-        return dataItem;
-      });
-      setData(updatedData);
+      toast.promise(
+        fetch(`/api/removeUser/${item.id}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }).then(() => {
+          startUpdateTransition(() => {
+            const updatedData = data.filter(
+              (dataItem) => dataItem.id !== item.id,
+            );
+            setData(updatedData);
+            setShowDeleteDialog(false);
+          });
+        }),
+        {
+          loading: 'Removing user...',
+          success: 'Removed User Successfully',
+          error: 'Failed to Remove User',
+        },
+      );
     });
-  };
-
-  const handleDelete = () => {
-    startUpdateTransition(() => {
-      const updatedData = data.filter((dataItem) => dataItem.id !== item.id);
-      setData(updatedData);
-      setShowDeleteDialog(false);
-    });
-  };
+  }
 
   return (
     <>
@@ -749,30 +741,30 @@ function RowActions({
             </Button>
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-auto">
+        <DropdownMenuContent align="end">
           <DropdownMenuGroup>
             <DropdownMenuItem
               onClick={handleStatusToggle}
               disabled={isUpdatePending}
             >
-              {item.status === 'Active'
-                ? 'Deactivate contact'
-                : 'Activate contact'}
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={handleVerifiedToggle}
-              disabled={isUpdatePending}
-            >
-              {item.verified ? 'Unverify contact' : 'Verify contact'}
+              <IconRosetteDiscountCheck />
+              <span>{item.status === 'DRAFT' ? 'Publish' : 'Draft'}</span>
             </DropdownMenuItem>
           </DropdownMenuGroup>
+          <DropdownMenuItem asChild>
+            <Link href={`/home/myItems/${item.id}`}>
+              <IconEdit />
+              <span>Edit</span>
+            </Link>
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={() => setShowDeleteDialog(true)}
             variant="destructive"
             className="dark:data-[variant=destructive]:focus:bg-destructive/10"
           >
-            Delete
+            <IconTrash />
+            <span>Delete</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -791,7 +783,7 @@ function RowActions({
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
-              onClick={handleDelete}
+              onClick={RemoveUserAction}
               disabled={isUpdatePending}
               className="bg-destructive hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-white shadow-xs"
             >

@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from '@/app/_components/ui/card';
 import Form from 'next/form';
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
 import { useForm } from '@conform-to/react';
 import { parseWithZod } from '@conform-to/zod';
 import { UserSchema } from '@/app/_utils/schema';
@@ -42,6 +42,7 @@ interface ProfileUpdationProps {
 }
 
 export default function ProfileUpdationRoute({ data }: ProfileUpdationProps) {
+  const [image, setImage] = useState(data.image);
   const [lastResult, formAction, isPending] = useActionState(
     ProfileUpdationAction,
     null,
@@ -54,7 +55,6 @@ export default function ProfileUpdationRoute({ data }: ProfileUpdationProps) {
       lastName: data.lastName,
       phoneNumber: data.phoneNumber,
       pinCode: data.pinCode,
-      image: data.image,
       email: data.email,
     },
     onValidate({ formData }) {
@@ -99,7 +99,7 @@ export default function ProfileUpdationRoute({ data }: ProfileUpdationProps) {
             action={formAction}
             noValidate
           >
-            <div className="flex flex-col gap-5">
+            <div className="mt-5 flex flex-col">
               <div className="grid gap-5 md:grid-cols-2">
                 <div className="flex flex-col items-center gap-2">
                   <div className="flex items-end justify-between">
@@ -112,10 +112,10 @@ export default function ProfileUpdationRoute({ data }: ProfileUpdationProps) {
                     type="hidden"
                     key={fields.image.key}
                     name={fields.image.name}
-                    defaultValue={fields.image.initialValue}
+                    value={image}
                     placeholder="Pin Code"
                   />
-                  {fields.image.initialValue == '' ? (
+                  {image == '' ? (
                     <UploadDropzone
                       endpoint="avatarUploader"
                       appearance={{
@@ -137,7 +137,8 @@ export default function ProfileUpdationRoute({ data }: ProfileUpdationProps) {
                         ),
                         label: 'Choose file or Drag & Drop',
                       }}
-                      onClientUploadComplete={() => {
+                      onClientUploadComplete={(images) => {
+                        setImage(images[0].url);
                         toast.success('Image has been Uploaded');
                       }}
                       onUploadError={(error) => {
@@ -147,7 +148,10 @@ export default function ProfileUpdationRoute({ data }: ProfileUpdationProps) {
                   ) : (
                     <div className="relative">
                       <Image
-                        src={String(fields.image.initialValue)}
+                        src={
+                          String(image) ||
+                          `https://avatar.vercel.sh/rauchg.svg?text=${data.firstName?.charAt(0)}${data.lastName?.charAt(0)}`
+                        }
                         alt="Profile Picture"
                         width={1000}
                         height={1000}
@@ -160,7 +164,12 @@ export default function ProfileUpdationRoute({ data }: ProfileUpdationProps) {
                           'size-25 rounded-lg border border-dashed md:size-60',
                         )}
                       />
-                      <p className="absolute bottom-0 left-0 inline-flex h-10 w-full cursor-pointer items-center justify-center gap-0.5 rounded-t-none rounded-b-xl bg-red-500 text-xl font-medium text-white hover:bg-red-600">
+                      <p
+                        className="absolute bottom-0 left-0 inline-flex h-10 w-full cursor-pointer items-center justify-center gap-0.5 rounded-t-none rounded-b-xl bg-red-500 text-xl font-medium text-white hover:bg-red-600"
+                        onClick={() => {
+                          setImage('');
+                        }}
+                      >
                         <IconTrash />
                         <span>Remove</span>
                       </p>
@@ -202,50 +211,50 @@ export default function ProfileUpdationRoute({ data }: ProfileUpdationProps) {
                       className={fields.lastName.errors && 'border-destructive'}
                     />
                   </div>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <Label>Phone Number</Label>
-                  <Input
-                    type="number"
-                    key={fields.phoneNumber.key}
-                    name={fields.phoneNumber.name}
-                    defaultValue={fields.phoneNumber.initialValue}
-                    placeholder="Phone Number"
-                    className={
-                      fields.phoneNumber.errors && 'border-destructive'
-                    }
-                  />
-                  <p className="text-destructive -mt-1 ml-2 text-xs">
-                    {fields.phoneNumber.errors}
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <Label>Pin Code</Label>
-                  <Input
-                    type="number"
-                    key={fields.pinCode.key}
-                    name={fields.pinCode.name}
-                    defaultValue={fields.pinCode.initialValue}
-                    placeholder="Pin Code"
-                    className={fields.pinCode.errors && 'border-destructive'}
-                  />
-                  <p className="text-destructive -mt-1 ml-2 text-xs">
-                    {fields.pinCode.errors}
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <Label>Email</Label>
-                  <Input
-                    type="email"
-                    key={fields.email.key}
-                    name={fields.email.name}
-                    defaultValue={fields.email.initialValue}
-                    placeholder="Pin Code"
-                    className={fields.email.errors && 'border-destructive'}
-                  />
-                  <p className="text-destructive -mt-1 ml-2 text-xs">
-                    {fields.email.errors}
-                  </p>
+                  <div className="flex flex-col gap-2">
+                    <Label>Phone Number</Label>
+                    <Input
+                      type="number"
+                      key={fields.phoneNumber.key}
+                      name={fields.phoneNumber.name}
+                      defaultValue={fields.phoneNumber.initialValue}
+                      placeholder="Phone Number"
+                      className={
+                        fields.phoneNumber.errors && 'border-destructive'
+                      }
+                    />
+                    <p className="text-destructive -mt-1 ml-2 text-xs">
+                      {fields.phoneNumber.errors}
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <Label>Pin Code</Label>
+                    <Input
+                      type="number"
+                      key={fields.pinCode.key}
+                      name={fields.pinCode.name}
+                      defaultValue={fields.pinCode.initialValue}
+                      placeholder="Pin Code"
+                      className={fields.pinCode.errors && 'border-destructive'}
+                    />
+                    <p className="text-destructive -mt-1 ml-2 text-xs">
+                      {fields.pinCode.errors}
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <Label>Email</Label>
+                    <Input
+                      type="email"
+                      key={fields.email.key}
+                      name={fields.email.name}
+                      defaultValue={fields.email.initialValue}
+                      placeholder="Pin Code"
+                      className={fields.email.errors && 'border-destructive'}
+                    />
+                    <p className="text-destructive -mt-1 ml-2 text-xs">
+                      {fields.email.errors}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

@@ -2,21 +2,23 @@ import EmptyState from '@/app/_components/home/EmptyState';
 import PastItemCard from '@/app/_components/pastItems/PastItemCard';
 import { prisma } from '@/app/_utils/prisma';
 import { getUser } from '@/hooks/hooks';
-import React from 'react';
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@/app/_components/ui/tabs';
-export default async function ListingPage() {
+
+export default async function PastItemsPage() {
   const user = await getUser();
+  
   const [data, myData] = await Promise.all([
     prisma.item.findMany({
       where: {
         endDate: {
           lt: new Date(),
         },
+        status: 'PUBLISHED',
       },
       select: {
         id: true,
@@ -26,12 +28,14 @@ export default async function ListingPage() {
         image: true,
       },
     }),
+
     prisma.item.findMany({
       where: {
         userId: user.id,
         endDate: {
           lt: new Date(),
         },
+        status: 'PUBLISHED',
       },
       select: {
         id: true,
@@ -60,7 +64,7 @@ export default async function ListingPage() {
             title="No Past Auction Items to Display"
             description="There are currently no items available in past events. Check back later or explore other auction categories to find active listings."
             text="Refresh Page"
-            href="/home"
+            href="/home/pastItems"
           />
         )}
       </TabsContent>
@@ -76,7 +80,7 @@ export default async function ListingPage() {
             title="No Past Auction Items to Display"
             description="There are currently no items available in past events. Check back later or explore other auction categories to find active listings."
             text="Refresh Page"
-            href="/home"
+            href="/home/pastItems"
           />
         )}
       </TabsContent>

@@ -20,6 +20,7 @@ import {
 } from '@tabler/icons-react';
 import Image from 'next/image';
 import SignOutWrapper from '@/app/_components/auth/SignOut';
+import Link from 'next/link';
 
 export default async function UserDropdown() {
   const user = await getUser();
@@ -57,13 +58,15 @@ export default async function UserDropdown() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <IconSettingsFilled
-              size={16}
-              className="opacity-60"
-              aria-hidden="true"
-            />
-            <span>Settings</span>
+          <DropdownMenuItem asChild>
+            <Link href="/home/settings">
+              <IconSettingsFilled
+                size={16}
+                className="opacity-60"
+                aria-hidden="true"
+              />
+              <span>Settings</span>
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <IconAlertSquareRoundedFilled

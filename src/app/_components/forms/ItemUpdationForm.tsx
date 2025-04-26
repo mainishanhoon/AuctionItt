@@ -42,9 +42,16 @@ import {
   IconUpload,
 } from '@tabler/icons-react';
 import TipTapEditor from '@/app/_components/dashboard/TipTapEditor';
-import { Prisma } from '@prisma/client';
+import { ItemStatus, Prisma } from '@prisma/client';
 import { cn } from '@/lib/utils';
 import { Calendar } from '@/app/_components/ui/calendar';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/app/_components/ui/select';
 
 interface ItemUpdationProps {
   data: Prisma.ItemGetPayload<{}>;
@@ -65,6 +72,7 @@ export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
       name: String(data.name),
       startingPrice: Number(data.startingPrice),
       bidInterval: Number(data.bidInterval),
+      status: data.status as ItemStatus,
       description: String(data.description),
     },
     onValidate({ formData }) {
@@ -160,60 +168,90 @@ export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
                       }
                       placeholder="Starting Price"
                     />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <div className="flex items-end justify-between">
-                      <Label>Bid Interval</Label>
-                      <p className="text-destructive mr-2 -mb-1 text-xs">
-                        {fields.bidInterval.errors}
+                  </div>{' '}
+                  <div className="col-span-2 grid gap-2 lg:grid-cols-3">
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-end justify-between">
+                        <Label>Bid Interval</Label>
+                        <p className="text-destructive mr-2 -mb-1 text-xs">
+                          {fields.bidInterval.errors}
+                        </p>
+                      </div>
+                      <Input
+                        type="number"
+                        key={fields.bidInterval.key}
+                        name={fields.bidInterval.name}
+                        defaultValue={fields.bidInterval.initialValue}
+                        className={
+                          fields.bidInterval.errors && 'border-destructive'
+                        }
+                        placeholder="Bid Interval"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <Label>Status</Label>
+                      <Select
+                        key={fields.status.key}
+                        name={fields.status.name}
+                        defaultValue={fields.status.initialValue}
+                      >
+                        <SelectTrigger>
+                          <SelectValue
+                            placeholder={fields.status.initialValue}
+                          />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {Object.values(ItemStatus).map((status) => (
+                            <SelectItem
+                              key={status}
+                              value={status}
+                              className="font-bold"
+                            >
+                              {status}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <p className="font-mont text-destructive -mt-2 ml-3">
+                        {fields.status.errors}
                       </p>
                     </div>
-                    <Input
-                      type="number"
-                      key={fields.bidInterval.key}
-                      name={fields.bidInterval.name}
-                      defaultValue={fields.bidInterval.initialValue}
-                      className={
-                        fields.bidInterval.errors && 'border-destructive'
-                      }
-                      placeholder="Bid Interval"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <div className="flex items-end justify-between">
-                      <Label>Bid Deadline</Label>
-                      <p className="text-destructive mr-2 -mb-1 text-xs">
-                        {fields.endDate.errors}
-                      </p>
-                    </div>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className="hover:bg-sidebar justify-start text-left"
-                        >
-                          <IconCalendarWeek />
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-end justify-between">
+                        <Label>Bid Deadline</Label>
+                        <p className="text-destructive mr-2 -mb-1 text-xs">
+                          {fields.endDate.errors}
+                        </p>
+                      </div>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className="hover:bg-sidebar justify-start text-left"
+                          >
+                            <IconCalendarWeek />
 
-                          {selectedDate ? (
-                            new Intl.DateTimeFormat('en-IN', {
-                              dateStyle: 'long',
-                            }).format(selectedDate)
-                          ) : (
-                            <span>Pick a Date</span>
-                          )}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="size-fit p-1">
-                        <Calendar
-                          selected={selectedDate}
-                          onSelect={(date) =>
-                            setSelectedDate(date || new Date())
-                          }
-                          mode="single"
-                          fromDate={new Date()}
-                        />
-                      </PopoverContent>
-                    </Popover>
+                            {selectedDate ? (
+                              new Intl.DateTimeFormat('en-IN', {
+                                dateStyle: 'long',
+                              }).format(selectedDate)
+                            ) : (
+                              <span>Pick a Date</span>
+                            )}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="size-fit p-1">
+                          <Calendar
+                            selected={selectedDate}
+                            onSelect={(date) =>
+                              setSelectedDate(date || new Date())
+                            }
+                            mode="single"
+                            fromDate={new Date()}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
@@ -286,7 +324,7 @@ export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
                       fields.image.errors
                         ? 'border-destructive'
                         : 'border-muted-foreground',
-                      'bg-primary/10 relative mt-2 flex items-center justify-center border-2 border-dashed',
+                      'bg-primary/10 relative mt-2 flex flex-col items-center justify-center border-2 border-dashed',
                     )}
                   >
                     <Carousel index={index} onIndexChange={setIndex}>

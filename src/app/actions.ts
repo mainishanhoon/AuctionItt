@@ -124,6 +124,7 @@ export async function ItemCreationAction(
       bidInterval: submission.value.bidInterval,
       currentBid: submission.value.startingPrice,
       endDate: submission.value.endDate,
+      status: submission.value.status,
     },
   });
 
@@ -161,6 +162,7 @@ export async function ItemUpdationAction(
       bidInterval: submission.value.bidInterval,
       currentBid: submission.value.startingPrice,
       endDate: submission.value.endDate,
+      status: submission.value.status,
     },
   });
 

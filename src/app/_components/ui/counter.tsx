@@ -100,11 +100,7 @@ export default function Counter({
   return (
     <div className={cn('relative inline-block', containerClassName)}>
       <div
-        className={cn(
-          'flex overflow-hidden',
-          textColorClass,
-          counterClassName,
-        )}
+        className={cn('flex overflow-hidden', textColorClass, counterClassName)}
         style={{
           fontSize,
           fontWeight,

@@ -1,6 +1,5 @@
 import ImageCarousel from '@/app/_components/myItems/ImageSlider';
 import { prisma } from '@/app/_utils/prisma';
-import { unstable_noStore as noStore } from 'next/cache';
 import { Separator } from '@/app/_components/ui/separator';
 import { Button } from '@/app/_components/ui/button';
 import Link from 'next/link';
@@ -55,7 +54,6 @@ async function getData(itemId: string) {
   };
 }
 export default async function ItemRoute({ params }: Params) {
-  noStore();
   const { itemId } = await params;
   const { data, bids } = await getData(itemId);
 
@@ -146,7 +144,7 @@ export default async function ItemRoute({ params }: Params) {
         )}
 
         {bids.length !== 0 && <Separator className="my-2 h-0.5" />}
-        <h3 className="text-2xl font-bold">Item Description</h3>
+        <h3 className="text-2xl font-bold my-2">Item Description</h3>
         <article className="bg-sidebar rounded-xl p-2">
           <TipTapViewer json={JSON.parse(data.description)} />
         </article>

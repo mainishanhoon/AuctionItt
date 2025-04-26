@@ -14,6 +14,7 @@ export default async function ListingPage() {
       endDate: {
         gt: new Date(),
       },
+      status: 'PUBLISHED',
     },
   });
   return data.length !== 0 ? (
