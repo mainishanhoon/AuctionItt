@@ -1,4 +1,5 @@
 import { Button } from '@/app/_components/ui/button';
+import { cn } from '@/lib/utils';
 import { IconHexagonPlus, IconInfoSquareRounded } from '@tabler/icons-react';
 import Link from 'next/link';
 
@@ -7,6 +8,7 @@ interface EmptyStateProps {
   description: string;
   href: string;
   text: string;
+  className?: string;
 }
 
 export default function EmptyState({
@@ -14,10 +16,16 @@ export default function EmptyState({
   description,
   href,
   text,
+  className,
 }: EmptyStateProps) {
   return (
-    <div className="font-jura flex flex-col items-center justify-center">
-      <div className="border-muted-foreground bg-muted animate-in fade-in-50 flex size-full flex-col items-center justify-center rounded-3xl border-2 border-dashed p-8 text-center">
+    <div
+      className={cn(
+        'bg-muted border-muted-foreground flex flex-col items-center justify-center rounded-3xl border-2 border-dashed',
+        className,
+      )}
+    >
+      <div className="animate-in fade-in-50 flex size-full flex-col items-center justify-center p-8 text-center">
         <div className="bg-primary/20 flex size-24 items-center justify-center rounded-full">
           <IconInfoSquareRounded
             strokeWidth={3}
@@ -25,7 +33,7 @@ export default function EmptyState({
           />
         </div>
         <h2 className="mt-6 text-xl font-medium md:text-3xl">{title}</h2>
-        <p className="md:text-base text-muted-foreground mx-auto mt-2 mb-8 max-w-xl text-center text-xs leading-tight tracking-wide">
+        <p className="text-muted-foreground mx-auto mt-2 mb-8 max-w-xl text-center text-xs leading-tight tracking-wide md:text-base">
           {description}
         </p>
 

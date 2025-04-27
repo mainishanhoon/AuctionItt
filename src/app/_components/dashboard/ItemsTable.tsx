@@ -70,7 +70,6 @@ import {
 import {
   IconDotsVertical,
   IconFilter,
-  IconRosetteDiscountCheckFilled,
   IconSearch,
   IconTableSpark,
   IconCircleDashedX,
@@ -144,10 +143,10 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
     enableHiding: false,
   },
   {
-    header: 'Title',
-    accessorKey: 'name',
+    header: 'Image',
+    accessorKey: 'image',
     cell: ({ row }) => (
-      <div className="flex items-center gap-3">
+      <div className="flex items-center justify-center">
         <Image
           src={row.original.image[0].toString()}
           width={32}
@@ -155,17 +154,27 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
           alt={row.getValue('name')}
           className="aspect-square rounded-sm object-cover"
         />
-        <div className="font-medium capitalize">{row.getValue('name')}</div>
       </div>
     ),
-    size: 180,
+    size: 40,
+    enableHiding: false,
+  },
+  {
+    header: 'Name',
+    accessorKey: 'name',
+    cell: ({ row }) => (
+      <div className="text-center font-medium capitalize">
+        {row.getValue('name')}
+      </div>
+    ),
+    size: 100,
     enableHiding: false,
   },
   {
     header: 'Status',
     accessorKey: 'status',
     cell: ({ row }) => (
-      <div className="flex h-full items-center">
+      <div className="text-center">
         <Badge
           variant="outline"
           className={cn(
@@ -188,37 +197,25 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
     cell: ({ row }) => (
       <TipTapViewer
         json={JSON.parse(row.getValue('description'))}
-        className="text-muted-foreground h-9 max-w-sm truncate"
+        className="text-muted-foreground h-9 max-w-sm truncate text-center"
       />
     ),
     size: 150,
   },
   {
-    header: 'Verified',
-    accessorKey: 'verified',
+    header: 'Current Bid',
+    accessorKey: 'currentBid',
     cell: ({ row }) => (
-      <div>
-        <span className="sr-only">
-          {row.original.status ? 'Verified' : 'Not Verified'}
-        </span>
-        <IconRosetteDiscountCheckFilled
-          size={20}
-          className={cn(
-            row.original.status === 'PUBLISHED'
-              ? 'fill-emerald-600'
-              : 'fill-muted-foreground/50',
-          )}
-          aria-hidden="true"
-        />
+      <div className="text-center">
+        ₹ <span className="">{row.original.currentBid}</span>
       </div>
     ),
     size: 90,
   },
   {
     header: 'Highest Bidder',
-    accessorKey: 'bids',
     cell: ({ row }) => (
-      <div className="flex items-center gap-3">
+      <div className="flex items-center justify-center gap-3">
         <Image
           className="rounded-full"
           src={row.original.bids[0]?.user.image ?? '/avatar/avatar-5.webp'}
@@ -231,11 +228,41 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
         </div>
       </div>
     ),
-    size: 140,
+    size: 100,
+  },
+  {
+    header: 'Total Bidders',
+    accessorKey: 'bids',
+    cell: ({ row }) => (
+      <div className="text-muted-foreground text-center capitalize">
+        {row.original.bids.length}
+      </div>
+    ),
+    size: 100,
+  },
+  {
+    header: 'Bid Deadline',
+    accessorKey: 'endDate',
+    cell: ({ row }) => (
+      <div className="text-muted-foreground space-x-1 text-center">
+        <span>
+          {Intl.DateTimeFormat('en-IN', {
+            dateStyle: 'long',
+          }).format(row.original.endDate)}
+        </span>
+        <span>at</span>
+        <span className="uppercase">
+          {Intl.DateTimeFormat('en-IN', {
+            timeStyle: 'medium',
+          }).format(row.original.endDate)}
+        </span>
+      </div>
+    ),
+    size: 160,
   },
   {
     id: 'actions',
-    header: () => <span className="sr-only">Actions</span>,
+    header: 'Actions',
     cell: ({ row }) => (
       <RowActions setData={setData} data={data} item={row.original} />
     ),
@@ -481,7 +508,7 @@ export default function ItemsTable({ tableData }: { tableData: Item[] }) {
                         htmlFor={`${id}-${i}`}
                         className="flex grow justify-between gap-2 font-normal"
                       >
-                        {value}{' '}
+                        {value}
                         <span className="text-muted-foreground ms-2 text-xs">
                           {statusCounts.get(value)}
                         </span>
@@ -520,11 +547,10 @@ export default function ItemsTable({ tableData }: { tableData: Item[] }) {
                       <div
                         className={cn(
                           header.column.getCanSort() &&
-                            'flex h-full cursor-pointer items-center gap-2 select-none',
+                            'flex h-full cursor-pointer items-center justify-center gap-2 select-none',
                         )}
                         onClick={header.column.getToggleSortingHandler()}
                         onKeyDown={(e) => {
-                          // Enhanced keyboard handling for sorting
                           if (
                             header.column.getCanSort() &&
                             (e.key === 'Enter' || e.key === ' ')
@@ -678,8 +704,8 @@ function RowActions({
               return {
                 ...dataItem,
                 status:
-                  item.status === ('DRAFT' as ItemStatus)
-                    ? ('PUBLISHED' as ItemStatus)
+                  item.status === 'DRAFT'
+                    ? 'PUBLISHED'
                     : ('DRAFT' as ItemStatus),
               };
             }

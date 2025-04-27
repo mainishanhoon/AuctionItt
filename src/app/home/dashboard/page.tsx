@@ -1,12 +1,19 @@
 import { getUser } from '@/hooks/hooks';
-import { Button } from '@/app/_components/ui/button';
 import Stats from '@/app/_components/dashboard/Stats';
-import Link from 'next/link';
 import ItemsTable from '@/app/_components/dashboard/ItemsTable';
 import { prisma } from '@/app/_utils/prisma';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/app/_components/ui/tabs';
+import { RevenueGraph } from '@/app/_components/dashboard/RevenueGraph';
+import { RecentBids } from '@/app/_components/dashboard/RecentBids';
 
 export default async function DashboardPage() {
   const user = await getUser();
+
   const data = await prisma.item.findMany({
     where: { userId: user.id },
     select: {
@@ -33,7 +40,7 @@ export default async function DashboardPage() {
   });
 
   return (
-    <section className="flex flex-col gap-4">
+    <Tabs defaultValue="table" className="flex flex-col gap-4">
       <div className="flex flex-col items-start justify-between gap-2 md:flex-row md:items-center md:gap-4">
         <div className="space-y-1">
           <h1 className="text-2xl font-semibold capitalize">
@@ -44,12 +51,25 @@ export default async function DashboardPage() {
             new ones anytime.
           </p>
         </div>
-        <Button asChild>
-          <Link href="/home/addItem">Place New Item</Link>
-        </Button>
+        <TabsList className="bg-sidebar border-muted dark:border-sidebar-accent grid w-full max-w-96 grid-cols-2 border">
+          <TabsTrigger value="table">Table</TabsTrigger>
+          <TabsTrigger value="graph">Graph</TabsTrigger>
+        </TabsList>
       </div>
       <Stats />
-      <ItemsTable tableData={data} />
-    </section>
+      <TabsContent value="graph">
+        <div className="grid grid-rows-[auto,auto] gap-2 md:gap-3 lg:gap-5">
+          <div className="grid gap-2 md:gap-3 lg:grid-cols-3 lg:gap-5">
+            <div className="lg:col-span-2">
+              <RevenueGraph />
+            </div>
+            <RecentBids />
+          </div>
+        </div>
+      </TabsContent>
+      <TabsContent value="table">
+        <ItemsTable tableData={data} />
+      </TabsContent>
+    </Tabs>
   );
 }

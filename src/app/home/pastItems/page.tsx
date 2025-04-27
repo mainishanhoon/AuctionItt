@@ -11,7 +11,7 @@ import {
 
 export default async function PastItemsPage() {
   const user = await getUser();
-  
+
   const [data, myData] = await Promise.all([
     prisma.item.findMany({
       where: {
@@ -65,6 +65,7 @@ export default async function PastItemsPage() {
             description="There are currently no items available in past events. Check back later or explore other auction categories to find active listings."
             text="Refresh Page"
             href="/home/pastItems"
+            className="col-span-1 md:col-span-2 lg:col-span-4"
           />
         )}
       </TabsContent>
@@ -81,6 +82,7 @@ export default async function PastItemsPage() {
             description="There are currently no items available in past events. Check back later or explore other auction categories to find active listings."
             text="Refresh Page"
             href="/home/pastItems"
+            className="col-span-1 md:col-span-2 lg:col-span-4"
           />
         )}
       </TabsContent>

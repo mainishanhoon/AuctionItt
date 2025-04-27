@@ -8,16 +8,22 @@ interface Params {
 export async function POST(req: Request, { params }: Params) {
   const { userId } = await params;
 
-  const data = await prisma.item.update({
+  const item = await prisma.item.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  await prisma.item.update({
     where: {
       id: userId,
     },
     data: {
-      status: 'PUBLISHED',
+      status: item?.status === 'DRAFT' ? 'PUBLISHED' : 'DRAFT',
     },
   });
 
-  if (!data) {
+  if (!item) {
     return NextResponse.json({ error: 'User not found' }, { status: 404 });
   }
 

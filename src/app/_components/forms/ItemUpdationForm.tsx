@@ -352,7 +352,7 @@ export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
                       />
                     </Carousel>
 
-                    <div className="mt-4 flex flex-wrap justify-center gap-3">
+                    <div className="flex flex-wrap justify-center gap-3">
                       {images.map((_, marker) => (
                         <div className="relative" key={marker}>
                           <Image

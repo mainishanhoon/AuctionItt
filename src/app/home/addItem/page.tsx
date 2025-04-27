@@ -171,7 +171,7 @@ export default function ItemCreationRoute() {
                         className={
                           fields.bidInterval.errors && 'border-destructive'
                         }
-                        placeholder="Starting Price"
+                        placeholder="Bid Interval"
                       />
                     </div>
                     <div className="flex flex-col gap-2">
@@ -307,7 +307,7 @@ export default function ItemCreationRoute() {
                       fields.image.errors
                         ? 'border-destructive'
                         : 'border-muted-foreground',
-                      'bg-primary/10 relative mt-2 flex items-center justify-center border-2 border-dashed',
+                      'bg-primary/10 relative mt-2 flex flex-col items-center justify-center border-2 border-dashed',
                     )}
                   >
                     <Carousel index={index} onIndexChange={setIndex}>
@@ -335,7 +335,7 @@ export default function ItemCreationRoute() {
                       />
                     </Carousel>
 
-                    <div className="mt-4 flex flex-wrap justify-center gap-3">
+                    <div className="flex flex-wrap justify-center gap-3">
                       {images.map((_, marker) => (
                         <div className="relative" key={marker}>
                           <Image

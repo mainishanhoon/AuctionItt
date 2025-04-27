@@ -67,6 +67,7 @@ export default async function MyItemsPage() {
             description="You haven't saved any drafts yet. Start drafting new items and save them for later publishing."
             text="Refresh Page"
             href="/home/myItems"
+            className="col-span-1 md:col-span-2 lg:col-span-4"
           />
         )}
       </TabsContent>
@@ -85,6 +86,7 @@ export default async function MyItemsPage() {
             description="You haven't published any items yet. Publish your drafts or create new listings to get started!"
             text="Refresh Page"
             href="/home/myItems"
+            className="col-span-1 md:col-span-2 lg:col-span-4"
           />
         )}
       </TabsContent>
