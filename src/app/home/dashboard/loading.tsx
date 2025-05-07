@@ -19,7 +19,7 @@ export default function DashboardLoading() {
       </div>
       <div className="grid grid-cols-2 gap-2 rounded-xl lg:grid-cols-4 lg:gap-4">
         {[...Array(4)].map((_, index) => (
-          <Skeleton key={index} className="h-[150px] w-full rounded-lg" />
+          <Skeleton key={index} className="h-30 w-full rounded-lg" />
         ))}
       </div>
 

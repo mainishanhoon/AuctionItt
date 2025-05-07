@@ -27,6 +27,7 @@ async function getData(itemId: string) {
         name: true,
         image: true,
         startingPrice: true,
+        bidInterval: true,
         description: true,
         endDate: true,
       },
@@ -60,12 +61,12 @@ export default async function ItemRoute({ params }: Params) {
   return data ? (
     <section className="bg-muted font-display dark:border-muted-foreground/50 grid items-start gap-6 rounded-xl border shadow md:p-2 lg:grid-cols-2">
       <ImageCarousel images={data.image} className="p-4" />
-      <div className="p-4">
+      <div className="p-4 space-y-3">
         <h1 className="text-3xl font-bold capitalize">{data.name}</h1>
         <h2 className="text-primary border-muted-foreground hover:bg-sidebar bg-background mt-3 size-fit rounded-lg border-2 border-dashed px-2 py-1 text-3xl font-bold">
           ₹{data.startingPrice}
         </h2>
-        <div className="my-5 flex gap-2">
+        <div className="flex gap-2">
           <Button
             asChild
             variant="secondary"
@@ -96,6 +97,9 @@ export default async function ItemRoute({ params }: Params) {
             }).format(data.endDate)}
           </span>
           {data.endDate > new Date() && <CountdownTimer date={data.endDate} />}
+        </div>
+        <div className="bg-sidebar rounded-md p-4 text-lg font-medium">
+          <span>Bid Internal:</span>&nbsp;<span className='text-primary'>+₹{data.bidInterval}</span>
         </div>
         <Separator className="my-2 h-0.5" />
         {bids.length !== 0 && (
@@ -144,7 +148,7 @@ export default async function ItemRoute({ params }: Params) {
         )}
 
         {bids.length !== 0 && <Separator className="my-2 h-0.5" />}
-        <h3 className="text-2xl font-bold my-2">Item Description</h3>
+        <h3 className="my-2 text-2xl font-bold">Item Description</h3>
         <article className="bg-sidebar rounded-xl p-2">
           <TipTapViewer json={JSON.parse(data.description)} />
         </article>
