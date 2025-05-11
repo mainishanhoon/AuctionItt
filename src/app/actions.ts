@@ -3,12 +3,13 @@
 'use server';
 
 import { parseWithZod } from '@conform-to/zod';
-import { ItemsSchema, UserSchema } from './_utils/schema';
+import { BidSchema, ItemsSchema, UserSchema } from './_utils/schema';
 import { redirect } from 'next/navigation';
 import { fetchUser } from '@/hooks/hooks';
 import { prisma } from '@/app/_utils/prisma';
 import { signOut } from '@/app/_utils/auth';
 import { html, text } from '@/app/_components/emailTemplates/MagicLink';
+import { revalidatePath } from 'next/cache';
 
 export async function SignOut() {
   await signOut({ redirectTo: '/' });
@@ -36,33 +37,33 @@ export async function sendVerificationRequest(params: any) {
     throw new Error('Resend error: ' + JSON.stringify(await response.json()));
 }
 
-export async function placeBids(formData: FormData) {
+export async function PlaceBidAction(prevState: unknown, formData: FormData) {
   const session = await fetchUser();
 
-  const itemId = formData.get('ItemID') as string;
-
-  const item = await prisma.item.findUnique({
-    where: { id: itemId },
+  const submission = parseWithZod(formData, {
+    schema: BidSchema,
   });
 
-  if (!item || !session.user?.id) return;
-
-  const latestBidAmount = Number(item.currentBid) + Number(item.bidInterval);
+  if (submission.status !== 'success') {
+    return submission.reply();
+  }
 
   await prisma.$transaction([
     prisma.bid.create({
       data: {
-        amount: latestBidAmount,
-        itemId: itemId,
-        userId: session.user.id,
+        amount: submission.value.currentBid,
+        itemId: submission.value.itemId,
+        userId: String(session.user?.id),
         timestamp: new Date(),
       },
     }),
     prisma.item.update({
-      where: { id: itemId },
-      data: { currentBid: latestBidAmount },
+      where: { id: submission.value.itemId },
+      data: { currentBid: submission.value.currentBid },
     }),
   ]);
+
+  revalidatePath(`/home/item/${submission.value.itemId}`);
 }
 
 export async function OnboardingUserAction(
@@ -199,17 +200,4 @@ export async function ProfileUpdationAction(
   });
 
   redirect('/home/dashboard');
-}
-
-export async function DeleteInvoiceAction(formData: FormData) {
-  const session = await fetchUser();
-
-  await prisma.item.delete({
-    where: {
-      userId: session.user?.id,
-      id: formData.get('id') as string,
-    },
-  });
-
-  return redirect('/home/dashboard');
 }

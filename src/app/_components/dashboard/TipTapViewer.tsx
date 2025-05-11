@@ -29,7 +29,7 @@ export function TipTapViewer({
     editorProps: {
       attributes: {
         class:
-          'prose-base leading-none prose focus:outline-none min-h-[300px] p-2 max-w-none dark:prose-invert',
+          'prose-base leading-none prose focus:outline-none min-h-48 p-2 max-w-none dark:prose-invert',
       },
     },
 

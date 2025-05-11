@@ -207,7 +207,11 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
     accessorKey: 'currentBid',
     cell: ({ row }) => (
       <div className="text-center">
-        ₹ <span className="">{row.original.currentBid}</span>
+        <span className="">
+          {row.original.currentBid === 0
+            ? 'No Bid'
+            : `₹${row.original.currentBid}`}
+        </span>
       </div>
     ),
     size: 90,
@@ -215,7 +219,7 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
   {
     header: 'Highest Bidder',
     cell: ({ row }) => (
-      <div className="flex items-center justify-center gap-3">
+      <div className="flex items-center justify-center gap-2">
         <Image
           className="rounded-full"
           src={row.original.bids[0]?.user.image ?? '/avatar/avatar-5.webp'}

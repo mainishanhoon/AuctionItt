@@ -19,9 +19,10 @@ model Item {
   endDate       DateTime
   status        ItemStatus @default(PUBLISHED)
 
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime   @default(now())
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   bids      Bid[]
+  Wishlist  Wishlist[]
 }
 
 model Bid {
@@ -50,10 +51,11 @@ model User {
   sessions      Session[]
   Authenticator Authenticator[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   items     Item[]
   Bid       Bid[]
+  Wishlist  Wishlist[]
 }
 
 model Account {
@@ -75,6 +77,18 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
+}
+
+model Wishlist {
+  id        String   @id @default(cuid())
+  userId    String
+  itemId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  item Item @relation(fields: [itemId], references: [id])
+
+  @@unique([userId, itemId])
 }
 
 model Session {

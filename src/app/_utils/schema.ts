@@ -34,3 +34,8 @@ export const ItemsSchema = z.object({
 });
 
 export type Items = z.infer<typeof ItemsSchema>;
+
+export const BidSchema = z.object({
+  itemId: z.string(),
+  currentBid: z.number(),
+});

@@ -10,6 +10,7 @@ import { getUser } from '@/hooks/hooks';
 import EmptyState from '@/app/_components/home/EmptyState';
 import Image from 'next/image';
 import { formatDistanceToNow } from 'date-fns';
+import { numberIcons } from '@/constants/icons';
 
 export async function RecentBids() {
   const user = await getUser();
@@ -51,33 +52,53 @@ export async function RecentBids() {
           5 Most Recent Bidders
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col gap-4">
+      <CardContent className="flex flex-col gap-3">
         {bids.length !== 0 ? (
-          bids.map((bid, index) => (
-            <div
-              className="bg-background flex items-center gap-2 rounded-xl p-2 md:gap-4 md:p-4"
-              key={index}
-            >
-              <div className="flex flex-col gap-1">
-                <Image
-                  src={bid.user?.image ?? '/avatar/avatar-5.webp'}
-                  alt={bid.user?.name ?? 'No Bidder'}
-                />
-                <p className="text-sm leading-none font-medium capitalize">
-                  {bid.user?.name ?? 'No Bidder'}
-                </p>
-                <p className="text-muted-foreground text-xs">
-                  Bid on {bid.item?.name ?? 'No Item'}
-                </p>
+          bids.map((bid, index) => {
+            const Icon = numberIcons[index];
+            return (
+              <div
+                className="bg-background relative flex items-center gap-2 rounded-xl p-2 md:gap-4 md:p-4"
+                key={index}
+              >
+                <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                  <Icon className="text-muted-foreground/40 size-10" />
+                </span>
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-2">
+                    <Image
+                      src={bid.user?.image ?? '/avatar/avatar-5.webp'}
+                      alt={bid.user?.name ?? 'No Bidder'}
+                      width={30}
+                      height={30}
+                      draggable={false}
+                      loading="lazy"
+                      className="rounded-sm object-cover"
+                    />
+                    <span className="text-sm leading-none font-medium capitalize">
+                      {bid.user?.name ?? 'No Bidder'}
+                    </span>
+                  </div>
+                  <p className="text-muted-foreground text-xs font-medium">
+                    Bid on&nbsp;
+                    <span className="capitalize">
+                      {bid.item?.name ?? 'No Item'}
+                    </span>
+                  </p>
+                </div>
+                <div className="ml-auto flex flex-col gap-1">
+                  <span className="ml-auto text-sm leading-none font-medium capitalize">
+                    +₹{bid.amount}
+                  </span>
+                  <span className="ml-auto text-xs font-medium text-nowrap">
+                    {formatDistanceToNow(new Date(bid.timestamp), {
+                      addSuffix: true,
+                    })}
+                  </span>
+                </div>
               </div>
-              <div className="ml-auto text-xs font-medium text-nowrap">
-                +₹{bid.amount}
-                {formatDistanceToNow(new Date(bid.timestamp), {
-                  addSuffix: true,
-                })}
-              </div>
-            </div>
-          ))
+            );
+          })
         ) : (
           <EmptyState
             title="No Recent Bids to Display"

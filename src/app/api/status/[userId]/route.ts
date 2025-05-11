@@ -1,11 +1,11 @@
 import { prisma } from '@/app/_utils/prisma';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 interface Params {
   params: Promise<{ userId: string }>;
 }
 
-export async function POST(req: Request, { params }: Params) {
+export async function POST(req: NextRequest, { params }: Params) {
   const { userId } = await params;
 
   const item = await prisma.item.findUnique({
