@@ -23,7 +23,7 @@ export const UserSchema = z.object({
 
 export const ItemsSchema = z.object({
   name: z.string().min(2, 'Name is Required').toLowerCase(),
-  startingPrice: z.number().min(0, 'Must be a positive number'),
+  startingBid: z.number().min(0, 'Must be a positive number'),
   bidInterval: z.number().min(0, 'Must be a positive number'),
   endDate: z.date({ message: 'Date is required' }),
   description: z

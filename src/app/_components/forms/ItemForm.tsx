@@ -21,23 +21,25 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/app/_components/ui/dialog';
-import { startTransition, useActionState, useState } from 'react';
+import { useActionState, useState, useTransition } from 'react';
 import { useForm } from '@conform-to/react';
 import { parseWithZod } from '@conform-to/zod';
 import { BidSchema } from '@/app/_utils/schema';
-import { PlaceBidAction } from '@/app/actions';
+import { addItemToWishlist, PlaceBidAction } from '@/app/actions';
 import { toast } from 'sonner';
+import type { Wishlist } from '@/types/wishlist';
 
 interface ItemFormProps {
   data: {
     id: string;
     name: string;
     image: string[];
-    startingPrice: number;
+    startingBid: number;
     currentBid: number;
     bidInterval: number;
     description: string;
@@ -57,16 +59,22 @@ interface ItemFormProps {
       }[]
     | null;
   userID: string;
+  wishlistInfo: Wishlist;
 }
 
-export default function ItemForm({ data, bids, userID }: ItemFormProps) {
+export default function ItemForm({
+  data,
+  bids,
+  userID,
+  wishlistInfo,
+}: ItemFormProps) {
   const [warning, setWarning] = useState(false);
   const [wishlist, setWishlist] = useState(false);
+  const [pending, startTransition] = useTransition();
   const [lastResult, formAction, isPending] = useActionState(
     PlaceBidAction,
     null,
   );
-  console.log(bids);
   const [form, fields] = useForm({
     lastResult,
     onSubmit: async (event, { formData }) => {
@@ -83,20 +91,13 @@ export default function ItemForm({ data, bids, userID }: ItemFormProps) {
         case 'addToWishlist':
           if (data.userId === userID) {
             setWishlist(true);
+          } else if (wishlistInfo.items.some((item) => item.id === data.id)) {
+            toast.error('Item already in Wishlist');
           } else {
-            toast.promise(
-              fetch(`/api/wishlist/${data.id}`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-              }),
-              {
-                loading: 'Adding to Wishlist...',
-                success: 'Added to Wishlist',
-                error: 'Could not be Added to Wishlist',
-              },
-            );
+            startTransition(() => {
+              addItemToWishlist(data.id);
+              toast.success('Item has been Added to Wishlist');
+            });
           }
           return;
 
@@ -105,17 +106,18 @@ export default function ItemForm({ data, bids, userID }: ItemFormProps) {
             setWarning(true);
             return;
           } else if (bids && bids[0].user.id === userID) {
-            toast.error('You are already the highest bidder');
+            toast.error('You are already the Top Bidder');
             return;
           } else if (data.endDate < new Date()) {
             toast.error('Bidding has ended for this Item');
             return;
+          } else {
+            startTransition(() => {
+              formAction(formData);
+            });
           }
           break;
       }
-      startTransition(() => {
-        formAction(formData);
-      });
     },
   });
 
@@ -135,7 +137,6 @@ export default function ItemForm({ data, bids, userID }: ItemFormProps) {
               action={formAction}
               className="w-full"
             >
-              {form.errors}
               <input
                 name={fields.currentBid.name}
                 defaultValue={
@@ -158,8 +159,21 @@ export default function ItemForm({ data, bids, userID }: ItemFormProps) {
                   value="addToWishlist"
                   className="hover:bg-sidebar bg-background w-full"
                 >
-                  <IconHeartFilled />
-                  <p>Add to Wishlist</p>
+                  {!pending && <IconHeartFilled />}
+                  {pending && (
+                    <IconLoader
+                      size={25}
+                      strokeWidth={2.5}
+                      className="animate-spin [animation-duration:3s]"
+                    />
+                  )}
+                  {wishlistInfo.items.some((item) => item.id === data.id) ? (
+                    <span>Added to Wishlist</span>
+                  ) : (
+                    <TextMorph>
+                      {pending ? 'Adding to Wishlist...' : 'Add to Wishlist'}
+                    </TextMorph>
+                  )}
                 </Button>
                 <Button
                   type="submit"
@@ -212,7 +226,7 @@ export default function ItemForm({ data, bids, userID }: ItemFormProps) {
               <span>Starting Bid:</span>
               &nbsp;
               <span className="text-primary font-bold">
-                ₹{Number(data.startingPrice).toLocaleString('en-IN')}
+                ₹{Number(data.startingBid).toLocaleString('en-IN')}
               </span>
             </div>
             <div className="flex items-center gap-0.5">
@@ -225,13 +239,13 @@ export default function ItemForm({ data, bids, userID }: ItemFormProps) {
           </div>
           <Separator className="my-2 h-0.5" />
           {bids && bids.length !== 0 && (
-            <div className="bg-sidebar flex flex-col justify-center gap-2 rounded-xl p-2 md:gap-4 md:p-4">
+            <div className="bg-sidebar flex flex-col justify-center gap-2 rounded-xl p-2 md:p-3">
               {bids.map((bid, index) => {
                 const Icon = numberIcons[index];
                 return (
                   <ul
                     key={index}
-                    className="bg-background relative flex justify-between gap-2 rounded-xl p-4 shadow-md transition-shadow duration-500 hover:shadow-sm max-md:flex-col"
+                    className="bg-background relative flex justify-between gap-2 rounded-xl p-2 shadow-md transition-shadow duration-500 hover:shadow-sm max-md:flex-col"
                   >
                     <li className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                       <Icon className="text-muted-foreground/40 size-10" />
@@ -245,10 +259,10 @@ export default function ItemForm({ data, bids, userID }: ItemFormProps) {
                           height={25}
                           draggable={false}
                           loading="lazy"
-                          className="size-8 rounded-sm md:size-10"
+                          className="border-muted-foreground size-8 rounded-sm border-2 border-dashed p-0.5 md:size-10"
                         />
                       </li>
-                      <li className="z-10 text-base md:text-lg">
+                      <li className="z-10 text-base capitalize md:text-lg">
                         {bid.user.firstName}&nbsp;
                         {bid.user.lastName}
                       </li>
@@ -256,7 +270,7 @@ export default function ItemForm({ data, bids, userID }: ItemFormProps) {
 
                     <span className="flex items-end justify-between md:flex-col">
                       <li className="font-medium">₹{bid.amount}</li>
-                      <li className="text-xs">
+                      <li className="text-xs capitalize">
                         {formatDistanceToNow(new Date(bid.timestamp), {
                           addSuffix: true,
                         })}
@@ -282,20 +296,22 @@ export default function ItemForm({ data, bids, userID }: ItemFormProps) {
           }}
         >
           <DialogContent className="max-w-sm">
-            <DialogHeader>
-              <DialogTitle className="flex items-center gap-2 text-xl">
-                <span>{warning && <IconAlertSquareRoundedFilled />}</span>
-                <span>{wishlist && <IconHeartbeat />}</span>
-                <span>{warning && 'Action not Allowed'}</span>
-                <span>{wishlist && 'Cannot be Wishlisted'}</span>
+            <DialogHeader className="flex flex-col items-center">
+              <DialogTitle className="bg-primary/20 border-primary flex size-16 items-center justify-center rounded-full border-2 border-dashed">
+                {warning && <IconAlertSquareRoundedFilled className="size-8" />}
+                {wishlist && <IconHeartbeat className="size-8" />}
               </DialogTitle>
+              <div className="text-2xl font-bold">
+                {warning && <span>Action not Allowed</span>}
+                {wishlist && <span>Cannot be Wishlisted</span>}
+              </div>
             </DialogHeader>
-            <DialogContent>
+            <DialogDescription className="text-center text-base font-medium">
               {warning &&
-                'You cannot place a bid on an item you&apos;ve listed for bidding.'}
+                'You cannot place a bid on an item you have listed for bidding.'}
               {wishlist &&
-                'You cannot wishlist an item you&apos;ve listed for bidding.'}
-            </DialogContent>
+                'You cannot wishlist an item you have listed for bidding.'}
+            </DialogDescription>
             <DialogFooter>
               <DialogClose className="flex w-full items-center justify-center gap-2">
                 <Button variant={'secondary'}>Got It !!</Button>

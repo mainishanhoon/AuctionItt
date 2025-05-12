@@ -19,7 +19,7 @@ interface ItemProps {
     id: string;
     name: string;
     description: string;
-    startingPrice: number;
+    startingBid: number;
     image: string[];
   };
 }
@@ -53,7 +53,7 @@ export default function ItemUpdationCard({ item }: ItemProps) {
             {String(item.name)}
           </h1>
           <h3 className="bg-primary/20 text-primary ring-primary/10 inline-flex items-center rounded-md px-2 py-1 text-xs font-bold tracking-wider ring-1 ring-inset">
-            ₹ {Number(item.startingPrice).toLocaleString()}
+            ₹ {Number(item.startingBid).toLocaleString()}
           </h3>
         </div>
       </CardContent>

@@ -91,7 +91,7 @@ type Item = {
   description: string;
   image: string[];
   currentBid: number;
-  startingPrice: number;
+  startingBid: number;
   bidInterval: number;
   endDate: Date;
   status: ItemStatus;
@@ -217,7 +217,7 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
     size: 90,
   },
   {
-    header: 'Highest Bidder',
+    header: 'Top Bidder',
     cell: ({ row }) => (
       <div className="flex items-center justify-center gap-2">
         <Image

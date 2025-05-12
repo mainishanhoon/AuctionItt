@@ -25,7 +25,7 @@ export default function EmptyState({
         className,
       )}
     >
-      <div className="animate-in fade-in-50 flex size-full flex-col items-center justify-center p-8 text-center">
+      <div className="flex size-full flex-col items-center justify-center p-8 text-center">
         <div className="bg-primary/20 flex size-24 items-center justify-center rounded-full">
           <IconInfoSquareRounded
             strokeWidth={3}

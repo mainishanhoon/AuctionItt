@@ -141,16 +141,16 @@ export default function ItemCreationRoute() {
                     <div className="flex items-end justify-between">
                       <Label>Starting Price</Label>
                       <p className="text-destructive mr-2 -mb-1 text-xs">
-                        {fields.startingPrice.errors}
+                        {fields.startingBid.errors}
                       </p>
                     </div>
                     <Input
                       type="number"
-                      key={fields.startingPrice.key}
-                      name={fields.startingPrice.name}
-                      defaultValue={fields.startingPrice.initialValue}
+                      key={fields.startingBid.key}
+                      name={fields.startingBid.name}
+                      defaultValue={fields.startingBid.initialValue}
                       className={
-                        fields.startingPrice.errors && 'border-destructive'
+                        fields.startingBid.errors && 'border-destructive'
                       }
                       placeholder="Starting Price"
                     />

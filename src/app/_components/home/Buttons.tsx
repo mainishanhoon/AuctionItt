@@ -103,7 +103,7 @@ export function SubmitButton({
   const { pending } = useFormStatus();
 
   return (
-    <>
+    <Fragment>
       <Button
         type="submit"
         size="sm"
@@ -128,6 +128,6 @@ export function SubmitButton({
           {pending ? `${loadingText}` : `${text}`}
         </TextMorph>
       </Button>
-    </>
+    </Fragment>
   );
 }

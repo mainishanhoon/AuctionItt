@@ -29,7 +29,7 @@ export default async function UserDropdown() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
-          <Avatar className="size-8 rounded-md">
+          <Avatar className="size-8 rounded-md border p-0.5">
             <Image
               src={user.image as string}
               width={35}

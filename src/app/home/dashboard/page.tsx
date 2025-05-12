@@ -22,7 +22,7 @@ export default async function DashboardPage() {
       description: true,
       image: true,
       currentBid: true,
-      startingPrice: true,
+      startingBid: true,
       bidInterval: true,
       endDate: true,
       status: true,

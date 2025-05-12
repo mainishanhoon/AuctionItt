@@ -3,6 +3,7 @@ import UserDropdown from '@/app/_components/auth/UserDropdown';
 import { Separator } from '@/app/_components/ui/separator';
 import { SidebarTrigger } from '@/app/_components/ui/sidebar';
 import Breadcrumbs from '@/app/_components/home/Breadcrumbs';
+import WishlistDrawer from '@/app/_components/home/Wishlist';
 
 export default function UserHeader() {
   return (
@@ -17,6 +18,7 @@ export default function UserHeader() {
       </div>
       <div className="flex gap-2 px-2 md:gap-3 md:px-4 lg:px-6">
         <ThemeToggle />
+        <WishlistDrawer />
         <UserDropdown />
       </div>
     </header>
