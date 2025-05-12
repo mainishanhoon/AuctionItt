@@ -111,7 +111,10 @@ export function SubmitButton({
         variant={pending ? loadingVariant : buttonVariant}
         className={twMerge(
           pending && 'outline-muted-foreground outline-2 outline-dashed',
-          'flex w-fit items-center gap-2 text-sm md:text-base',
+          buttonVariant === 'destructive' &&
+            !pending &&
+            'text-muted dark:text-red-800',
+          'flex w-fit items-center gap-2 text-sm',
           className,
         )}
       >

@@ -8,15 +8,16 @@ import {
   DrawerFooter,
   DrawerClose,
 } from '@/app/_components/ui/drawer';
-import { IconHeart, IconTrash } from '@tabler/icons-react';
+import { IconHeart, IconLink, IconTrash } from '@tabler/icons-react';
 import EmptyState from '@/app/_components/home/EmptyState';
 import type { Wishlist } from '@/types/wishlist';
 import { Redis } from '@/app/_utils/redis';
 import Form from 'next/form';
 import { removeItemFromWishlist } from '@/app/actions';
-import { SubmitButton } from './Buttons';
+import { SubmitButton } from '@/app/_components/home/Buttons';
 import Image from 'next/image';
-import { ScrollArea } from '@/app/_components/ui/scroll-area';
+import { Button } from '@/app/_components/ui/button';
+import Link from 'next/link';
 
 export default async function WishlistDrawer() {
   const user = await getUser();
@@ -28,7 +29,7 @@ export default async function WishlistDrawer() {
 
   return (
     <Drawer>
-      <DrawerTrigger className="relative">
+      <DrawerTrigger className="bg-background relative">
         <span className="bg-primary text-primary-foreground absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full text-xs font-bold">
           {data.items.length}
         </span>
@@ -36,7 +37,7 @@ export default async function WishlistDrawer() {
       </DrawerTrigger>
       <DrawerContent className="rounded-t-3xl text-center">
         <DrawerHeader>
-          <DrawerTitle className="text-center font-display text-2xl">
+          <DrawerTitle className="font-display text-center text-2xl">
             Your Wishlist
           </DrawerTitle>
         </DrawerHeader>
@@ -49,14 +50,14 @@ export default async function WishlistDrawer() {
               href="/home"
             />
           ) : (
-            <ScrollArea className="border-muted max-w-full max-h-[60vh] rounded-3xl border-2 border-dashed p-4">
-              <div className='flex flex-wrap gap-4'>
+            <div className="border-muted-foreground scrollbar-thin scrollbar-thumb-muted-foreground scrollbar-track-transparent max-h-[45vh] overflow-y-auto rounded-3xl border-2 border-dashed">
+              <div className="m-4 grid grid-cols-3 justify-between gap-4">
                 {data.items.map((item, index) => (
                   <ul
                     key={index}
-                    className="bg-card grid max-w-md grid-cols-2 items-center gap-4 rounded-lg border p-4 shadow-sm transition hover:shadow-md"
+                    className="bg-card z-10 grid grid-cols-2 items-center gap-4 rounded-lg border p-4 shadow-sm transition-shadow duration-300 hover:shadow-md"
                   >
-                    <li className="border-muted-foreground rounded-lg border border-dashed p-0.5">
+                    <li className="border-muted-foreground bg-background rounded-lg border border-dashed p-0.5">
                       <Image
                         src={item.image}
                         alt={item.name}
@@ -68,7 +69,7 @@ export default async function WishlistDrawer() {
                         className="aspect-square size-full rounded-lg object-cover"
                       />
                     </li>
-                    <div className="text-left font-medium font-display">
+                    <span className="font-display text-left font-medium">
                       <li className="capitalize">
                         <span>Name:</span> <span>{item.name}</span>
                       </li>
@@ -91,14 +92,16 @@ export default async function WishlistDrawer() {
                       <li>
                         <span>Top Bidder:</span>&nbsp;
                         <span className="truncate capitalize">
-                          {item.topBidder}
+                          {item.topBidder === 'undefined undefined'
+                            ? 'None'
+                            : item.topBidder}
                         </span>
                       </li>
                       <li>
                         <span>Current Bid:</span>&nbsp;
                         <span>₹{item.currentBid.toLocaleString('en-IN')}</span>
                       </li>
-                      <li className="mt-2">
+                      <li className="mt-2 flex items-center gap-2">
                         <Form
                           action={async () => {
                             'use server';
@@ -113,12 +116,18 @@ export default async function WishlistDrawer() {
                             loadingVariant="outline"
                           />
                         </Form>
+                        <Button variant={'secondary'} asChild>
+                          <Link href={`/home/item/${item.id}`} target="_blank">
+                            <IconLink />
+                            <span className="">Visit</span>
+                          </Link>
+                        </Button>
                       </li>
-                    </div>
+                    </span>
                   </ul>
                 ))}
               </div>
-            </ScrollArea>
+            </div>
           )}
         </div>
         <DrawerFooter>

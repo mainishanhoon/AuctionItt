@@ -40,14 +40,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarGroupLabel>
             <SidebarGroupContent className="px-2">
               <SidebarMenu>
-                {item.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
+                {item.items.map((item, index) => (
+                  <SidebarMenuItem key={index}>
                     <SidebarMenuButton
                       asChild
                       className="group/menu-button hover:from-sidebar-accent hover:to-sidebar-accent/40 data-[active=true]:from-primary/20 data-[active=true]:to-primary/5 h-9 gap-2 rounded-md bg-gradient-to-r font-medium hover:bg-transparent [&>svg]:size-auto"
                       isActive={item.url === pathname}
                     >
-                      <Link href={item.url} prefetch={false}>
+                      <Link
+                        href={item.url}
+                        prefetch={false}
+                        target={
+                          item.title == 'Help Center' ? '_blank' : '_self'
+                        }
+                      >
                         {item.icon && (
                           <item.icon
                             className="text-muted-foreground/60 group-data-[active=true]/menu-button:text-primary"

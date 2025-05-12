@@ -52,7 +52,7 @@ export const navigationLink = {
         },
         {
           title: 'Help Center',
-          url: '#',
+          url: 'https://mainishanhoon.vercel.app',
           icon: IconHelpSquareRounded,
         },
       ],

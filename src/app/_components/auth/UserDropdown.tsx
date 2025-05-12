@@ -1,7 +1,4 @@
-import {
-  Avatar,
-  AvatarFallback,
-} from '@/app/_components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/app/_components/ui/avatar';
 import { Button } from '@/app/_components/ui/button';
 import {
   DropdownMenu,
@@ -29,12 +26,13 @@ export default async function UserDropdown() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
-          <Avatar className="size-8 rounded-md border p-0.5">
+          <Avatar className="bg-background size-8 rounded-sm border p-0.5">
             <Image
               src={user.image as string}
               width={35}
               height={35}
               alt="Profile image"
+              className="rounded-sm"
             />
             <AvatarFallback>
               <Image
@@ -42,6 +40,7 @@ export default async function UserDropdown() {
                 width={35}
                 height={35}
                 alt="Profile image"
+                className="rounded-sm"
               />
             </AvatarFallback>
           </Avatar>

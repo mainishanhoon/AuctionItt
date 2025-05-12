@@ -89,7 +89,7 @@ export default function ItemForm({
 
       switch (String(formData.get('intent'))) {
         case 'addToWishlist':
-         if (wishlistInfo.items.some((item) => item.id === data.id)) {
+          if (wishlistInfo.items.some((item) => item.id === data.id)) {
             toast.error('Item is already in Wishlist');
           } else {
             startTransition(() => {
@@ -248,7 +248,7 @@ export default function ItemForm({
                       <Icon className="text-muted-foreground/40 size-10" />
                     </li>
                     <span className="flex items-center justify-start gap-3">
-                      <li>
+                      <li className="border-muted-foreground bg-background rounded-sm border-2 border-dashed p-0.5">
                         <Image
                           src={bid.user.image as string}
                           alt={`${bid.user.firstName?.charAt(0)} ${bid.user.lastName?.charAt(0)}`}
@@ -256,7 +256,7 @@ export default function ItemForm({
                           height={25}
                           draggable={false}
                           loading="lazy"
-                          className="border-muted-foreground size-8 rounded-sm border-2 border-dashed p-0.5 md:size-10"
+                          className="size-8 rounded-sm md:size-10"
                         />
                       </li>
                       <li className="z-10 text-base capitalize md:text-lg">

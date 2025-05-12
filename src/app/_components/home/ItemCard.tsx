@@ -13,6 +13,7 @@ import {
   CardFooter,
   CardHeader,
 } from '@/app/_components/ui/card';
+import { IconFileDescriptionFilled } from '@tabler/icons-react';
 
 interface ItemProps {
   item: {
@@ -58,19 +59,15 @@ export default function ItemCard({ item }: ItemProps) {
           </h3>
         </div>
       </CardContent>
-      <CardFooter className="grid grid-cols-2 gap-2">
+      <CardFooter>
         <Button
           asChild
           variant="ghost"
-          className="bg-muted-foreground/20 hover:bg-muted-foreground/10 w-full"
+          className="bg-muted-foreground/20 hover:bg-muted-foreground/10"
         >
-          <Link href={`/home/item/${item.id}`}>
-            <p>Show Details</p>
-          </Link>
-        </Button>
-        <Button asChild className="w-full">
-          <Link href={`/home/myItems/${item.id}`}>
-            <p>Bid Now</p>
+          <Link href={`/home/item/${item.id}`} className="w-full">
+            <IconFileDescriptionFilled />
+            <span>Show Details</span>
           </Link>
         </Button>
       </CardFooter>
