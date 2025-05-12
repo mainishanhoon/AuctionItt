@@ -361,6 +361,9 @@ export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
                             alt={`Image ${marker}`}
                             width={200}
                             height={200}
+                            unoptimized
+                            loading='lazy'
+                            draggable={false}
                             aria-label={`Go to slide ${marker}`}
                             onClick={() => setIndex(marker)}
                             className={`size-14 rounded-lg object-cover outline-2 md:size-20 ${

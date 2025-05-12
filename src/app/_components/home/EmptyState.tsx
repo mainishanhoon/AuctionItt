@@ -32,7 +32,7 @@ export default function EmptyState({
             className="text-primary size-16"
           />
         </div>
-        <h2 className="mt-6 text-xl font-medium md:text-3xl">{title}</h2>
+        <h2 className="mt-6 text-xl font-medium md:text-3xl font-display">{title}</h2>
         <p className="text-muted-foreground mx-auto mt-2 mb-8 max-w-xl text-center text-xs leading-tight tracking-wide md:text-base">
           {description}
         </p>

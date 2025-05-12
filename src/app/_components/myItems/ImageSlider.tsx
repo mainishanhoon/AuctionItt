@@ -60,6 +60,7 @@ export default function ImageCarousel({ images, className }: ImageCarouselProps)
               height={200}
               draggable={false}
               loading="lazy"
+              unoptimized
               aria-label={`Go to slide ${marker}`}
               onClick={() => setIndex(marker)}
               className={`size-16 rounded-lg object-cover outline-2 md:size-24 ${

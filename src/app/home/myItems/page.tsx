@@ -74,7 +74,7 @@ export default async function MyItemsPage() {
 
       <TabsContent
         value="published"
-        className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4"
+        className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4"
       >
         {published.length !== 0 ? (
           published.map((item, index) => (

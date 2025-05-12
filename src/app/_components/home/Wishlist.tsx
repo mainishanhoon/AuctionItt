@@ -16,6 +16,7 @@ import Form from 'next/form';
 import { removeItemFromWishlist } from '@/app/actions';
 import { SubmitButton } from './Buttons';
 import Image from 'next/image';
+import { ScrollArea } from '@/app/_components/ui/scroll-area';
 
 export default async function WishlistDrawer() {
   const user = await getUser();
@@ -35,7 +36,7 @@ export default async function WishlistDrawer() {
       </DrawerTrigger>
       <DrawerContent className="rounded-t-3xl text-center">
         <DrawerHeader>
-          <DrawerTitle className="text-center text-2xl">
+          <DrawerTitle className="text-center font-display text-2xl">
             Your Wishlist
           </DrawerTitle>
         </DrawerHeader>
@@ -48,55 +49,76 @@ export default async function WishlistDrawer() {
               href="/home"
             />
           ) : (
-            <div className="border-muted flex flex-col gap-3 rounded-3xl border-2 border-dashed p-4">
-              {data.items.map((item, index) => (
-                <ul
-                  key={index}
-                  className="bg-card rounded-lg border p-4 shadow-sm"
-                >
-                  <li>
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      width={100}
-                      height={100}
-                      className="aspect-square rounded-lg object-cover"
-                    />
-                  </li>
-                  <li className="text-lg font-semibold capitalize">
-                    {item.name}
-                  </li>
-                  <li>{item.bidInterval}</li>
-                  <li>{item.startingBid}</li>
-                  <li>
-                    {Intl.DateTimeFormat('en-IN', {
-                      dateStyle: 'medium',
-                      timeStyle: 'medium',
-                    }).format(new Date(item.endDate))}
-                  </li>
-                  <li>{item.topBidder}</li>
-                  <li className="text-muted-foreground text-sm">
-                    Current Bid: ₹{item.currentBid}
-                  </li>
-                  <li>
-                    <Form
-                      action={async () => {
-                        'use server';
-                        await removeItemFromWishlist(user.id, item.id);
-                      }}
-                    >
-                      <SubmitButton
-                        icon={<IconTrash />}
-                        text="Remove from Wishlist"
-                        loadingText="Removing from Wishlist..."
-                        buttonVariant="destructive"
-                        loadingVariant="outline"
+            <ScrollArea className="border-muted max-w-full max-h-[60vh] rounded-3xl border-2 border-dashed p-4">
+              <div className='flex flex-wrap gap-4'>
+                {data.items.map((item, index) => (
+                  <ul
+                    key={index}
+                    className="bg-card grid max-w-md grid-cols-2 items-center gap-4 rounded-lg border p-4 shadow-sm transition hover:shadow-md"
+                  >
+                    <li className="border-muted-foreground rounded-lg border border-dashed p-0.5">
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        width={100}
+                        height={100}
+                        loading="lazy"
+                        draggable={false}
+                        unoptimized
+                        className="aspect-square size-full rounded-lg object-cover"
                       />
-                    </Form>
-                  </li>
-                </ul>
-              ))}
-            </div>
+                    </li>
+                    <div className="text-left font-medium font-display">
+                      <li className="capitalize">
+                        <span>Name:</span> <span>{item.name}</span>
+                      </li>
+                      <li>
+                        <span>Bid Interval:</span>&nbsp;
+                        <span>{item.bidInterval.toLocaleString('en-IN')}</span>
+                      </li>
+                      <li>
+                        <span>Starting Bid:</span>&nbsp;
+                        <span>{item.startingBid.toLocaleString('en-IN')}</span>
+                      </li>
+                      <li>
+                        <span>Name:</span>&nbsp;
+                        <span>
+                          {Intl.DateTimeFormat('en-IN', {
+                            dateStyle: 'medium',
+                          }).format(new Date(item.endDate))}
+                        </span>
+                      </li>
+                      <li>
+                        <span>Top Bidder:</span>&nbsp;
+                        <span className="truncate capitalize">
+                          {item.topBidder}
+                        </span>
+                      </li>
+                      <li>
+                        <span>Current Bid:</span>&nbsp;
+                        <span>₹{item.currentBid.toLocaleString('en-IN')}</span>
+                      </li>
+                      <li className="mt-2">
+                        <Form
+                          action={async () => {
+                            'use server';
+                            await removeItemFromWishlist(user.id, item.id);
+                          }}
+                        >
+                          <SubmitButton
+                            icon={<IconTrash />}
+                            text="Remove"
+                            loadingText="Removing..."
+                            buttonVariant="destructive"
+                            loadingVariant="outline"
+                          />
+                        </Form>
+                      </li>
+                    </div>
+                  </ul>
+                ))}
+              </div>
+            </ScrollArea>
           )}
         </div>
         <DrawerFooter>

@@ -72,7 +72,7 @@ export default async function PastItemsPage() {
 
       <TabsContent
         value="MyItems"
-        className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4"
+        className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4"
       >
         {myData.length !== 0 ? (
           myData.map((item, index) => <PastItemCard key={index} item={item} />)
