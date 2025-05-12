@@ -254,12 +254,6 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
             dateStyle: 'long',
           }).format(row.original.endDate)}
         </span>
-        <span>at</span>
-        <span className="uppercase">
-          {Intl.DateTimeFormat('en-IN', {
-            timeStyle: 'medium',
-          }).format(row.original.endDate)}
-        </span>
       </div>
     ),
     size: 160,

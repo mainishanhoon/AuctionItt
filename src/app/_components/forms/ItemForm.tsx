@@ -89,7 +89,9 @@ export default function ItemForm({
 
       switch (String(formData.get('intent'))) {
         case 'addToWishlist':
-          if (wishlistInfo.items.some((item) => item.id === data.id)) {
+          if (data.userId === userID) {
+            setWishlist(true);
+          } else if (wishlistInfo.items.some((item) => item.id === data.id)) {
             toast.error('Item is already in Wishlist');
           } else {
             startTransition(() => {
