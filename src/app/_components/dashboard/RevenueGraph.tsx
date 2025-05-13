@@ -5,9 +5,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/app/_components/ui/card';
-import LineChartGraph from './LineChart';
 import { prisma } from '@/app/_utils/prisma';
 import { getUser } from '@/hooks/hooks';
+import AreaChartGraph from '@/app/_components/dashboard/AreaChart';
 
 async function getData() {
   const user = await getUser();
@@ -71,7 +71,7 @@ export async function RevenueGraph() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <LineChartGraph data={data} />
+        <AreaChartGraph data={data} />
       </CardContent>
     </Card>
   );

@@ -113,7 +113,7 @@ export function SubmitButton({
           pending && 'outline-muted-foreground outline-2 outline-dashed',
           buttonVariant === 'destructive' &&
             !pending &&
-            'text-muted dark:text-red-900',
+            'text-muted dark:text-red-950',
           'flex w-fit items-center gap-1 text-sm',
           className,
         )}

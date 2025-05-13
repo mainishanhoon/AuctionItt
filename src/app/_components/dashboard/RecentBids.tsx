@@ -58,22 +58,23 @@ export async function RecentBids() {
             const Icon = numberIcons[index];
             return (
               <div
-                className="bg-background relative flex items-center gap-2 rounded-xl p-2 md:gap-4 md:p-4"
+                className="bg-background relative flex items-center justify-between rounded-xl p-2 shadow-lg transition-shadow duration-300 hover:shadow-md md:p-3"
                 key={index}
               >
                 <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                   <Icon className="text-muted-foreground/40 size-10" />
                 </span>
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-0.5">
                   <div className="flex items-center gap-2">
                     <Image
                       src={bid.user?.image ?? '/avatar/avatar-5.webp'}
                       alt={bid.user?.name ?? 'No Bidder'}
-                      width={30}
-                      height={30}
+                      width={35}
+                      height={35}
                       draggable={false}
                       loading="lazy"
-                      className="rounded-sm object-cover"
+                      unoptimized
+                      className="border-muted-foreground bg-muted rounded-sm border border-dashed object-cover p-0.5"
                     />
                     <span className="text-sm leading-none font-medium capitalize">
                       {bid.user?.name ?? 'No Bidder'}
@@ -86,7 +87,7 @@ export async function RecentBids() {
                     </span>
                   </p>
                 </div>
-                <div className="ml-auto flex flex-col gap-1">
+                <div className="flex flex-col gap-1.5">
                   <span className="ml-auto text-sm leading-none font-medium capitalize">
                     +₹{bid.amount}
                   </span>
