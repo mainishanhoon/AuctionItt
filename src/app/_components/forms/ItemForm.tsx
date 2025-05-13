@@ -70,52 +70,42 @@ export default function ItemForm({
 }: ItemFormProps) {
   const [warning, setWarning] = useState(false);
   const [wishlist, setWishlist] = useState(false);
-  const [pending, startTransition] = useTransition();
-  const [lastResult, formAction, isPending] = useActionState(
-    PlaceBidAction,
-    null,
-  );
-  const [form, fields] = useForm({
-    lastResult,
-    onSubmit: async (event, { formData }) => {
+  const [isBidding, startBidding] = useTransition();
+  const [isAddingToWishlist, startWishlist] = useTransition();
+  const [wishlistForm] = useForm({
+    onSubmit: (event) => {
       event.preventDefault();
-      const submission = parseWithZod(formData, {
-        schema: BidSchema,
-      });
-
-      if (submission.status !== 'success') {
-        return submission.reply();
+      if (data.userId === userID) {
+        setWishlist(true);
+      } else if (wishlistInfo.items.some((item) => item.id === data.id)) {
+        toast.error('Item is already in Wishlist');
+      } else {
+        startWishlist(() => {
+          addItemToWishlist(data.id);
+        });
       }
+    },
+  });
 
-      switch (String(formData.get('intent'))) {
-        case 'addToWishlist':
-          if (data.userId === userID) {
-            setWishlist(true);
-          } else if (wishlistInfo.items.some((item) => item.id === data.id)) {
-            toast.error('Item is already in Wishlist');
-          } else {
-            startTransition(() => {
-              addItemToWishlist(data.id);
-            });
-          }
-          return;
-
-        case 'placeBid':
-          if (data.userId === userID) {
-            setWarning(true);
-            return;
-          } else if (bids && bids[0].user.id === userID) {
-            toast.error('You are already the Top Bidder');
-            return;
-          } else if (data.endDate < new Date()) {
-            toast.error('Bidding has ended for this Item');
-            return;
-          } else {
-            startTransition(() => {
-              formAction(formData);
-            });
-          }
-          break;
+  const [bidForm, bidFields] = useForm({
+    onValidate({ formData }) {
+      return parseWithZod(formData, { schema: BidSchema });
+    },
+    onSubmit: (event, { formData }) => {
+      event.preventDefault();
+      if (data.userId === userID) {
+        setWarning(true);
+        return;
+      } else if (bids?.[0]?.user?.id === userID) {
+        toast.error('You are already the Top Bidder');
+        return;
+      } else if (data.endDate < new Date()) {
+        toast.error('Bidding has ended for this Item');
+        return;
+      } else {
+        startBidding(() => {
+          PlaceBidAction(formData);
+        });
       }
     },
   });
@@ -130,14 +120,43 @@ export default function ItemForm({
             ₹{Number(data.currentBid).toLocaleString('en-IN')}
           </h2>
           <div className="flex gap-2">
-            <Form
-              id={form.id}
-              onSubmit={form.onSubmit}
-              action={formAction}
+            <form
+              id={wishlistForm.id}
+              onSubmit={wishlistForm.onSubmit}
+              className="w-full"
+            >
+              <Button
+                variant="secondary"
+                type="submit"
+                className="hover:bg-sidebar bg-background w-full"
+              >
+                {!isAddingToWishlist && <IconHeartFilled />}
+                {isAddingToWishlist && (
+                  <IconLoader
+                    size={25}
+                    strokeWidth={2.5}
+                    className="animate-spin [animation-duration:3s]"
+                  />
+                )}
+                {wishlistInfo.items.some((item) => item.id === data.id) ? (
+                  <span>Added to Wishlist</span>
+                ) : (
+                  <TextMorph>
+                    {isAddingToWishlist
+                      ? 'Adding to Wishlist...'
+                      : 'Add to Wishlist'}
+                  </TextMorph>
+                )}
+              </Button>
+            </form>
+            <form
+              id={bidForm.id}
+              onSubmit={bidForm.onSubmit}
               className="w-full"
             >
               <input
-                name={fields.currentBid.name}
+                id={bidFields.currentBid.id}
+                name={bidFields.currentBid.name}
                 defaultValue={
                   Number(data.currentBid) + Number(data.bidInterval)
                 }
@@ -145,58 +164,29 @@ export default function ItemForm({
                 hidden
               />
               <input
-                name={fields.itemId.name}
+                id={bidFields.itemId.id}
+                name={bidFields.itemId.name}
                 defaultValue={data.id}
                 readOnly
                 hidden
               />
-              <div className="jistify-between flex items-center gap-2">
-                <Button
-                  variant="secondary"
-                  type="submit"
-                  name="intent"
-                  value="addToWishlist"
-                  className="hover:bg-sidebar bg-background w-full"
-                >
-                  {!pending && <IconHeartFilled />}
-                  {pending && (
-                    <IconLoader
-                      size={25}
-                      strokeWidth={2.5}
-                      className="animate-spin [animation-duration:3s]"
-                    />
-                  )}
-                  {wishlistInfo.items.some((item) => item.id === data.id) ? (
-                    <span>Added to Wishlist</span>
-                  ) : (
-                    <TextMorph>
-                      {pending ? 'Adding to Wishlist...' : 'Add to Wishlist'}
-                    </TextMorph>
-                  )}
-                </Button>
-                <Button
-                  type="submit"
-                  name="intent"
-                  value="placeBid"
-                  disabled={isPending}
-                  className="size-full"
-                >
-                  {!isPending && <IconGavel />}
-                  {isPending && (
-                    <IconLoader
-                      size={25}
-                      strokeWidth={2.5}
-                      className="animate-spin [animation-duration:3s]"
-                    />
-                  )}
-                  <TextMorph>
-                    {isPending ? 'Placing Bid...' : 'Place Bid'}
-                  </TextMorph>
-                </Button>
-              </div>
-            </Form>
+
+              <Button type="submit" disabled={isBidding} className="size-full">
+                {!isBidding && <IconGavel />}
+                {isBidding && (
+                  <IconLoader
+                    size={25}
+                    strokeWidth={2.5}
+                    className="animate-spin [animation-duration:3s]"
+                  />
+                )}
+                <TextMorph>
+                  {isBidding ? 'Placing Bid...' : 'Place Bid'}
+                </TextMorph>
+              </Button>
+            </form>
           </div>
-          <div className="bg-sidebar rounded-md p-4 text-xl font-medium">
+          <div className="bg-sidebar rounded-md p-3 text-xl font-medium">
             {data.endDate > new Date() ? (
               <span>
                 <ul className="flex gap-0.5">
@@ -220,7 +210,7 @@ export default function ItemForm({
               </ul>
             )}
           </div>
-          <div className="bg-sidebar flex items-center justify-around rounded-md p-4 text-xl font-medium">
+          <div className="bg-sidebar flex items-center justify-around rounded-md p-2 text-xl font-medium">
             <div className="flex items-center gap-0.5">
               <span>Starting Bid:</span>
               &nbsp;

@@ -16,7 +16,15 @@ export default async function ListingPage() {
       },
       status: 'PUBLISHED',
     },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      currentBid: true,
+      image: true,
+    },
   });
+  
   return data.length !== 0 ? (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {data.map((item, index) => (

@@ -39,7 +39,7 @@ export async function sendVerificationRequest(params: any) {
     throw new Error('Resend error: ' + JSON.stringify(await response.json()));
 }
 
-export async function PlaceBidAction(prevState: unknown, formData: FormData) {
+export async function PlaceBidAction(formData: FormData) {
   const session = await fetchUser();
 
   const submission = parseWithZod(formData, {

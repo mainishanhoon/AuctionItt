@@ -8,7 +8,7 @@ import {
   DrawerFooter,
   DrawerClose,
 } from '@/app/_components/ui/drawer';
-import { IconHeart, IconLink, IconTrash } from '@tabler/icons-react';
+import { IconHeart, IconTrash } from '@tabler/icons-react';
 import EmptyState from '@/app/_components/home/EmptyState';
 import type { Wishlist } from '@/types/wishlist';
 import { Redis } from '@/app/_utils/redis';
@@ -111,14 +111,13 @@ export default async function WishlistDrawer() {
                           <SubmitButton
                             icon={<IconTrash />}
                             text="Remove"
-                            loadingText="Removing..."
+                            loadingText="Removing"
                             buttonVariant="destructive"
                             loadingVariant="outline"
                           />
                         </Form>
                         <Button variant={'secondary'} asChild>
                           <Link href={`/home/item/${item.id}`} target="_blank">
-                            <IconLink />
                             <span className="">Visit</span>
                           </Link>
                         </Button>

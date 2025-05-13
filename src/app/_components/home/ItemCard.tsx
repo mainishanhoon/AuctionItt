@@ -20,7 +20,7 @@ interface ItemProps {
     id: string;
     name: string;
     description: string;
-    startingBid: number;
+    currentBid: number;
     image: string[];
   };
 }
@@ -55,7 +55,7 @@ export default function ItemCard({ item }: ItemProps) {
             {item.name}
           </h1>
           <h3 className="bg-primary/20 text-primary ring-primary/10 inline-flex items-center rounded-sm px-2 py-1 text-xs font-bold tracking-wider ring-1 ring-inset">
-            ₹ {Number(item.startingBid).toLocaleString()}
+            ₹ {Number(item.currentBid).toLocaleString()}
           </h3>
         </div>
       </CardContent>
