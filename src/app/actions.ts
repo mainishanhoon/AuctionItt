@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any, @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-non-null-asserted-optional-chain */
 
 'use server';
 
@@ -8,35 +8,12 @@ import { redirect } from 'next/navigation';
 import { fetchUser, getUser } from '@/hooks/hooks';
 import { prisma } from '@/app/_utils/prisma';
 import { signOut } from '@/app/_utils/auth';
-import { html, text } from '@/app/_components/emailTemplates/MagicLink';
 import { revalidatePath } from 'next/cache';
 import { Redis } from '@/app/_utils/redis';
 import { Wishlist } from '@/types/wishlist';
 
 export async function SignOut() {
   await signOut({ redirectTo: '/' });
-}
-
-export async function sendVerificationRequest(params: any) {
-  const { identifier: to, provider, url, theme } = params;
-  const { host } = new URL(url);
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${provider.apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      from: provider.from,
-      to,
-      subject: `Sign in to ${host}`,
-      html: html({ url, host }),
-      text: text({ url, host }),
-    }),
-  });
-
-  if (!response.ok)
-    throw new Error('Resend error: ' + JSON.stringify(await response.json()));
 }
 
 export async function PlaceBidAction(formData: FormData) {

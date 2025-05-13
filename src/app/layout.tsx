@@ -41,14 +41,14 @@ export const metadata: Metadata = {
     title: 'AuctionItt - Bid. Win. Repeat.',
     description:
       'Join AuctionItt for live online auctions where you can bid on unique products in real time. Transparent. Fair. Fun. Start bidding today!',
-    images: 'https://ibb.co/zmNWrjs', // Replace with actual image URL (JPG/PNG preferred)
+    images: 'https://ibb.co/ks8DyxPj',
     url: 'https://auctionitt.vercel.app',
   },
   twitter: {
     title: 'AuctionItt - Bid. Win. Repeat.',
     description:
       'Experience real-time bidding with AuctionItt. List your products, join auctions, and compete to win! Powered by innovative tech and seamless UX.',
-    images: 'https://ibb.co/zmNWrjs', // Replace with actual image URL
+    images: 'https://ibb.co/ks8DyxPj',
     card: 'summary_large_image',
     creator: '@mainishanhoon',
   },

@@ -1,6 +1,6 @@
 'use client';
 
-import NavBar from '@/app/_components/home/NavigationBar';
+import NavBar from '@/app/_components/homePage/NavigationBar';
 import { IconGavel, IconLogin2 } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useState } from 'react';
