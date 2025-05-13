@@ -52,6 +52,7 @@ export default function AreaChartGraph({ data }: AreaChartProps) {
             fill="var(--color-amount)"
             fillOpacity={0.4}
             stroke="var(--color-amount)"
+            strokeWidth={2.5}
           />
         </AreaChart>
       </ResponsiveContainer>
