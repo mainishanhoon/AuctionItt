@@ -6,7 +6,6 @@ import { Button } from '@/app/_components/ui/button';
 import { TipTapViewer } from '@/app/_components/dashboard/TipTapViewer';
 import { formatDistanceToNow } from 'date-fns';
 import Image from 'next/image';
-import Form from 'next/form';
 import { numberIcons } from '@/constants/icons';
 import CountdownTimer from '@/app/_components/home/ItemCountDown';
 import { TextMorph } from '@/app/_components/ui/text-morph';
@@ -26,7 +25,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/app/_components/ui/dialog';
-import { useActionState, useState, useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { useForm } from '@conform-to/react';
 import { parseWithZod } from '@conform-to/zod';
 import { BidSchema } from '@/app/_utils/schema';
