@@ -62,7 +62,7 @@ export default async function AuthDialogBox() {
           <span className="bg-primary/20 rounded-xl px-2 py-1">Please</span>
           &nbsp;<span>Sign In to Continue</span>
         </CardContent>
-        <CardFooter className="mt-5 flex flex-col gap-2">
+        <CardFooter className="flex flex-col gap-2">
           <SocialButton />
         </CardFooter>
       </Card>

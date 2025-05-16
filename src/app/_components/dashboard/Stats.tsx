@@ -159,7 +159,9 @@ export default async function Stats() {
         stats={[
           {
             title: 'Total Items',
-            value: `${thisMonthItemsCount.length}`,
+            value: Number(`${thisMonthItemsCount.length}`).toLocaleString(
+              'en-IN',
+            ),
             change: {
               value: `${thisMonthItemsCount.reduce((acc, item) => acc + (item.currentBid || 0), 0) > 0 ? '+' : ''}${itemValue.toFixed(2)}%`,
               trend: itemValue >= 0 ? 'up' : 'down',
@@ -168,7 +170,9 @@ export default async function Stats() {
           },
           {
             title: 'Published Items',
-            value: `${thisMonthPublishedCount.length}`,
+            value: Number(`${thisMonthPublishedCount.length}`).toLocaleString(
+              'en-IN',
+            ),
             change: {
               value: `${publishedValue > 0 ? '+' : ''}${publishedValue.toFixed(2)}%`,
               trend: publishedValue >= 0 ? 'up' : 'down',
@@ -177,7 +181,7 @@ export default async function Stats() {
           },
           {
             title: 'Total Revenue',
-            value: `${thisMonthRevenue}`,
+            value: Number(`${thisMonthRevenue}`).toLocaleString('en-IN'),
             change: {
               value: `${revenueValue > 0 ? '+' : ''}${revenueValue.toFixed(2)}%`,
               trend: revenueValue >= 0 ? 'up' : 'down',
@@ -186,7 +190,9 @@ export default async function Stats() {
           },
           {
             title: 'Draft Items',
-            value: `${thisMonthDraftCount.length}`,
+            value: Number(`${thisMonthDraftCount.length}`).toLocaleString(
+              'en-IN',
+            ),
             change: {
               value: `${draftValue > 0 ? '+' : ''}${draftValue.toFixed(2)}%`,
               trend: draftValue >= 0 ? 'up' : 'down',
