@@ -33,7 +33,7 @@ export default function CallToAction() {
           style={{ translateY }}
         >
           <Image
-            src="/bidding_list.webp"
+            src="/biddingList.webp"
             alt="cursor"
             height={500}
             width={500}
@@ -51,7 +51,7 @@ export default function CallToAction() {
           style={{ translateY }}
         >
           <Image
-            src="/label.webp"
+            src="/lotNumber.webp"
             alt="cursor"
             height={500}
             width={500}

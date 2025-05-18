@@ -10,7 +10,7 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} AuctionItt, Inc. All rights
             Reserved.
           </div>
-          <nav className="flex flex-col items-center gap-5 md:flex-row">
+          <nav className="flex justify-center items-center gap-5">
             {footerLinks.map((link) => (
               <Link
                 href={link.href}

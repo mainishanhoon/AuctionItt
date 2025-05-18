@@ -3,15 +3,18 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'motion/react';
+import { useRouter } from 'next/navigation';
 
 export default function Hero() {
+  const router = useRouter();
+
   return (
     <section
       id="hero"
       className="bg-background relative overflow-clip bg-[linear-gradient(to_bottom,#000000,#0B2E1D_34%,#1E7F4D_65%,#74D99F_82%)] py-18 text-white md:pb-28 lg:pb-36 xl:pb-40"
     >
-      <span className="absolute top-[calc(100%-96px)] bottom-24 left-1/2 h-[375px] w-[750px] -translate-x-1/2 overflow-clip rounded-[100%] border border-emerald-500 bg-black bg-[radial-gradient(closest-side,#000000_82%,#34D399)] sm:h-[600px] sm:w-[1536px] md:top-[calc(100%-135px)] lg:top-[calc(100%-165px)] lg:h-[650px] lg:w-[2000px] xl:top-[calc(100%-180px)] xl:w-[2000px] xl:h-[850px] 2xl:h-[900px] 2xl:w-[2800px]" />
-      <div className="relative">
+      <span className="absolute top-[calc(100%-96px)] bottom-24 left-1/2 h-[375px] w-[750px] -translate-x-1/2 overflow-clip rounded-[100%] border border-emerald-500 bg-black bg-[radial-gradient(closest-side,#000000_82%,#34D399)] sm:h-[600px] sm:w-[1536px] md:top-[calc(100%-135px)] lg:top-[calc(100%-165px)] lg:h-[650px] lg:w-[2000px] xl:top-[calc(100%-180px)] xl:h-[850px] xl:w-[2000px] 2xl:h-[900px] 2xl:w-[2800px]" />
+      <div className="relative container">
         <div className="flex items-center justify-center">
           <Link
             href="https://github.com/mainishanhoon/AuctionItt"
@@ -33,7 +36,7 @@ export default function Hero() {
         </div>
         <div className="mt-8 flex items-center justify-center">
           <div className="relative inline-flex">
-            <h1 className="z-10 inline-flex text-center text-6xl font-bold tracking-tight md:text-7xl lg:text-9xl">
+            <h1 className="z-10 inline-flex text-center text-5xl font-bold tracking-tight md:text-7xl lg:text-9xl">
               Where Bids Fly <br />& Deals Land
             </h1>
             <motion.div
@@ -49,20 +52,20 @@ export default function Hero() {
               }}
               drag
               dragSnapToOrigin
-              className="absolute top-25 right-170 hidden lg:inline xl:right-190"
+              className="absolute top-25 right-170 hidden lg:inline xl:right-170"
             >
               <Image
-                src="/paddle.webp"
+                src="/bidPaddle.webp"
                 alt="cursor"
                 height={500}
                 width={500}
-                className="size-70 max-w-none xl:size-85"
+                className="h-full w-70 max-w-none xl:h-full xl:w-85"
                 draggable={false}
               />
             </motion.div>
             <motion.div
               initial={{ opacity: 0 }}
-              whileInView={{ rotate: -20, opacity: 1 }}
+              whileInView={{ rotate: 5, opacity: 1 }}
               viewport={{ amount: 0.5 }}
               transition={{
                 type: 'spring',
@@ -73,7 +76,7 @@ export default function Hero() {
               }}
               drag
               dragSnapToOrigin
-              className="absolute top-25 left-170 hidden lg:inline xl:left-175"
+              className="absolute top-35 left-170 hidden lg:inline xl:left-170"
             >
               <Image
                 src="/hammer.webp"
@@ -91,11 +94,12 @@ export default function Hero() {
           designed for the discerning deal seeker.
         </p>
         <div className="mt-8 flex justify-center">
-          <Link href="/auth/signIn">
-            <button className="cursor-pointer rounded-lg bg-white px-5 py-2 font-medium text-black">
-              Get Started
-            </button>
-          </Link>
+          <button
+            onClick={() => router.push('/auth/signIn')}
+            className="cursor-pointer rounded-lg bg-white px-5 py-2 font-medium text-black"
+          >
+            Get Started
+          </button>
         </div>
       </div>
     </section>
