@@ -16,6 +16,8 @@ export default async function Stats() {
   const [
     thisMonthItemsCount,
     lastMonthItemsCount,
+    thisMonthRevenueCount,
+    lastMonthRevenueCount,
     thisMonthPublishedCount,
     lastMonthPublishedCount,
     thisMonthDraftCount,
@@ -34,6 +36,7 @@ export default async function Stats() {
         currentBid: true,
       },
     }),
+
     prisma.item.findMany({
       where: {
         userId: user.id,
@@ -45,6 +48,36 @@ export default async function Stats() {
       select: {
         id: true,
         currentBid: true,
+      },
+    }),
+
+    prisma.item.findMany({
+      where: {
+        userId: user.id,
+        createdAt: {
+          lte: new Date(),
+          gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+        },
+      },
+      select: {
+        id: true,
+        currentBid: true,
+        bids: true,
+      },
+    }),
+
+    prisma.item.findMany({
+      where: {
+        userId: user.id,
+        createdAt: {
+          lte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+          gte: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000),
+        },
+      },
+      select: {
+        id: true,
+        currentBid: true,
+        bids: true,
       },
     }),
 
@@ -135,13 +168,13 @@ export default async function Stats() {
     draftValue = 100;
   }
 
-  const thisMonthRevenue = thisMonthItemsCount.reduce(
-    (acc, item) => acc + (item.currentBid || 0),
+  const thisMonthRevenue = thisMonthRevenueCount.reduce(
+    (acc, item) => acc + (item.bids.length > 0 ? item.currentBid : 0),
     0,
   );
 
-  const lastMonthRevenue = lastMonthItemsCount.reduce(
-    (acc, item) => acc + (item.currentBid || 0),
+  const lastMonthRevenue = lastMonthRevenueCount.reduce(
+    (acc, item) => acc + (item.bids.length > 0 ? item.currentBid : 0),
     0,
   );
 
