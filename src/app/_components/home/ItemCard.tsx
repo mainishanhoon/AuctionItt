@@ -50,12 +50,12 @@ export default function ItemCard({ item }: ItemProps) {
       </CardHeader>
 
       <CardContent>
-        <div className="flex items-center justify-between">
-          <h1 className="text-primary text-xl font-medium capitalize">
+        <div className="flex items-center justify-between gap-2">
+          <h1 className="text-primary text-xl font-medium truncate capitalize">
             {item.name}
           </h1>
           <h3 className="bg-primary/20 text-primary ring-primary/10 inline-flex items-center rounded-sm px-2 py-1 text-xs font-bold tracking-wider ring-1 ring-inset">
-            ₹ {Number(item.currentBid).toLocaleString()}
+            ₹{Number(item.currentBid).toLocaleString()}
           </h3>
         </div>
       </CardContent>

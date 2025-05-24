@@ -79,6 +79,7 @@ import {
   IconTrash,
   IconEdit,
   IconRosetteDiscountCheck,
+  IconThumbDownFilled,
 } from '@tabler/icons-react';
 import { ItemStatus } from '@prisma/client';
 import { TipTapViewer } from './TipTapViewer';
@@ -149,8 +150,8 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
       <div className="flex items-center justify-center">
         <Image
           src={row.original.image[0].toString()}
-          width={32}
-          height={32}
+          width={35}
+          height={35}
           alt={row.getValue('name')}
           className="aspect-square rounded-sm object-cover"
         />
@@ -163,7 +164,7 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
     header: 'Name',
     accessorKey: 'name',
     cell: ({ row }) => (
-      <div className="text-center font-medium capitalize">
+      <div className="truncate text-center font-medium capitalize">
         {row.getValue('name')}
       </div>
     ),
@@ -210,7 +211,7 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
         <span className="">
           {row.original.currentBid === 0
             ? 'No Bid'
-            : `₹${row.original.currentBid}`}
+            : `₹${row.original.currentBid.toLocaleString('en-IN')}`}
         </span>
       </div>
     ),
@@ -218,6 +219,7 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
   },
   {
     header: 'Top Bidder',
+    accessorKey: 'id',
     cell: ({ row }) => (
       <div className="flex items-center justify-center gap-2">
         <Image
@@ -227,7 +229,7 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
           height={20}
           alt={row.original.bids[0]?.user.name ?? 'No Bidder'}
         />
-        <div className="text-muted-foreground capitalize">
+        <div className="text-muted-foreground truncate capitalize">
           {row.original.bids[0]?.user.name ?? 'No Bidder'}
         </div>
       </div>
@@ -239,7 +241,7 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
     accessorKey: 'bids',
     cell: ({ row }) => (
       <div className="text-muted-foreground text-center capitalize">
-        {row.original.bids.length}
+        {row.original.bids.length.toLocaleString('en-IN')}
       </div>
     ),
     size: 100,
@@ -598,9 +600,13 @@ export default function ItemsTable({ tableData }: { tableData: Item[] }) {
             <TableRow className="hover:bg-transparent [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
               <TableCell
                 colSpan={columns.length}
-                className="h-24 gap-4 text-center"
+                className="h-24 w-full text-center"
               >
-                Loading...
+                <div className="flex justify-center space-x-2">
+                  <span className="bg-primary size-4 animate-bounce rounded-full [animation-delay:-0.3s]" />
+                  <span className="bg-primary size-4 animate-bounce rounded-full [animation-delay:-0.15s]" />
+                  <span className="bg-primary size-4 animate-bounce rounded-full" />
+                </div>
               </TableCell>
             </TableRow>
           ) : table.getRowModel().rows?.length ? (
@@ -622,8 +628,17 @@ export default function ItemsTable({ tableData }: { tableData: Item[] }) {
             ))
           ) : (
             <TableRow className="hover:bg-transparent [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+              <TableCell
+                colSpan={columns.length}
+                className="h-24 w-full text-center"
+              >
+                <div className="flex flex-col items-center justify-center gap-2">
+                  <IconThumbDownFilled
+                    size={60}
+                    className="border-muted-foreground rounded-2xl border-2 border-dashed p-1"
+                  />
+                  <p className="text-xl">No results.</p>
+                </div>
               </TableCell>
             </TableRow>
           )}

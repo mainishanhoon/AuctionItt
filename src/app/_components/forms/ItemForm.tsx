@@ -257,7 +257,9 @@ export default function ItemForm({
                     </span>
 
                     <span className="flex items-end justify-between md:flex-col">
-                      <li className="font-medium">₹{bid.amount}</li>
+                      <li className="font-medium">
+                        ₹{bid.amount.toLocaleString('en-IN')}
+                      </li>
                       <li className="text-xs capitalize">
                         {formatDistanceToNow(new Date(bid.timestamp), {
                           addSuffix: true,
