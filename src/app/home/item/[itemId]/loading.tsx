@@ -17,7 +17,7 @@ export default function ProductLoadingRoute() {
       <div>
         <Skeleton className="h-12 w-56" />
         <Skeleton className="mt-4 h-12 w-36" />
-        <div className="grid h-10 w-full grid-cols-2 gap-2">
+        <div className="grid h-10 mt-4 w-full grid-cols-2 gap-2">
           <Skeleton className="size-full rounded-md" />
           <Skeleton className="size-full rounded-md" />
         </div>
