@@ -12,11 +12,9 @@ import {
 import { getUser } from '@/hooks/hooks';
 import {
   IconAlertSquareRoundedFilled,
-  IconLogout2,
   IconSettingsFilled,
 } from '@tabler/icons-react';
 import Image from 'next/image';
-import SignOutWrapper from '@/app/_components/auth/SignOut';
 import Link from 'next/link';
 
 export default async function UserDropdown() {
@@ -76,13 +74,6 @@ export default async function UserDropdown() {
             <span>Help Center</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <SignOutWrapper>
-          <DropdownMenuItem variant="destructive">
-            <IconLogout2 size={16} className="opacity-60" aria-hidden="true" />
-            <span>Sign out</span>
-          </DropdownMenuItem>
-        </SignOutWrapper>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -82,7 +82,6 @@ import {
   IconThumbDownFilled,
 } from '@tabler/icons-react';
 import { ItemStatus } from '@prisma/client';
-import { TipTapViewer } from './TipTapViewer';
 import { toast } from 'sonner';
 import Link from 'next/link';
 
@@ -154,6 +153,9 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
           height={35}
           alt={row.getValue('name')}
           className="aspect-square rounded-sm object-cover"
+          draggable={false}
+          unoptimized
+          loading="lazy"
         />
       </div>
     ),
@@ -164,11 +166,9 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
     header: 'Name',
     accessorKey: 'name',
     cell: ({ row }) => (
-      <div className="truncate text-center font-medium capitalize">
-        {row.getValue('name')}
-      </div>
+      <div className="truncate capitalize">{row.getValue('name')}</div>
     ),
-    size: 100,
+    size: 150,
     enableHiding: false,
   },
   {
@@ -193,48 +193,39 @@ const getColumns = ({ data, setData }: GetColumnsProps): ColumnDef<Item>[] => [
     filterFn: statusFilterFn,
   },
   {
-    header: 'Description',
-    accessorKey: 'description',
-    cell: ({ row }) => (
-      <TipTapViewer
-        json={JSON.parse(row.getValue('description'))}
-        className="text-muted-foreground h-9 max-w-sm truncate text-center"
-      />
-    ),
-    size: 150,
-  },
-  {
     header: 'Current Bid',
     accessorKey: 'currentBid',
     cell: ({ row }) => (
       <div className="text-center">
         <span className="">
-          {row.original.currentBid === 0
+          {row.original.currentBid === row.original.startingBid
             ? 'No Bid'
             : `₹${row.original.currentBid.toLocaleString('en-IN')}`}
         </span>
       </div>
     ),
-    size: 90,
+    size: 120,
   },
   {
     header: 'Top Bidder',
-    accessorKey: 'id',
     cell: ({ row }) => (
-      <div className="flex items-center justify-center gap-2">
+      <div className="flex items-center gap-2">
         <Image
           className="rounded-full"
           src={row.original.bids[0]?.user.image ?? '/avatar/avatar-5.webp'}
           width={20}
           height={20}
           alt={row.original.bids[0]?.user.name ?? 'No Bidder'}
+          draggable={false}
+          unoptimized
+          loading="lazy"
         />
         <div className="text-muted-foreground truncate capitalize">
           {row.original.bids[0]?.user.name ?? 'No Bidder'}
         </div>
       </div>
     ),
-    size: 100,
+    size: 130,
   },
   {
     header: 'Total Bidders',
@@ -650,7 +641,7 @@ export default function ItemsTable({ tableData }: { tableData: Item[] }) {
       {table.getRowModel().rows.length > 0 && (
         <div className="flex items-center justify-between gap-3">
           <p
-            className="text-muted-foreground flex-1 text-sm whitespace-nowrap"
+            className="text-muted-foreground font-display flex-1 text-sm whitespace-nowrap"
             aria-live="polite"
           >
             Page{' '}

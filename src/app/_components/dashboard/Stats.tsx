@@ -90,12 +90,12 @@ export default async function Stats() {
   }
 
   const thisMonthRevenue = thisMonthItemsCount.reduce(
-    (acc, item) => (acc + item.bids.length > 0 ? item.currentBid : 0),
+    (acc, item) => acc + (item.bids.length > 0 ? item.currentBid : 0),
     0,
   );
 
   const lastMonthRevenue = lastMonthItemsCount.reduce(
-    (acc, item) => (acc + item.bids.length > 0 ? item.currentBid : 0),
+    (acc, item) => acc + (item.bids.length > 0 ? item.currentBid : 0),
     0,
   );
 

@@ -21,18 +21,18 @@ async function getData() {
     },
     select: {
       id: true,
-      createdAt: true,
+      endDate: true,
       currentBid: true,
     },
     orderBy: {
-      createdAt: 'asc',
+      endDate: 'asc',
     },
   });
 
   //Group and aggregate data by date
   const aggregatedData = rawData.reduce(
     (acc: { [key: string]: number }, curr) => {
-      const date = new Date(curr.createdAt).toLocaleDateString('en-IN', {
+      const date = new Date(curr.endDate).toLocaleDateString('en-IN', {
         month: 'short',
         day: 'numeric',
       });

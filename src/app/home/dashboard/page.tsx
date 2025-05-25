@@ -42,7 +42,7 @@ export default async function DashboardPage() {
   return (
     <Tabs defaultValue="table" className="flex flex-col gap-4">
       <div className="flex flex-col items-start justify-between gap-2 md:flex-row md:items-center md:gap-4">
-        <div className="space-y-1">
+        <div className="font-display space-y-1">
           <h1 className="text-2xl font-semibold capitalize">
             Hello {user.firstName}!
           </h1>

@@ -13,11 +13,22 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@/app/_components/ui/sidebar';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/app/_components/ui/alert-dialog';
 import Link from 'next/link';
 import { navigationLink } from '@/constants/navLinks';
 import { IconGavel, IconLogout2 } from '@tabler/icons-react';
 import { usePathname } from 'next/navigation';
-import SignOutWrapper from '../auth/SignOut';
+import SignOutWrapper from '@/app/_components/auth/SignOut';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
@@ -74,16 +85,44 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter className="border-t">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SignOutWrapper>
-              <SidebarMenuButton className="data-[active=true]:from-primary/20 data-[active=true]:to-primary/5 hover:bg-destructive/20 h-9 cursor-pointer gap-3 rounded-md font-medium [&>svg]:size-auto">
-                <IconLogout2
-                  className="text-muted-foreground/60 group-data-[active=true]/menu-button:text-primary"
-                  size={22}
-                  aria-hidden="true"
-                />
-                <span>Sign Out</span>
-              </SidebarMenuButton>
-            </SignOutWrapper>
+            <AlertDialog>
+              <AlertDialogTrigger asChild className="w-full">
+                <SidebarMenuButton className="dark:bg-destructive/80 bg-destructive/70 hover:bg-destructive/60 dark:hover:bg-destructive/70 h-10 w-full cursor-pointer gap-2 rounded-md font-medium [&>svg]:size-auto">
+                  <IconLogout2
+                    className="text-muted dark:text-red-950"
+                    size={22}
+                    aria-hidden="true"
+                  />
+                  <span className="text-muted dark:text-red-950">Sign Out</span>
+                </SidebarMenuButton>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    You really want to Sign Out?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action will end your current session. You will need to
+                    sign in again to access your account.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel className="mr-auto">
+                    Cancel
+                  </AlertDialogCancel>
+                  <AlertDialogAction asChild>
+                    <SignOutWrapper className="text-muted bg-destructive hover:bg-destructive/90 flex items-center shadow-sm dark:text-red-950">
+                      <IconLogout2
+                        className="text-muted dark:text-red-950"
+                        size={22}
+                        aria-hidden="true"
+                      />
+                      <span>Sign Out</span>
+                    </SignOutWrapper>
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
