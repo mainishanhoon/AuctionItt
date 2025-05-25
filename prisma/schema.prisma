@@ -46,7 +46,6 @@ model User {
   emailVerified DateTime?
   image         String?
   onboarded     Boolean?        @default(false)
-  wishlist      String[]        @default([])
   accounts      Account[]
   sessions      Session[]
   Authenticator Authenticator[]
