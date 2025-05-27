@@ -30,7 +30,7 @@ export default function ProductShowcase() {
           className="mt-14 flex justify-center"
         >
           <Image
-            src="/Dashboard.png"
+            src="/Dashboard.webp"
             alt="Dashboard Image"
             width={1000}
             height={1000}

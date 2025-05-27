@@ -87,13 +87,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <AlertDialog>
               <AlertDialogTrigger asChild className="w-full">
-                <SidebarMenuButton className="dark:bg-destructive/80 bg-destructive/70 hover:bg-destructive/60 dark:hover:bg-destructive/70 h-10 w-full cursor-pointer gap-2 rounded-md font-medium [&>svg]:size-auto">
+                <SidebarMenuButton className="group/menu-button from-destructive/60 to-destructive/40 hover:from-destructive/70 hover:to-destructive/50 h-9 gap-2 rounded-md bg-gradient-to-r font-medium hover:bg-transparent [&>svg]:size-auto text-white">
                   <IconLogout2
-                    className="text-muted dark:text-red-950"
                     size={22}
                     aria-hidden="true"
                   />
-                  <span className="text-muted dark:text-red-950">Sign Out</span>
+                  <span>Sign Out</span>
                 </SidebarMenuButton>
               </AlertDialogTrigger>
               <AlertDialogContent>
