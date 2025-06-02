@@ -51,11 +51,11 @@ export default function PastItemCard({ item }: PastItemProps) {
 
       <CardContent>
         <div className="flex items-center justify-between">
-          <h1 className="text-primary text-xl font-medium capitalize">
+          <h1 className="text-primary truncate text-xl font-medium capitalize">
             {String(item.name)}
           </h1>
           <h3 className="bg-primary/20 text-primary ring-primary/10 inline-flex items-center rounded-md px-2 py-1 text-xs font-bold tracking-wider ring-1 ring-inset">
-            ₹ {Number(item.startingBid).toLocaleString()}
+            ₹{Number(item.startingBid).toLocaleString()}
           </h3>
         </div>
       </CardContent>
