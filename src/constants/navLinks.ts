@@ -59,6 +59,7 @@ export const navigationLink = {
     },
   ],
 };
+
 export const heroNavigationLink = [
   {
     name: 'Home',
