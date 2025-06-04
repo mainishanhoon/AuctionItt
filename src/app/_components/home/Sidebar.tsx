@@ -87,7 +87,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <AlertDialog>
               <AlertDialogTrigger asChild className="w-full">
-                <SidebarMenuButton className="group/menu-button from-destructive/60 to-destructive/40 hover:from-destructive/70 hover:to-destructive/50 h-9 gap-2 rounded-md bg-gradient-to-r font-medium hover:bg-transparent [&>svg]:size-auto text-white hover:text-white">
+                <SidebarMenuButton className="group/menu-button from-destructive/60 to-destructive/40 cursor-pointer hover:from-destructive/70 hover:to-destructive/50 h-9 gap-2 rounded-md bg-gradient-to-r font-medium hover:bg-transparent [&>svg]:size-auto text-white hover:text-white">
                   <IconLogout2
                     size={22}
                     aria-hidden="true"
