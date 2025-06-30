@@ -117,7 +117,7 @@ export default async function Stats() {
               'en-IN',
             ),
             change: {
-              value: `${thisMonthItemsCount.reduce((acc, item) => acc + (item.currentBid || 0), 0) > 0 ? '+' : ''}${itemValue.toFixed(2)}%`,
+              value: `${itemValue > 0 ? '+' : ''}${itemValue.toFixed(2)}%`,
               trend: itemValue >= 0 ? 'up' : 'down',
             },
             icon: <IconTopologyStarRing3 className="size-full" />,
