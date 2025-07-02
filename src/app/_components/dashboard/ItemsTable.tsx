@@ -726,10 +726,10 @@ function RowActions({
     );
   }
 
-  async function RemoveUserAction() {
+  async function RemoveItemAction() {
     startUpdateTransition(() => {
       toast.promise(
-        fetch(`/api/removeUser/${item.id}`, {
+        fetch(`/api/removeItem/${item.id}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -744,9 +744,9 @@ function RowActions({
           });
         }),
         {
-          loading: 'Removing user...',
-          success: 'Removed User Successfully',
-          error: 'Failed to Remove User',
+          loading: 'Removing Item...',
+          success: 'Removed Item Successfully',
+          error: 'Failed to Remove Item',
         },
       );
     });
@@ -813,7 +813,7 @@ function RowActions({
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
-              onClick={RemoveUserAction}
+              onClick={RemoveItemAction}
               disabled={isUpdatePending}
               className="bg-destructive hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-white shadow-xs"
             >
