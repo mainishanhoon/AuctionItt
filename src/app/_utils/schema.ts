@@ -1,5 +1,10 @@
 import { z } from 'zod';
 
+export const ITEM_STATUS = ['DRAFT', 'PUBLISHED'] as const;
+
+export type ITEM_STATUS_TYPE = typeof ITEM_STATUS[number];
+
+
 export const UserSchema = z.object({
   firstName: z.string().min(2, 'Required').toLowerCase(),
   lastName: z.string().min(2, 'Required').toLowerCase(),
@@ -30,7 +35,9 @@ export const ItemsSchema = z.object({
     .string({ message: 'Description is Required' })
     .min(10, 'Description must be at least 10 characters long'),
   image: z.array(z.string()).min(1, 'Images are Required'),
-  status: z.enum(['DRAFT', 'PUBLISHED']),
+  status: z.enum(ITEM_STATUS, {
+    errorMap: () => ({ message: 'Status must be from the given options.' }),
+  }),
 });
 
 export type Items = z.infer<typeof ItemsSchema>;

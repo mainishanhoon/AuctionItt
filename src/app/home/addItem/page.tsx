@@ -11,7 +11,7 @@ import Form from 'next/form';
 import { useActionState, useState } from 'react';
 import { useForm } from '@conform-to/react';
 import { parseWithZod } from '@conform-to/zod';
-import { ItemsSchema } from '@/app/_utils/schema';
+import { ITEM_STATUS, ItemsSchema } from '@/app/_utils/schema';
 import { ItemCreationAction } from '@/app/actions';
 import { Input } from '@/app/_components/ui/input';
 import { Label } from '@/app/_components/ui/label';
@@ -49,7 +49,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/app/_components/ui/select';
-import { ItemStatus } from '@prisma/client';
 
 export default function ItemCreationRoute() {
   const [images, setImages] = useState<string[]>([]);
@@ -185,7 +184,7 @@ export default function ItemCreationRoute() {
                           <SelectValue placeholder="Select Status" />
                         </SelectTrigger>
                         <SelectContent>
-                          {Object.values(ItemStatus).map((status) => (
+                          {ITEM_STATUS.map((status) => (
                             <SelectItem
                               key={status}
                               value={status}

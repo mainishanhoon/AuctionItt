@@ -81,7 +81,6 @@ import {
   IconRosetteDiscountCheck,
   IconThumbDownFilled,
 } from '@tabler/icons-react';
-import { ItemStatus } from '@prisma/client';
 import { toast } from 'sonner';
 import Link from 'next/link';
 
@@ -94,7 +93,7 @@ type Item = {
   startingBid: number;
   bidInterval: number;
   endDate: Date;
-  status: ItemStatus;
+  status: 'DRAFT' | 'PUBLISHED';
   bids: {
     user: {
       name: string | null;
@@ -707,10 +706,9 @@ function RowActions({
             if (dataItem.id === item.id) {
               return {
                 ...dataItem,
-                status:
-                  item.status === 'DRAFT'
-                    ? 'PUBLISHED'
-                    : ('DRAFT' as ItemStatus),
+                status: (item.status === 'DRAFT' ? 'PUBLISHED' : 'DRAFT') as
+                  | 'DRAFT'
+                  | 'PUBLISHED',
               };
             }
             return dataItem;

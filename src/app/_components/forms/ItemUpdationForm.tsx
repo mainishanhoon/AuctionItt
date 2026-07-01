@@ -13,7 +13,7 @@ import Form from 'next/form';
 import { useActionState, useState } from 'react';
 import { useForm } from '@conform-to/react';
 import { parseWithZod } from '@conform-to/zod';
-import { ItemsSchema } from '@/app/_utils/schema';
+import { ITEM_STATUS, ITEM_STATUS_TYPE, ItemsSchema } from '@/app/_utils/schema';
 import { ItemUpdationAction } from '@/app/actions';
 import { Input } from '@/app/_components/ui/input';
 import { Label } from '@/app/_components/ui/label';
@@ -42,9 +42,9 @@ import {
   IconUpload,
 } from '@tabler/icons-react';
 import TipTapEditor from '@/app/_components/dashboard/TipTapEditor';
-import { ItemStatus, Prisma } from '@prisma/client';
 import { cn } from '@/lib/utils';
 import { Calendar } from '@/app/_components/ui/calendar';
+import { Prisma } from '../../../../prisma/generated/prisma/browser';
 import {
   Select,
   SelectContent,
@@ -72,7 +72,7 @@ export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
       name: String(data.name),
       startingBid: Number(data.startingBid),
       bidInterval: Number(data.bidInterval),
-      status: data.status as ItemStatus,
+      status: data.status as ITEM_STATUS_TYPE,
       description: String(data.description),
     },
     onValidate({ formData }) {
@@ -201,7 +201,7 @@ export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
                           />
                         </SelectTrigger>
                         <SelectContent>
-                          {Object.values(ItemStatus).map((status) => (
+                          {ITEM_STATUS.map((status) => (
                             <SelectItem
                               key={status}
                               value={status}
@@ -362,7 +362,7 @@ export default function ItemUpdationRoute({ data }: ItemUpdationProps) {
                             width={200}
                             height={200}
                             unoptimized
-                            loading='lazy'
+                            loading="lazy"
                             draggable={false}
                             aria-label={`Go to slide ${marker}`}
                             onClick={() => setIndex(marker)}
