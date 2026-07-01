@@ -29,11 +29,11 @@ export default async function WishlistDrawer() {
 
   return (
     <Drawer>
-      <DrawerTrigger className="bg-background relative">
+      <DrawerTrigger className="bg-background relative rounded-sm border">
         <span className="bg-primary text-primary-foreground absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full text-xs font-bold">
           {data.items.length}
         </span>
-        <IconHeart className="mt-0.5 size-8 cursor-pointer rounded-sm border p-1" />
+        <IconHeart className="mt-0.5 size-8 cursor-pointer rounded-sm p-1" />
       </DrawerTrigger>
       <DrawerContent className="rounded-t-3xl text-center">
         <DrawerHeader>
